@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "ObjectStack Docs",
+    "title": "ObjectDocs",
     "description": "Enterprise-grade low-code platform documentation",
     "url": "https://docs.objectstack.ai",
     "favicon": "/favicon.ico"
@@ -13,7 +13,7 @@
   },
   "branding": {
     "logo": {
-      "text": "ObjectStack",
+      "text": "ObjectDocs",
       "light": "/logo.svg",
       "dark": "/logo.svg"
     },
@@ -34,7 +34,7 @@
         }
       ],
       "socials": [
-        { "platform": "github", "url": "https://github.com/objectstack-ai/" }
+        { "platform": "github", "url": "https://github.com/objectstack-ai" }
       ]
     },
     "sidebar": {
@@ -56,7 +56,7 @@
   "page": {
     "showLastUpdate": true,
     "showEditLink": true,
-    "repoBaseUrl": "https://github.com/objectstack-ai/docs"
+    "repoBaseUrl": "https://github.com/objectstack-ai/objectdocs"
   },
   "content": {
     "math": false,

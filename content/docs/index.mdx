@@ -1,0 +1,79 @@
+---
+title: Introduction
+description: The Metadata-Driven Documentation Engine for the Low-Code Era.
+---
+
+import { FileJson, Layers, Cpu, Zap } from 'lucide-react';
+
+# What is ObjectDocs?
+
+**ObjectDocs** is a modern, opinionated documentation site generator built on top of **Next.js 14** and **Fumadocs**.
+
+It was created to solve a specific problem in the **ObjectStack** ecosystem: *How do we document complex, multi-product low-code platforms without drowning in frontend maintenance?*
+
+Unlike general-purpose static site generators (SSGs), ObjectDocs treats documentation structure as **data**, not code.
+
+## Core Philosophy
+
+<Cards>
+  <Card
+    icon={<FileJson />}
+    title="Metadata-Driven"
+    href="/docs/getting-started/configuration"
+  >
+    Control sidebars, navigation, and page ordering entirely through local `meta.json` files. No React knowledge required for content updates.
+  </Card>
+  <Card
+    icon={<Cpu />}
+    title="ObjectUI Native"
+    href="/docs/components/objectui-embed"
+  >
+    First-class support for embedding **ObjectUI** JSON schemas directly into Markdown. Render live, interactive components powered by your ObjectQL definitions.
+  </Card>
+</Cards>
+
+## Why ObjectDocs?
+
+### 1. Separation of Concerns
+In traditional documentation sites, adding a new section often requires editing a global `sidebar.js` config or touching React components. In ObjectDocs, we strictly separate roles:
+
+* **Technical Writers**: Write `.mdx` content and manage local `meta.json` for sorting.
+* **Platform Architects**: Configure global `site.json` (branding, nav links).
+* **Frontend Developers**: Maintain the `app/` directory (layout, logic) only when strictly necessary.
+
+### 2. Multi-Product Architecture
+ObjectDocs is designed for monorepos that host multiple products (e.g., **ObjectQL**, **ObjectUI**, **ObjectOS**). It supports a "Root Toggle" mode that allows users to switch product contexts easily while staying on the same domain.
+
+### 3. Interactive by Default
+Static text isn't enough for low-code platforms. ObjectDocs allows you to mount live **ObjectUI** components directly in your docs to demonstrate protocol capabilities:
+
+```json title="example-objectui.json"
+{
+  "component": "ObjectGrid",
+  "props": {
+    "object": "contracts",
+    "columns": ["name", "amount", "status", "created_by"],
+    "filters": [
+      { "field": "status", "operator": "=", "value": "active" }
+    ]
+  }
+}
+
+```
+
+<Callout type="info">
+The actual rendering of the above JSON happens via our custom `ObjectUIRenderer` component. Check the [Components Guide](https://www.google.com/search?q=/docs/components) to learn more about schema validation and previewing.
+</Callout>
+
+## Next Steps
+
+Ready to build your documentation?
+
+<Cards>
+<Card title="Quick Start" href="/docs/getting-started/installation" icon={<Zap />}>
+Install ObjectDocs and create your first page in under 5 minutes.
+</Card>
+<Card title="Architecture" href="/docs/getting-started/architecture" icon={<Layers />}>
+Deep dive into the directory structure and data flow.
+</Card>
+</Cards>
