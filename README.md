@@ -1,48 +1,75 @@
 # ObjectDocs
 
 <div align="center">
-<p>
-<a href="[https://nextjs.org](https://nextjs.org)"><img src="[https://img.shields.io/badge/Next.js-14-black](https://www.google.com/search?q=https://img.shields.io/badge/Next.js-14-black)" alt="Next.js"></a>
-<a href="[https://www.typescriptlang.org/](https://www.typescriptlang.org/)"><img src="[https://img.shields.io/badge/TypeScript-5.0-blue](https://www.google.com/search?q=https://img.shields.io/badge/TypeScript-5.0-blue)" alt="TypeScript"></a>
-<a href="[https://tailwindcss.com/](https://tailwindcss.com/)"><img src="[https://img.shields.io/badge/Tailwind_CSS-3.0-38bdf8](https://www.google.com/search?q=https://img.shields.io/badge/Tailwind_CSS-3.0-38bdf8)" alt="Tailwind CSS"></a>
-<a href="[https://fumadocs.vercel.app](https://fumadocs.vercel.app)"><img src="[https://img.shields.io/badge/Powered_by-Fumadocs-purple](https://www.google.com/search?q=https://img.shields.io/badge/Powered_by-Fumadocs-purple)" alt="Fumadocs"></a>
-</p>
+  <p>
+    <a href="https://nextjs.org">
+      <img src="https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js" alt="Next.js">
+    </a>
+    <a href="https://www.typescriptlang.org/">
+      <img src="https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript" alt="TypeScript">
+    </a>
+    <a href="https://tailwindcss.com/">
+      <img src="https://img.shields.io/badge/Tailwind_CSS-3.0-38bdf8?style=flat-square&logo=tailwindcss" alt="Tailwind CSS">
+    </a>
+    <a href="https://fumadocs.vercel.app">
+      <img src="https://img.shields.io/badge/Powered_by-Fumadocs-purple?style=flat-square" alt="Fumadocs">
+    </a>
+  </p>
 
-<h3>Next-Gen Documentation Engine for the Low-Code Era.</h3>
-<p>Configuration as Code. Interactive Components. Enterprise Ready.</p>
+  <h3>Next-Gen Documentation Engine for the Low-Code Era.</h3>
+  <p>Configuration as Code. Interactive Components. Enterprise Ready.</p>
+
+  <br />
+
+  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fobjectstack-ai%2Fobjectdocs">
+    <img src="https://vercel.com/button" alt="Deploy with Vercel" />
+  </a>
 </div>
 
 ---
 
 ## 📖 Introduction
 
-**ObjectDocs** is a modern documentation site generator built on top of **Next.js (App Router)** and **Fumadocs**.
+**ObjectDocs** is a modern, metadata-driven documentation engine architected for the **ObjectStack** ecosystem. Built on top of **Next.js 14 (App Router)** and **Fumadocs**, it redefines how enterprise documentation is maintained.
 
-Unlike traditional static site generators, ObjectDocs adopts a strict **Metadata-Driven Architecture**. We completely separate the **Presentation Layer** (React), **Configuration Layer** (JSON), and **Content Layer** (MDX). This allows developers and technical writers to manage complex, multi-product documentation sites purely through configuration files, without touching a single line of UI code.
+Unlike traditional static site generators, ObjectDocs adopts a strict **Separation of Concerns** philosophy:
+* **Presentation**: Handled by a standardized, logic-free React layer.
+* **Configuration**: Defined purely in JSON (`site.json`, `meta.json`).
+* **Content**: Written in MDX with native support for low-code components.
 
-It is designed specifically for the **Low-Code ecosystem**, with native support for embedding **Amis** and **Steedos** components directly into your Markdown.
+This architecture allows developers and technical writers to manage complex, multi-product documentation sites without touching a single line of UI code.
 
 ## ✨ Key Features
 
-* **🚀 Metadata-Driven Core**: Control navigation, sidebars, SEO, and branding entirely via `site.json` and `meta.json`.
-* **🧩 Low-Code Native**: Embed live, interactive **Amis/Steedos** components directly in MDX.
-* **🗂️ Multi-Product Architecture**: Native support for "Root Toggle" to manage documentation for multiple products (e.g., Core vs. UI) in one repo.
-* **🎨 Enterprise UI**: Built on **Radix UI** and **Tailwind CSS**, featuring dark mode, spotlight effects, and accessible primitives.
-* **⚡ High Performance**: Powered by Next.js App Router and ISR (Incremental Static Regeneration).
+* **🚀 Metadata-Driven Architecture**
+    Control navigation, sidebars, SEO, and branding entirely via `objectdocs.json` and local `meta.json` files. Zero React knowledge required for content maintainers.
+
+* **🧩 Low-Code Native**
+    Seamlessly embed live, interactive **Amis** and **Steedos** components directly within your Markdown. Perfect for showcasing live demos of low-code configurations.
+
+* **🗂️ Multi-Product Support**
+    Native implementation of "Root Toggle" modes, allowing you to host documentation for multiple products (e.g., `ObjectQL` vs. `ObjectUI`) within a single monorepo and domain.
+
+* **🎨 Enterprise-Grade UI**
+    Polished interface built on **Radix UI** and **Tailwind CSS**, featuring automatic dark mode, spotlight effects, and accessible primitives out of the box.
+
+* **⚡ Edge Performance**
+    Powered by Next.js App Router and ISR (Incremental Static Regeneration), ensuring instant page loads and excellent SEO.
 
 ## 🏗️ Architecture
 
-ObjectDocs enforces a strict separation of concerns to ensure maintainability:
+ObjectDocs enforces a clear directory structure to ensure maintainability at scale:
 
 ```text
 .
-├── content/            # [Data] Raw Content
-│   └── docs/           
-│       ├── meta.json   # Directory structure & sorting
-│       └── index.mdx   # Documentation files
-└── app/                # [View] Logic-free Rendering Layer
-    └── layout.tsx      # Consumes config/site.json to render UI
-├── objectdocs.json     # Global settings (Nav, Logo, SEO, Features)
+├── content/               # [Data Layer] Raw Content
+│   └── docs/
+│       ├── meta.json      # Directory structure & sorting control
+│       └── index.mdx      # Documentation content
+├── config/                # [Config Layer]
+│   └── site.json          # Global settings (Nav, Logo, Branding)
+└── app/                   # [View Layer] Logic-free Rendering
+    └── layout.tsx         # Consumes config to render UI
 
 ```
 
@@ -51,7 +78,7 @@ ObjectDocs enforces a strict separation of concerns to ensure maintainability:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/objectstack-ai/objectdocs.git
+git clone [https://github.com/objectstack-ai/objectdocs.git](https://github.com/objectstack-ai/objectdocs.git)
 cd objectdocs
 
 ```
@@ -70,24 +97,26 @@ pnpm dev
 
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) with your browser to see the result.
 
 ## ⚙️ Configuration
 
-ObjectDocs is controlled by a single file: `config/site.json`. You don't need to modify React components to change the look and feel.
+ObjectDocs is designed to be "Configuration as Code".
 
 ### Global Config (`config/site.json`)
+
+Manage global navigation, branding, and feature flags:
 
 ```json
 {
   "branding": {
-    "name": "ObjectDocs",
+    "name": "ObjectStack",
     "logo": "/logo.svg"
   },
   "navigation": [
     { "text": "Guide", "url": "/docs" },
-    { "text": "Components", "url": "/docs/components" },
-    { "text": "GitHub", "url": "https://github.com/...", "external": true }
+    { "text": "Reference", "url": "/docs/api" },
+    { "text": "GitHub", "url": "[https://github.com/objectstack-ai](https://github.com/objectstack-ai)", "external": true }
   ],
   "features": {
     "search": true,
@@ -98,9 +127,9 @@ ObjectDocs is controlled by a single file: `config/site.json`. You don't need to
 
 ```
 
-### Directory Structure (`content/**/meta.json`)
+### Sidebar Control (`content/**/meta.json`)
 
-Control the sidebar order and structure using local metadata files:
+Control the sidebar order and structure using local metadata files in each directory:
 
 ```json
 {
@@ -116,13 +145,13 @@ Control the sidebar order and structure using local metadata files:
 
 ```
 
-
 ## 🛠️ Tech Stack
 
 * **Framework**: [Next.js 14 (App Router)](https://nextjs.org/)
 * **Core Engine**: [Fumadocs](https://fumadocs.vercel.app/)
 * **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 * **Icons**: [Lucide React](https://lucide.dev/)
+* **Package Manager**: [pnpm](https://pnpm.io/)
 
 ## 🤝 Contributing
 
