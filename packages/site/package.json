@@ -1,6 +1,6 @@
 {
   "name": "@objectdocs/site",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": false,
   "scripts": {
     "dev": "next dev",
@@ -9,8 +9,7 @@
     "lint": "next lint",
     "test": "echo \"No test specified\" && exit 0"
   },
-  "peerDependencies": {
-  },
+  "peerDependencies": {},
   "dependencies": {
     "@fumadocs/ui": "^16.4.7",
     "fumadocs-core": "^16.4.7",
