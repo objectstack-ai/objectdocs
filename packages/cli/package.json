@@ -1,0 +1,22 @@
+{
+  "name": "@objectdocs/cli",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "objectdocs": "./bin/cli.mjs"
+  },
+  "scripts": {
+    "dev": "node ./bin/cli.mjs dev ../../content/docs",
+    "build": "node ./bin/cli.mjs build ../../content/docs",
+    "translate": "node ./bin/cli.mjs translate",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@objectdocs/site": "workspace:*",
+    "@types/node": "^25.0.8",
+    "cac": "^6.7.14",
+    "dotenv": "^16.4.5",
+    "openai": "^4.0.0",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "objectdocs",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "objectdocs dev",
+    "build": "objectdocs build",
+    "build:site": "pnpm --filter '@objectdocs/site' -r build",
+    "start": "pnpm --filter '@objectdocs/site' -r start",
+    "translate": "objectdocs translate",
+    "translate:all": "objectdocs translate --all",
+    "test": "pnpm -r test"
+  },
+  "dependencies": {
+    "client-only": "^0.0.1",
+    "fumadocs-core": "16.4.7",
+    "fumadocs-mdx": "14.2.5",
+    "fumadocs-ui": "16.4.7",
+    "lucide-react": "^0.562.0",
+    "next": "16.1.2",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@objectdocs/cli": "workspace:*"
+  }
+}
