@@ -1,7 +1,7 @@
 {
   "name": "@objectdocs/site",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
