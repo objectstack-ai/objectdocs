@@ -1,4 +1,4 @@
-import { source } from '@/lib/source';
+import { coreLoader, platformLoader } from '@/lib/source';
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import type { ReactNode } from 'react';
 import { baseOptions } from '@/app/layout.config';
@@ -31,17 +31,30 @@ const iconMap: Record<string, typeof Box> = {
   FileText,
 };
 
+// Map of root names to their loaders
+const loaderMap: Record<string, typeof coreLoader> = {
+  'core': coreLoader,
+  'platform': platformLoader,
+};
+
 export default async function Layout({
   params,
   children,
 }: {
-  params: Promise<{ lang: string }>;
+  params: Promise<{ lang: string; slug?: string[] }>;
   children: ReactNode;
 }) {
-  const { lang } = await params;
+  const { lang, slug = [] } = await params;
   
-  // Get the full page tree
-  const tree = source.getPageTree(lang);
+  // Determine the current root from the URL
+  // The first slug segment indicates which root we're viewing (core, platform, etc.)
+  const currentRoot = slug.length > 0 ? slug[0] : 'core';
+  
+  // Get the appropriate loader for the current root
+  const currentLoader = loaderMap[currentRoot] || coreLoader;
+  
+  // Get the page tree for the current root
+  const tree = currentLoader.pageTree[lang];
   
   // Build tabs/root toggle options from products config if available
   const rootToggleTabs = siteConfig.products && siteConfig.products.length > 0 
@@ -50,7 +63,7 @@ export default async function Layout({
         return {
           title: product.title,
           description: product.description,
-          url: product.url,
+          url: `/${lang}${product.url}`,
           icon: (
             <div className="bg-gradient-to-br from-primary/80 to-primary p-1 rounded-md text-primary-foreground">
               <Icon className="size-4" />
@@ -61,7 +74,7 @@ export default async function Layout({
     : siteConfig.layout.sidebar.tabs && siteConfig.layout.sidebar.tabs.length > 0 
       ? siteConfig.layout.sidebar.tabs.map(tab => ({
           title: tab.title,
-          url: tab.url,
+          url: `/${lang}${tab.url}`,
           description: tab.description,
         }))
       : undefined;
