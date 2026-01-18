@@ -1,5 +1,12 @@
 # @objectdocs/cli
 
+## 0.2.8
+
+### Patch Changes
+
+- fix: use dereference: true when copying .next directory to expand all symlinks
+  - @objectdocs/site@0.2.8
+
 ## 0.2.7
 
 ### Patch Changes

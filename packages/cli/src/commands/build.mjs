@@ -90,9 +90,9 @@ export function registerBuildCommand(cli) {
                if (fs.existsSync(destNext)) {
                    fs.rmSync(destNext, { recursive: true, force: true });
                }
-               // Use copy instead of symlink to ensure compatibility with Vercel and other deployment platforms
-               // that might not handle symlinks to node_modules correctly
-               fs.cpSync(srcNext, destNext, { recursive: true });
+               // Use copy instead of symlink to ensure compatibility with Vercel
+               // dereference: true ensures we copy the actual files instead of symlinks, preventing broken links
+               fs.cpSync(srcNext, destNext, { recursive: true, dereference: true });
                console.log(`Build successfully copied to: ${destNext}`);
             } else {
                console.log(`\nNo 'out' directory generated in ${src}.`);
