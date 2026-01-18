@@ -1,5 +1,11 @@
 # @objectdocs/site
 
+## 0.2.4
+
+### Patch Changes
+
+- fix: rename proxy.ts to middleware.ts to fix Next.js 16 build error
+
 ## 0.2.3
 
 ### Patch Changes
