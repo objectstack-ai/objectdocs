@@ -1,6 +1,15 @@
 {
   "name": "@objectdocs/site",
   "version": "0.2.2",
+  "description": "ObjectDocs Site Template",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/steedos/objectdocs.git",
+    "directory": "packages/site"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

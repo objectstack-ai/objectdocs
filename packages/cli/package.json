@@ -1,6 +1,15 @@
 {
   "name": "@objectdocs/cli",
   "version": "0.2.2",
+  "description": "ObjectDocs CLI",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/steedos/objectdocs.git",
+    "directory": "packages/cli"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "bin": {
     "objectdocs": "./bin/cli.mjs"
