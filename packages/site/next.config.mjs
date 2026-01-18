@@ -7,6 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
   distDir: '.next',
   images: { unoptimized: true },
+  transpilePackages: ['lucide-react'],
 };
 
 export default withMDX(nextConfig);

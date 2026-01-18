@@ -35,7 +35,7 @@ export function registerDevCommand(cli) {
         PORT: options.port
       };
       
-      const nextCmd = 'npm'; 
+      const nextCmd = 'pnpm'; 
       const args = ['run', 'dev', '--', '-p', options.port];
 
       let child;

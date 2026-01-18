@@ -59,7 +59,7 @@ export function registerStartCommand(cli) {
         };
 
 
-        const child = spawn('npm', ['start'], {
+        const child = spawn('pnpm', ['start'], {
           cwd: nextAppDir,
           stdio: 'inherit',
           env: env
