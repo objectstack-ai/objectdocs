@@ -125,14 +125,14 @@ export function Navbar({ logo, className }: NavbarProps) {
           <div className="mr-6 flex items-center">{logo}</div>
 
           {/* Trinity Links (Core Products) - Left Side */}
-          <div className="md:flex items-center gap-1 mr-auto">
+          <div className="hidden md:flex items-center gap-1 mr-auto">
             {trinityLinks.map((link) => (
               <NavLinkWithTooltip key={link.href} link={link} isTrianity />
             ))}
           </div>
 
           {/* Resource Links - Right Side */}
-          <div className="md:flex items-center gap-1 ml-auto">
+          <div className="hidden md:flex items-center gap-1 ml-auto">
             {/* Protocol link with icon */}
             <Link
               href={resourceLinks[0].href}
@@ -161,10 +161,14 @@ export function Navbar({ logo, className }: NavbarProps) {
             </Link>
           </div>
 
-          {/* Mobile Menu Button - TODO: Implement mobile menu */}
+          {/* Mobile Menu Button - TODO: Implement mobile menu functionality */}
           <button
             className="md:hidden ml-auto p-2"
             aria-label="Toggle menu"
+            onClick={() => {
+              // TODO: Implement mobile menu logic
+              console.log('Mobile menu clicked - implementation needed');
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
