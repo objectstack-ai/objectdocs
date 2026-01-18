@@ -33,8 +33,8 @@
 **ObjectDocs** is a modern, metadata-driven documentation engine architected for the **ObjectStack** ecosystem. Built on top of **Next.js 14 (App Router)** and **Fumadocs**, it redefines how enterprise documentation is maintained.
 
 Unlike traditional static site generators, ObjectDocs adopts a strict **Separation of Concerns** philosophy:
-* **Presentation**: Handled by a standardized, logic-free React layer.
-* **Configuration**: Defined purely in JSON (`site.json`, `meta.json`).
+* **Presentation**: Handled by a standardized, logic-free React layer provided by `@objectdocs/site`.
+* **Configuration**: Defined purely in JSON (`docs.site.json`, `meta.json`).
 * **Content**: Written in MDX with native support for low-code components.
 
 This architecture allows developers and technical writers to manage complex, multi-product documentation sites without touching a single line of UI code.
@@ -42,68 +42,101 @@ This architecture allows developers and technical writers to manage complex, mul
 ## ✨ Key Features
 
 * **🚀 Metadata-Driven Architecture**
-    Control navigation, sidebars, SEO, and branding entirely via `objectdocs.json` and local `meta.json` files. Zero React knowledge required for content maintainers.
+    Control navigation, sidebars, SEO, and branding entirely via `docs.site.json` and local `meta.json` files. Zero React knowledge required for content maintainers.
 
 * **🧩 Low-Code Native**
-    Seamlessly embed live, interactive **Amis** and **Steedos** components directly within your Markdown. Perfect for showcasing live demos of low-code configurations.
+    Seamlessly embed live, interactive components directly within your Markdown.
 
-* **🗂️ Multi-Product Support**
-    Native implementation of "Root Toggle" modes, allowing you to host documentation for multiple products (e.g., `ObjectQL` vs. `ObjectUI`) within a single monorepo and domain.
+* **🤖 AI Translation**
+    Built-in CLI command to automatically translate documentation using OpenAI.
 
 * **🎨 Enterprise-Grade UI**
     Polished interface built on **Radix UI** and **Tailwind CSS**, featuring automatic dark mode, spotlight effects, and accessible primitives out of the box.
 
-* **⚡ Edge Performance**
-    Powered by Next.js App Router and ISR (Incremental Static Regeneration), ensuring instant page loads and excellent SEO.
+## 🚀 Quick Start
 
-## 🏗️ Architecture
+### 1. Create a new project
+
+Initialize your documentation site structure:
+
+```bash
+mkdir my-docs
+cd my-docs
+pnpm init
+pnpm add -D @objectdocs/cli
+```
+
+### 2. Configure scripts
+
+Add the following scripts to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "dev": "objectdocs dev",
+    "build": "objectdocs build",
+    "start": "objectdocs start"
+  }
+}
+```
+
+### 3. Add content
+
+Create the basic directory structure:
+
+```bash
+mkdir -p content/docs
+```
+
+Create `content/docs/index.mdx`:
+
+```mdx
+---
+title: Welcome
+description: My new docs site
+---
+
+# Hello World
+
+Welcome to ObjectDocs!
+```
+
+Create `content/docs/meta.json`:
+
+```json
+{
+  "pages": ["index"]
+}
+```
+
+### 4. Start the server
+
+```bash
+pnpm dev
+```
+
+Visit http://localhost:7777 to see your site.
+
+## 🏗️ Project Structure
 
 ObjectDocs enforces a clear directory structure to ensure maintainability at scale:
 
 ```text
 .
 ├── content/               # [Data Layer] Raw Content
+│   ├── docs.site.json     # Global settings (Nav, Logo, Branding)
 │   └── docs/
 │       ├── meta.json      # Directory structure & sorting control
 │       └── index.mdx      # Documentation content
-├── config/                # [Config Layer]
-│   └── site.json          # Global settings (Nav, Logo, Branding)
-└── app/                   # [View Layer] Logic-free Rendering
-    └── layout.tsx         # Consumes config to render UI
-
+├── package.json
+└── ...
 ```
-
-## 🚀 Quick Start
-
-### 1. Clone the repository
-
-```bash
-git clone [https://github.com/objectstack-ai/objectdocs.git](https://github.com/objectstack-ai/objectdocs.git)
-cd objectdocs
-
-```
-
-### 2. Install dependencies
-
-```bash
-pnpm install
-
-```
-
-### 3. Run development server
-
-```bash
-pnpm dev
-
-```
-
-Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) with your browser to see the result.
 
 ## ⚙️ Configuration
 
 ObjectDocs is designed to be "Configuration as Code".
 
-### Global Config (`config/site.json`)
+### Global Config (`content/docs.site.json`)
 
 Manage global navigation, branding, and feature flags:
 
@@ -111,20 +144,16 @@ Manage global navigation, branding, and feature flags:
 {
   "branding": {
     "name": "ObjectStack",
-    "logo": "/logo.svg"
+    "logo": {
+       "light": "/logo.svg",
+       "dark": "/logo-dark.svg"
+    }
   },
-  "navigation": [
+  "links": [
     { "text": "Guide", "url": "/docs" },
-    { "text": "Reference", "url": "/docs/api" },
-    { "text": "GitHub", "url": "[https://github.com/objectstack-ai](https://github.com/objectstack-ai)", "external": true }
-  ],
-  "features": {
-    "search": true,
-    "darkMode": true,
-    "rootToggle": true
-  }
+    { "text": "GitHub", "url": "https://github.com/objectstack-ai", "icon": "github" }
+  ]
 }
-
 ```
 
 ### Sidebar Control (`content/**/meta.json`)
@@ -134,7 +163,6 @@ Control the sidebar order and structure using local metadata files in each direc
 ```json
 {
   "title": "Getting Started",
-  "root": true,
   "pages": [
     "introduction",
     "---Installation---",
@@ -142,16 +170,14 @@ Control the sidebar order and structure using local metadata files in each direc
     "configuration"
   ]
 }
-
 ```
 
-## 🛠️ Tech Stack
+## 📦 Packages
 
-* **Framework**: [Next.js 14 (App Router)](https://nextjs.org/)
-* **Core Engine**: [Fumadocs](https://fumadocs.vercel.app/)
-* **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-* **Icons**: [Lucide React](https://lucide.dev/)
-* **Package Manager**: [pnpm](https://pnpm.io/)
+This repository is a monorepo managed by pnpm workspaces:
+
+- **[@objectdocs/cli](./packages/cli)**: The command-line interface for building and developing sites.
+- **[@objectdocs/site](./packages/site)**: The core Next.js application template.
 
 ## 🤝 Contributing
 
@@ -159,4 +185,4 @@ Contributions are welcome! Please read our [Contributing Guide](./CONTRIBUTING.m
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](https://www.google.com/search?q=MIT) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
