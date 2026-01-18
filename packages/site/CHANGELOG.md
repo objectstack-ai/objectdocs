@@ -1,5 +1,11 @@
 # @objectdocs/site
 
+## 0.2.10
+
+### Patch Changes
+
+- feat: enable standalone output mode for better Vercel/Docker support
+
 ## 0.2.9
 
 ### Patch Changes

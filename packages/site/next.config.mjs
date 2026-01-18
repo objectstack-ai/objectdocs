@@ -15,6 +15,7 @@ const nextConfig = {
   reactStrictMode: true,
   distDir: '.next',
   images: { unoptimized: true },
+  output: 'standalone',
   transpilePackages: ['@objectdocs/site'],
 };
 
