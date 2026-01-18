@@ -1,4 +1,12 @@
 #!/usr/bin/env node
+/**
+ * ObjectDocs
+ * Copyright (c) 2026-present ObjectStack Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import { cac } from 'cac';
 import 'dotenv/config';
 import { registerTranslateCommand } from '../src/commands/translate.mjs';
