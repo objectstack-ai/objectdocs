@@ -1,58 +1,58 @@
 ---
-title: 简介
-description: 低代码时代的元数据驱动文档引擎。
+title: Introduction
+description: The Metadata-Driven Documentation Engine for the Low-Code Era.
 ---
 
 import { FileJson, Layers, Cpu, Zap } from 'lucide-react';
 
-# 什么是 ObjectDocs?
+# What is ObjectDocs?
 
-**ObjectDocs** 是一个基于 **Next.js 14** 和 **Fumadocs** 构建的现代文档生成器。
+**ObjectDocs** is a modern, opinionated documentation site generator built on top of **Next.js 14** and **Fumadocs**.
 
-它的诞生是为了解决 **ObjectStack** 生态系统中的一个特定问题：*如何记录复杂的多产品低代码平台，而又不陷入繁琐的前端维护？*
+It was created to solve a specific problem in the **ObjectStack** ecosystem: *How do we document complex, multi-product low-code platforms without drowning in frontend maintenance?*
 
-与通用的静态站点生成器 (SSG) 不同，ObjectDocs 将文档结构视为 **数据**，而不是代码。
+Unlike general-purpose static site generators (SSGs), ObjectDocs treats documentation structure as **data**, not code.
 
-## 核心理念
+## Core Philosophy
 
 <Cards>
   <Card
     icon={<FileJson />}
-    title="元数据驱动"
+    title="Metadata-Driven"
     href="/docs/getting-started/configuration"
   >
-    完全通过本地 `meta.json` 文件控制侧边栏、导航和页面排序。内容更新无需 React 知识。
+    Control sidebars, navigation, and page ordering entirely through local `meta.json` files. No React knowledge required for content updates.
   </Card>
   <Card
     icon={<Cpu />}
-    title="低代码原生支持"
+    title="Low-Code Native"
     href="/docs/components"
   >
-    直接在 Markdown 中嵌入 JSON 模式。渲染由 ObjectQL 定义驱动的实时交互组件。
+    Directly embed JSON schemas in Markdown. Render live, interactive components powered by ObjectQL definitions.
   </Card>
 </Cards>
 
-## 为什么选择 ObjectDocs?
+## Why ObjectDocs?
 
-### 1. 关注点分离
-在传统的文档站点中，添加新章节通常需要编辑全局 `sidebar.js` 配置或修改 React 组件。在 ObjectDocs 中，我们严格区分角色：
+### 1. Separation of Concerns
+In traditional documentation sites, adding a new section often requires editing a global `sidebar.js` config or touching React components. In ObjectDocs, we strictly separate roles:
 
-* **技术文档工程师**: 编写 `.mdx` 内容并管理本地 `meta.json` 进行排序。
-* **平台架构师**: 配置全局 `content/docs.site.json` (品牌, 导航链接)。
-* **前端开发人员**: 仅在绝对必要时维护底层 UI 逻辑 (作为 npm 包引入)。
+* **Technical Writers**: Write `.mdx` content and manage local `meta.json` for sorting.
+* **Platform Architects**: Configure global `content/docs.site.json` (branding, nav links).
+* **Frontend Developers**: Maintain the base UI logic only when strictly necessary.
 
-### 2. 交互式组件
-静态文本不足以展示低代码平台的能力。ObjectDocs 允许你在文档中直接挂载实时的组件演示。
+### 2. Interactive Components
+Static text is not enough to showcase the capabilities of a low-code platform. ObjectDocs allows you to mount live component demos directly in your docs.
 
-## 下一步
+## Next Steps
 
-准备好构建你的文档了吗？
+Ready to build your documentation?
 
 <Cards>
-<Card title="快速开始" href="/docs/getting-started" icon={<Zap />}>
-在 5 分钟内安装 ObjectDocs 并创建你的第一个页面。
+<Card title="Quick Start" href="/docs/getting-started" icon={<Zap />}>
+Install ObjectDocs and create your first page in under 5 minutes.
 </Card>
-<Card title="架构详解" href="/docs/getting-started/architecture" icon={<Layers />}>
-深入了解目录结构和数据流。
+<Card title="Architecture" href="/docs/getting-started/architecture" icon={<Layers />}>
+Deep dive into the directory structure and data flow.
 </Card>
 </Cards>

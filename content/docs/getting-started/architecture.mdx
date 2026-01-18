@@ -1,58 +1,58 @@
 ---
-title: 架构
-description: 深入了解 ObjectDocs 的架构、目录结构和数据流。
+title: Architecture
+description: Deep dive into ObjectDocs architecture, directory structure, and data flow.
 ---
 
 import { Layers, FileJson, Code, FileText } from 'lucide-react';
 
-# 架构
+# Architecture
 
-ObjectDocs 建立在严格的 **关注点分离 (Separation of Concerns)** 理念之上，将表现层、配置层和内容层完全分开。
+ObjectDocs is built on a strict **Separation of Concerns** philosophy, completely separating the presentation, configuration, and content layers.
 
-## 核心原则
+## Core Principles
 
-### 1. 配置即代码 (Configuration as Code)
+### 1. Configuration as Code
 
-与传统的文档站点将结构硬编码在 React 组件中不同，ObjectDocs 将文档组织视为 **数据**。
+Unlike traditional documentation sites where structure is hardcoded in React components, ObjectDocs treats documentation organization as **data**.
 
 <Cards>
-  <Card icon={<FileJson />} title="元数据驱动">
-    导航、侧边栏和页面顺序均由 JSON 文件定义，而非 React 代码。
+  <Card icon={<FileJson />} title="Metadata-Driven">
+    Navigation, sidebar, and page order are all defined by JSON files, not React code.
   </Card>
-  <Card icon={<Layers />} title="逻辑无关">
-    内容创建者不需要关心路由逻辑或 UI 组件的实现细节。
+  <Card icon={<Layers />} title="Logic Agnostic">
+    Content creators don't need to care about routing logic or UI component implementation details.
   </Card>
 </Cards>
 
-### 2. 本地化内容管理
+### 2. Localized Content Management
 
-每个文档目录都是自包含的。如果你要新增一个章节，只需在该目录下创建文件并更新同级的 `meta.json`。这使得在大型团队中进行多人协作变得不容易冲突。
+Each documentation directory is self-contained. If you want to add a new section, just create files in that directory and update the sibling `meta.json`. This makes multi-person collaboration in large teams less prone to conflicts.
 
-## 目录结构
+## Directory Structure
 
-一个标准的 ObjectDocs 项目结构如下：
+A standard ObjectDocs project structure looks like this:
 
 ```text
 .
-├── content/               # [数据层] 原始内容
-│   ├── docs.site.json     # 全局设置 (导航, Logo, 品牌)
+├── content/               # [Data Layer] Raw Content
+│   ├── docs.site.json     # Global settings (Nav, Logo, Branding)
 │   └── docs/
-│       ├── meta.json      # 目录结构 & 排序控制
-│       └── index.mdx      # 文档内容
+│       ├── meta.json      # Directory structure & sorting control
+│       └── index.mdx      # Documentation content
 ├── package.json
-└── public/                # 静态资源 (图片等)
+└── public/                # Static assets (images, etc.)
 ```
 
-## 数据流向
+## Data Flow
 
-1.  **构建时**: `@objectdocs/site` 读取 `content/` 下的所有 MDX 和 JSON 文件。
-2.  **解析**: Fumadocs 引擎解析元数据，构建导航树。
-3.  **渲染**: Next.js (App Router) 将内容渲染为 React Server Components。
-4.  **交互**: 客户端组件（如 `<Cards>`, `<Steps>`）在浏览器中激活。
+1.  **Build Time**: `@objectdocs/site` reads all MDX and JSON files under `content/`.
+2.  **Parsing**: The Fumadocs engine parses metadata and builds the navigation tree.
+3.  **Rendering**: Next.js (App Router) renders content as React Server Components.
+4.  **Interaction**: Client components (like `<Cards>`, `<Steps>`) activate in the browser.
 
-### 为什么这样设计？
+### Why Design It This Way?
 
-这种架构使得我们能够：
+This architecture allows us to:
 
-*   **多产品支持**: 通过切换不同的 `content` 目录，可以在同一套代码库中支持多个产品的文档。
-*   **低代码集成**: 因为内容与 UI 分离，我们可以更容易地注入动态的低代码组件演示。
+*   **Multi-Product Support**: By switching different `content` directories, multiple product documentations can be supported within the same codebase.
+*   **Low-Code Integration**: Since content is separated from UI, we can more easily inject dynamic low-code component demos.

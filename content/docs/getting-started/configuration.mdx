@@ -1,19 +1,19 @@
 ---
-title: 配置
-description: 了解如何通过 JSON 文件自定义您的 ObjectDocs 站点。
+title: Configuration
+description: Learn how to customize your ObjectDocs site via JSON files.
 ---
 
 import { Settings, Palette, Navigation, Layout } from 'lucide-react';
 
-# 配置
+# Configuration
 
-ObjectDocs 遵循 **配置即代码 (Configuration as Code)** 的原则。所有的站点设置都通过 JSON 文件定义，易于版本控制和协作。
+ObjectDocs follows the **Configuration as Code** principle. All site settings are defined via JSON files, making them easy to version control and collaborate on.
 
-## 全局配置
+## Global Configuration
 
 ### docs.site.json
 
-主配置文件位于 `content/docs.site.json`。该文件控制整个文档站点的全局设置。
+The main configuration file is located at `content/docs.site.json`. This file controls the global settings for the entire documentation site.
 
 ```json
 {
@@ -31,28 +31,28 @@ ObjectDocs 遵循 **配置即代码 (Configuration as Code)** 的原则。所有
 }
 ```
 
-### 配置项说明
+### Configuration Options
 
-| 属性 | 类型 | 说明 |
+| Property | Type | Description |
 | :--- | :--- | :--- |
-| `branding.name` | `string` | 站点名称，显示在导航栏左侧。 |
-| `branding.logo` | `object` | 站点 Log 图片路径，支持亮色/暗色模式。 |
-| `links` | `array` | 顶部导航栏链接列表。 |
+| `branding.name` | `string` | Site name, displayed on the left side of the navbar. |
+| `branding.logo` | `object` | Site logo image paths, supports light/dark mode. |
+| `links` | `array` | List of links in the top navigation bar. |
 
-## 目录与导航配置
+## Directory & Navigation Configuration
 
 ### meta.json
 
-每个文档目录下都可以放置一个 `meta.json` 文件，用于控制该目录下的侧边栏结构和页面顺序。
+Each documentation directory can contain a `meta.json` file, which maps to the sidebar structure and page order for that directory.
 
-**示例结构：**
+**Example Structure:**
 
 ```text
 content/docs/
-├── meta.json          # 根目录配置
+├── meta.json          # Root directory config
 ├── index.mdx
 └── getting-started/
-    ├── meta.json      # 子目录配置
+    ├── meta.json      # Subdirectory config
     ├── index.mdx
     └── configuration.mdx
 ```
@@ -74,28 +74,28 @@ content/docs/
 
 ```json
 {
-  "title": "快速开始",
+  "title": "Quick Start",
   "pages": [
-    "index",            // 对应 index.mdx (快速开始)
-    "architecture",     // 对应 architecture.mdx (架构)
-    "configuration"     // 对应 configuration.mdx (配置)
+    "index",            // Maps to index.mdx (Quick Start)
+    "architecture",     // Maps to architecture.mdx
+    "configuration"     // Maps to configuration.mdx
   ]
 }
 ```
 
-### 如果不使用 meta.json
+### Without meta.json
 
-如果没有 `meta.json`，ObjectDocs 会按字母顺序自动列出该目录下的所有 `.mdx` 文件。对于正式文档，我们强烈建议使用 `meta.json` 以确保顺序可控。
+If `meta.json` is missing, ObjectDocs will automatically list all `.mdx` files in that directory alphabetically. For official documentation, we strongly recommend using `meta.json` to ensure controlled ordering.
 
-## 页面配置 (Frontmatter)
+## Page Configuration (Frontmatter)
 
-每个 MDX 文件的顶部都可以包含 Frontmatter 元数据：
+Top of each MDX file can contain Frontmatter metadata:
 
 ```yaml
 ---
-title: 页面标题
-description: 页面描述（用于 SEO 和搜索预览）
-icon: Rocket  # 可选：页面图标名称
-full: false   # 可选：是否隐藏右侧目录 (Table of Contents)
+title: Page Title
+description: Page description (used for SEO and search preview)
+icon: Rocket  # Optional: Page icon name
+full: false   # Optional: Whether to hide the right Table of Contents
 ---
 ```

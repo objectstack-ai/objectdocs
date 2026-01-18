@@ -1,43 +1,43 @@
 ---
-title: 快速开始
-description: 在几分钟内创建您的第一个 ObjectDocs 文档站点。
+title: Quick Start
+description: Create your first ObjectDocs site in minutes.
 ---
 
-# 快速开始
+# Quick Start
 
-ObjectDocs 是一个基于 Next.js 14 和 Fumadocs 的现代文档引擎，支持“配置即代码”的理念。本指南将帮助你快速搭建一个新的文档项目。
+ObjectDocs is a modern documentation engine based on Next.js 14 and Fumadocs, supporting the "Configuration as Code" philosophy. This guide will help you quickly set up a new documentation project.
 
-## 准备工作
+## Prerequisites
 
-确保你的环境满足以下要求：
+Ensure your environment meets the following requirements:
 
-- **Node.js**: 18.17 或更高版本
-- **包管理器**: 推荐使用 pnpm (npm 或 yarn 也可以)
+- **Node.js**: 18.17 or higher
+- **Package Manager**: pnpm is recommended (npm or yarn also work)
 
-## 1. 创建新项目
+## 1. Create a New Project
 
-我们提供了一个 CLI 工具来快速初始化项目。在你的终端中运行：
+We provide a CLI tool to quickly initialize your project. Run the following in your terminal:
 
 <Steps>
-### 初始化目录结构
+### Initialize Directory Structure
 
-在你的项目根目录下，创建以下文件结构：
+In your project root, create the following file structure:
 
 ```bash
 mkdir -p content/docs
 ```
 
-### 安装依赖
+### Install Dependencies
 
-安装 `@objectdocs/cli` 作为开发依赖：
+Install `@objectdocs/cli` as a development dependency:
 
 ```bash title="Terminal"
 pnpm add -D @objectdocs/cli
 ```
 
-### 配置启动脚本
+### Configure Scripts
 
-在 `package.json` 中添加以下脚本：
+Add the following scripts to your `package.json`:
 
 ```json title="package.json"
 {
@@ -50,29 +50,29 @@ pnpm add -D @objectdocs/cli
 ```
 </Steps>
 
-## 2. 添加内容
+## 2. Add Content
 
-ObjectDocs 使用文件系统路由。所有的文档都存放在 `content/docs` 目录下。
+ObjectDocs uses file-system routing. All documentation is stored in the `content/docs` directory.
 
 <Steps>
-### 创建首页
+### Create Homepage
 
-新建 `content/docs/index.mdx`：
+Create `content/docs/index.mdx`:
 
 ```mdx title="content/docs/index.mdx"
 ---
-title: 欢迎
-description: 你的新文档站点
+title: Welcome
+description: Your new documentation site
 ---
 
 # Hello World
 
-欢迎使用 ObjectDocs！这是你的首页。
+Welcome to ObjectDocs! This is your homepage.
 ```
 
-### 配置侧边栏
+### Configure Sidebar
 
-新建 `content/docs/meta.json` 来定义页面顺序：
+Create `content/docs/meta.json` to define page order:
 
 ```json title="content/docs/meta.json"
 {
@@ -80,9 +80,9 @@ description: 你的新文档站点
 }
 ```
 
-### 配置站点信息
+### Configure Site Info
 
-新建 `content/docs.site.json` 来配置站点名称和导航：
+Create `content/docs.site.json` to configure site name and navigation:
 
 ```json title="content/docs.site.json"
 {
@@ -99,18 +99,18 @@ description: 你的新文档站点
 ```
 </Steps>
 
-## 3. 启动开发服务器
+## 3. Start Development Server
 
-运行以下命令启动服务：
+Run the following command to start the service:
 
 ```bash title="Terminal"
 pnpm dev
 ```
 
-现在访问 [http://localhost:7777](http://localhost:7777)，你应该能看到你的文档站点了！
+Now visit [http://localhost:7777](http://localhost:7777), and you should see your documentation site!
 
-## 下一步
+## Next Steps
 
-- [配置文件](./configuration) - 了解更多配置选项
-- [编写内容](./writing) - 学习 MDX 语法和组件使用
-- [部署](./deployment) - 将你的文档发布到生产环境
+- [Configuration](./configuration) - Learn more about configuration options
+- [Writing Content](./writing) - Learn MDX syntax and component usage
+- [Deployment](./deployment) - Publish your documentation to production

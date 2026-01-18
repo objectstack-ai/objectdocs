@@ -1,0 +1,116 @@
+---
+title: 快速开始
+description: 在几分钟内创建您的第一个 ObjectDocs 文档站点。
+---
+
+# 快速开始
+
+ObjectDocs 是一个基于 Next.js 14 和 Fumadocs 的现代文档引擎，支持“配置即代码”的理念。本指南将帮助你快速搭建一个新的文档项目。
+
+## 准备工作
+
+确保你的环境满足以下要求：
+
+- **Node.js**: 18.17 或更高版本
+- **包管理器**: 推荐使用 pnpm (npm 或 yarn 也可以)
+
+## 1. 创建新项目
+
+我们提供了一个 CLI 工具来快速初始化项目。在你的终端中运行：
+
+<Steps>
+### 初始化目录结构
+
+在你的项目根目录下，创建以下文件结构：
+
+```bash
+mkdir -p content/docs
+```
+
+### 安装依赖
+
+安装 `@objectdocs/cli` 作为开发依赖：
+
+```bash title="Terminal"
+pnpm add -D @objectdocs/cli
+```
+
+### 配置启动脚本
+
+在 `package.json` 中添加以下脚本：
+
+```json title="package.json"
+{
+  "scripts": {
+    "dev": "objectdocs dev",
+    "build": "objectdocs build",
+    "start": "objectdocs start"
+  }
+}
+```
+</Steps>
+
+## 2. 添加内容
+
+ObjectDocs 使用文件系统路由。所有的文档都存放在 `content/docs` 目录下。
+
+<Steps>
+### 创建首页
+
+新建 `content/docs/index.mdx`：
+
+```mdx title="content/docs/index.mdx"
+---
+title: 欢迎
+description: 你的新文档站点
+---
+
+# Hello World
+
+欢迎使用 ObjectDocs！这是你的首页。
+```
+
+### 配置侧边栏
+
+新建 `content/docs/meta.json` 来定义页面顺序：
+
+```json title="content/docs/meta.json"
+{
+  "pages": ["index"]
+}
+```
+
+### 配置站点信息
+
+新建 `content/docs.site.json` 来配置站点名称和导航：
+
+```json title="content/docs.site.json"
+{
+  "branding": {
+    "name": "My Docs"
+  },
+  "links": [
+    {
+      "text": "Home",
+      "url": "/"
+    }
+  ]
+}
+```
+</Steps>
+
+## 3. 启动开发服务器
+
+运行以下命令启动服务：
+
+```bash title="Terminal"
+pnpm dev
+```
+
+现在访问 [http://localhost:7777](http://localhost:7777)，你应该能看到你的文档站点了！
+
+## 下一步
+
+- [配置文件](./configuration) - 了解更多配置选项
+- [编写内容](./writing) - 学习 MDX 语法和组件使用
+- [部署](./deployment) - 将你的文档发布到生产环境

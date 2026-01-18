@@ -1,0 +1,58 @@
+---
+title: 架构
+description: 深入了解 ObjectDocs 的架构、目录结构和数据流。
+---
+
+import { Layers, FileJson, Code, FileText } from 'lucide-react';
+
+# 架构
+
+ObjectDocs 建立在严格的 **关注点分离 (Separation of Concerns)** 理念之上，将表现层、配置层和内容层完全分开。
+
+## 核心原则
+
+### 1. 配置即代码 (Configuration as Code)
+
+与传统的文档站点将结构硬编码在 React 组件中不同，ObjectDocs 将文档组织视为 **数据**。
+
+<Cards>
+  <Card icon={<FileJson />} title="元数据驱动">
+    导航、侧边栏和页面顺序均由 JSON 文件定义，而非 React 代码。
+  </Card>
+  <Card icon={<Layers />} title="逻辑无关">
+    内容创建者不需要关心路由逻辑或 UI 组件的实现细节。
+  </Card>
+</Cards>
+
+### 2. 本地化内容管理
+
+每个文档目录都是自包含的。如果你要新增一个章节，只需在该目录下创建文件并更新同级的 `meta.json`。这使得在大型团队中进行多人协作变得不容易冲突。
+
+## 目录结构
+
+一个标准的 ObjectDocs 项目结构如下：
+
+```text
+.
+├── content/               # [数据层] 原始内容
+│   ├── docs.site.json     # 全局设置 (导航, Logo, 品牌)
+│   └── docs/
+│       ├── meta.json      # 目录结构 & 排序控制
+│       └── index.mdx      # 文档内容
+├── package.json
+└── public/                # 静态资源 (图片等)
+```
+
+## 数据流向
+
+1.  **构建时**: `@objectdocs/site` 读取 `content/` 下的所有 MDX 和 JSON 文件。
+2.  **解析**: Fumadocs 引擎解析元数据，构建导航树。
+3.  **渲染**: Next.js (App Router) 将内容渲染为 React Server Components。
+4.  **交互**: 客户端组件（如 `<Cards>`, `<Steps>`）在浏览器中激活。
+
+### 为什么这样设计？
+
+这种架构使得我们能够：
+
+*   **多产品支持**: 通过切换不同的 `content` 目录，可以在同一套代码库中支持多个产品的文档。
+*   **低代码集成**: 因为内容与 UI 分离，我们可以更容易地注入动态的低代码组件演示。
