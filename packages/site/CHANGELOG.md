@@ -1,5 +1,11 @@
 # @objectdocs/site
 
+## 0.2.5
+
+### Patch Changes
+
+- chore: add transpilePackages configuration to fix module resolution in monorepo usage
+
 ## 0.2.4
 
 ### Patch Changes
