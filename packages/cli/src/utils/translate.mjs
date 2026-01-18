@@ -2,6 +2,70 @@ import fs from 'node:fs';
 import path from 'node:path';
 import OpenAI from 'openai';
 
+/**
+ * Load site configuration from docs.site.json
+ * @returns {object} - The site configuration
+ */
+function loadSiteConfig() {
+  const configPath = path.resolve(process.cwd(), 'content/docs.site.json');
+  
+  if (!fs.existsSync(configPath)) {
+    console.warn(`Warning: docs.site.json not found at ${configPath}, using defaults`);
+    // Fallback matches the default configuration in packages/site/lib/site-config.ts
+    return {
+      i18n: {
+        enabled: true,
+        defaultLanguage: 'en',
+        languages: ['en', 'cn']
+      }
+    };
+  }
+  
+  try {
+    const configContent = fs.readFileSync(configPath, 'utf-8');
+    return JSON.parse(configContent);
+  } catch (error) {
+    console.error('Error loading docs.site.json:', error);
+    throw error;
+  }
+}
+
+// Load configuration
+const siteConfig = loadSiteConfig();
+const languages = siteConfig.i18n?.languages || ['en', 'cn'];
+const defaultLanguage = siteConfig.i18n?.defaultLanguage || 'en';
+
+// Generate language suffixes dynamically from config
+// e.g., ['en', 'cn'] -> ['.en.mdx', '.cn.mdx']
+const LANGUAGE_SUFFIXES = languages.map(lang => `.${lang}.mdx`);
+
+// Target language is the first non-default language
+const targetLanguage = languages.find(lang => lang !== defaultLanguage) || languages[0];
+const TARGET_LANGUAGE_SUFFIX = `.${targetLanguage}.mdx`;
+
+/**
+ * Get the current site configuration
+ * @returns {object} - Configuration object with languages info
+ */
+export function getSiteConfig() {
+  return {
+    languages,
+    defaultLanguage,
+    targetLanguage,
+    languageSuffixes: LANGUAGE_SUFFIXES,
+    targetLanguageSuffix: TARGET_LANGUAGE_SUFFIX,
+  };
+}
+
+/**
+ * Check if a file has a language suffix
+ * @param {string} filePath - The file path to check
+ * @returns {boolean} - True if file has a language suffix
+ */
+function hasLanguageSuffix(filePath) {
+  return LANGUAGE_SUFFIXES.some(suffix => filePath.endsWith(suffix));
+}
+
 export function getAllMdxFiles(dir) {
   let results = [];
   if (!fs.existsSync(dir)) return results;
@@ -13,7 +77,8 @@ export function getAllMdxFiles(dir) {
     if (stat && stat.isDirectory()) {
       results = results.concat(getAllMdxFiles(file));
     } else {
-      if (file.endsWith('.mdx')) {
+      // Only include .mdx files that don't have language suffix
+      if (file.endsWith('.mdx') && !hasLanguageSuffix(file)) {
         results.push(path.relative(process.cwd(), file));
       }
     }
@@ -22,19 +87,23 @@ export function getAllMdxFiles(dir) {
 }
 
 export function resolveTranslatedFilePath(enFilePath) {
-  // Strategy: content/docs/path/to/file.mdx -> content/docs-cn/path/to/file.mdx
-  const docsRoot = path.join(process.cwd(), 'content/docs');
-  
-  // If input path is relative, make it absolute first to check
+  // Strategy: Use dot parser convention
+  // content/docs/path/to/file.mdx -> content/docs/path/to/file.{targetLang}.mdx
+  // Target language is determined from docs.site.json configuration
+  // Skip files that already have language suffix
   const absPath = path.resolve(enFilePath);
   
-  if (!absPath.startsWith(docsRoot)) {
-     // Fallback or specific logic if file is not in content/docs
-     return enFilePath.replace('content/docs', 'content/docs-cn');
+  // Skip if already has a language suffix
+  if (hasLanguageSuffix(absPath)) {
+    return absPath;
   }
-
-  const relativePath = path.relative(docsRoot, enFilePath);
-  return path.join(process.cwd(), 'content/docs-cn', relativePath);
+  
+  // Replace .mdx with target language suffix
+  if (absPath.endsWith('.mdx')) {
+    return absPath.replace(/\.mdx$/, TARGET_LANGUAGE_SUFFIX);
+  }
+  
+  return absPath;
 }
 
 export async function translateContent(content, openai, model) {

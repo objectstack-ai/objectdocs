@@ -4,9 +4,18 @@ import { DocsPage, DocsBody } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
 import { siteConfig } from '@/lib/site-config';
 import defaultComponents from 'fumadocs-ui/mdx';
-import { Steps, Step } from 'fumadocs-ui/components/steps';
-import { Card, Cards } from 'fumadocs-ui/components/card';
 import { Callout } from 'fumadocs-ui/components/callout';
+import { Card, Cards } from 'fumadocs-ui/components/card';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+const components = {
+  ...defaultComponents,
+  Callout,
+  Card,
+  Cards,
+  Steps,
+  Step,
+};
 
 interface PageProps {
   params: Promise<{
@@ -43,7 +52,7 @@ export default async function Page({ params }: PageProps) {
       } : undefined}
     >
       <DocsBody>
-        <MDX components={{ ...defaultComponents, Steps, Step, Card, Cards, Callout }} />
+        <MDX components={components} />
       </DocsBody>
     </DocsPage>
   );
