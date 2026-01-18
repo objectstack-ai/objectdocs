@@ -1,5 +1,11 @@
 # @objectdocs/site
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated README documentation with corrected configuration file names and enhanced Quick Start section
+
 ## 0.2.1
 
 ### Patch Changes

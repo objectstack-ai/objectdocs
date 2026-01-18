@@ -1,5 +1,13 @@
 # @objectdocs/cli
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated README documentation with corrected configuration file names and enhanced Quick Start section
+- Updated dependencies
+  - @objectdocs/site@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes
