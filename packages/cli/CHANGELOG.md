@@ -1,5 +1,13 @@
 # @objectdocs/cli
 
+## 0.2.1
+
+### Patch Changes
+
+- Bug fixes and improvements for ObjectDocs
+- Updated dependencies
+  - @objectdocs/site@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
