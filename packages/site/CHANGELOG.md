@@ -1,5 +1,11 @@
 # @objectdocs/site
 
+## 0.2.7
+
+### Patch Changes
+
+- fix: use relative import for generated content to avoid alias resolution issues in monorepos
+
 ## 0.2.6
 
 ## 0.2.5

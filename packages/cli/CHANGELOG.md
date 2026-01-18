@@ -1,5 +1,12 @@
 # @objectdocs/cli
 
+## 0.2.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @objectdocs/site@0.2.7
+
 ## 0.2.6
 
 ### Patch Changes
