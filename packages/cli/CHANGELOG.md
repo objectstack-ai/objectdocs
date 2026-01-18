@@ -1,5 +1,16 @@
 # @objectdocs/cli
 
+## 0.2.0
+
+### Minor Changes
+
+- Initial release of ObjectDocs - A modern documentation engine built on Next.js 14 and Fumadocs
+
+### Patch Changes
+
+- Updated dependencies
+  - @objectdocs/site@0.2.0
+
 ## 0.1.0
 
 ### Minor Changes
