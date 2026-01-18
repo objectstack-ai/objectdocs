@@ -86,13 +86,14 @@ export function registerBuildCommand(cli) {
             const destNext = path.join(process.cwd(), '.next');
             
             if (fs.existsSync(srcNext) && srcNext !== destNext) {
-               console.log(`\nLinking .next build output to ${destNext}...`);
+               console.log(`\nCopying .next build output to ${destNext}...`);
                if (fs.existsSync(destNext)) {
                    fs.rmSync(destNext, { recursive: true, force: true });
                }
-               // Use symlink instead of copy to preserve internal symlinks in .next (pnpm support)
-               fs.symlinkSync(srcNext, destNext, 'dir');
-               console.log(`Build successfully linked to: ${destNext}`);
+               // Use copy instead of symlink to ensure compatibility with Vercel and other deployment platforms
+               // that might not handle symlinks to node_modules correctly
+               fs.cpSync(srcNext, destNext, { recursive: true });
+               console.log(`Build successfully copied to: ${destNext}`);
             } else {
                console.log(`\nNo 'out' directory generated in ${src}.`);
                console.log(`This is expected if 'output: export' is disabled.`);

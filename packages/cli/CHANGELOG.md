@@ -1,5 +1,12 @@
 # @objectdocs/cli
 
+## 0.2.6
+
+### Patch Changes
+
+- fix: copy .next directory instead of symlinking to support Vercel deployment of consumers
+  - @objectdocs/site@0.2.6
+
 ## 0.2.5
 
 ### Patch Changes
