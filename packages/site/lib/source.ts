@@ -7,7 +7,7 @@
  */
 
 import { loader } from 'fumadocs-core/source';
-import { docs, meta } from '../.source/server';
+import { docs, meta } from '../.source/server'; // Relative import to .source in root
 import { toFumadocsSource } from 'fumadocs-mdx/runtime/server';
 import { i18n } from './i18n';
 

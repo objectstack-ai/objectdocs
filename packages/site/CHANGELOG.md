@@ -1,5 +1,11 @@
 # @objectdocs/site
 
+## 0.2.9
+
+### Patch Changes
+
+- fix: add .source path alias to tsconfig.json to ensure generated files can be resolved
+
 ## 0.2.8
 
 ## 0.2.7
