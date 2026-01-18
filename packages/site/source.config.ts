@@ -18,18 +18,9 @@ function resolveContentDir(dir: string) {
 
 const docsDir = resolveContentDir('content/docs');
 
-// Define multiple roots for the documentation
-export const core = defineDocs({
-  dir: path.join(docsDir, 'core'),
+export const { docs, meta } = defineDocs({
+  dir: docsDir,
 });
-
-export const platform = defineDocs({
-  dir: path.join(docsDir, 'platform'),
-});
-
-// Export combined docs for backward compatibility
-export const docs = core.docs;
-export const meta = core.meta;
 
 export default defineConfig({
   mdxOptions: {

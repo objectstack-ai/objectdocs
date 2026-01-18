@@ -1,7 +1,0 @@
-{
-  "name": "content",
-  "private": true,
-  "dependencies": {
-    "lucide-react": "^0.562.0"
-  }
-}

@@ -50,7 +50,7 @@ export function registerBuildCommand(cli) {
         DOCS_DIR: docsDir
       };
 
-      const nextCmd = 'pnpm'; 
+      const nextCmd = 'npm'; 
       const args = ['run', 'build'];
 
       const child = spawn(nextCmd, args, {

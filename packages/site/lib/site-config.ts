@@ -27,12 +27,6 @@ export interface SiteConfig {
       radius: string;
     };
   };
-  products?: Array<{
-    title: string;
-    description: string;
-    url: string;
-    icon: string;
-  }>;
   layout: {
     navbar: {
       enabled: boolean;
