@@ -1,214 +1,239 @@
 ---
-title: 开发计划
-description: ObjectDocs 下一步开发计划和路线图
+title: Development Roadmap
+description: ObjectDocs development plan and feature roadmap for GitHub-based documentation with Vercel deployment
 ---
 
-import { Target, Code, Sparkles, Database, Globe, Shield } from 'lucide-react';
+import { Target, Code, Sparkles, Database, Globe, Shield, GitBranch, Rocket } from 'lucide-react';
 
-# ObjectDocs 开发计划
+# ObjectDocs Development Roadmap
 
-本文档概述了 ObjectDocs 项目的下一步开发计划和功能路线图。
+This document outlines the development plan and feature roadmap for ObjectDocs, a GitHub-native documentation engine optimized for Vercel deployment.
 
-## 🎯 核心目标
+## 🎯 Core Mission
 
-ObjectDocs 致力于成为低代码时代的下一代文档引擎。我们的核心目标是：
+ObjectDocs is purpose-built for **GitHub-based repository documentation** with seamless **Vercel deployment integration**. Our core objectives:
 
-1. **简化文档维护**：通过元数据驱动的架构，让技术写作者无需接触代码即可管理复杂文档
-2. **增强交互性**：支持在文档中嵌入实时、可交互的低代码组件
-3. **企业级可扩展**：支持多产品、多语言、多版本的大规模文档管理
+1. **Git-Native Workflow**: Leverage GitHub's collaboration features (PRs, reviews, issues) as the primary content management system
+2. **Zero-Config Deployment**: Push to GitHub, auto-deploy to Vercel with optimal caching and CDN distribution
+3. **Developer-First**: Treat documentation as code—version controlled, peer-reviewed, and CI/CD integrated
 
-## 📅 开发路线图
+## 📅 Development Roadmap
 
-### 第一阶段：核心功能完善（Q1 2026）
+### Phase 1: GitHub Integration & Vercel Optimization (Q1 2026)
 
 <Cards>
-<Card icon={<Code />} title="多语言支持">
+<Card icon={<GitBranch />} title="GitHub-Native Features">
 
-**目标**：实现完整的国际化（i18n）支持
+**Goal**: Deep integration with GitHub repository workflows
 
-- [ ] 支持多语言内容目录结构
-- [ ] 自动语言切换器组件
-- [ ] 翻译管理工具集成
-- [ ] RTL（从右到左）语言支持
+- [ ] GitHub App for automated documentation syncing
+- [ ] PR preview deployments via Vercel integration
+- [ ] GitHub Issues integration for documentation feedback
+- [ ] GitHub Actions workflows for automated builds and checks
+- [ ] Branch-based documentation versioning
 
-**技术方案**：
-- 使用 `next-intl` 或 `next-i18next` 进行路由国际化
-- 在 `content/` 目录下按语言组织：`content/zh/`, `content/en/`
-- 在 `site.json` 中配置支持的语言列表
+**Technical Implementation**:
+- Use GitHub REST/GraphQL APIs for content fetching
+- Implement Vercel Git integration hooks
+- Create reusable GitHub Actions for linting and validation
+- Support monorepo documentation with git submodules
 
 </Card>
 
-<Card icon={<Database />} title="版本管理系统">
+<Card icon={<Rocket />} title="Vercel Deployment Pipeline">
 
-**目标**：支持同一产品的多版本文档
+**Goal**: Optimize for Vercel's edge network and build system
 
-- [ ] 版本选择器 UI 组件
-- [ ] 基于文件系统的版本组织
-- [ ] 版本间内容比对工具
-- [ ] 自动版本归档
+- [ ] ISR (Incremental Static Regeneration) configuration
+- [ ] Edge Functions for dynamic content
+- [ ] Optimal caching strategies (stale-while-revalidate)
+- [ ] Preview deployments for every PR
+- [ ] Production deployment automation
 
-**技术方案**：
-- 目录结构：`content/docs/v1.0/`, `content/docs/v2.0/`
-- 在 `objectdocs.json` 中配置版本信息
-- 实现版本切换路由逻辑
+**Technical Implementation**:
+- Configure `vercel.json` for optimal routing
+- Implement edge middleware for A/B testing
+- Use Vercel Analytics for performance monitoring
+- Integrate Vercel Image Optimization
+- Set up custom domains with SSL automation
 
 </Card>
 </Cards>
 
-### 第二阶段：增强功能（Q2 2026）
+### Phase 2: Enhanced Developer Experience (Q2 2026)
 
 <Cards>
-<Card icon={<Sparkles />} title="AI 驱动的文档助手">
+<Card icon={<Code />} title="CLI & Automation Tools">
 
-**目标**：利用 AI 提升文档编写和用户体验
+**Goal**: Streamline repository-to-documentation workflow
 
-- [ ] 智能搜索：基于语义理解的文档搜索
-- [ ] 文档自动补全：基于代码注释生成文档
-- [ ] 智能推荐：根据用户阅读历史推荐相关内容
-- [ ] 文档质量检查：自动检测文档完整性和准确性
+- [ ] Enhanced ObjectDocs CLI with GitHub integration
+- [ ] Automated content migration from README files
+- [ ] Code snippet extraction from repository files
+- [ ] API documentation generation from source code
+- [ ] Automated changelog generation from commits
 
-**技术方案**：
-- 集成 OpenAI API 或本地 LLM
-- 使用向量数据库（如 Pinecone）进行语义搜索
-- 实现 Markdown AST 分析工具
+**Technical Implementation**:
+- Extend `@objectdocs/cli` with GitHub API features
+- Use TypeScript AST parsing for API extraction
+- Integrate conventional commits for changelog
+- Support multi-repo documentation aggregation
 
 </Card>
 
-<Card icon={<Globe />} title="协作编辑功能">
+<Card icon={<Sparkles />} title="AI-Powered Documentation Assistant">
 
-**目标**：支持团队协作编写文档
+**Goal**: Leverage AI to enhance documentation quality
 
-- [ ] 在线编辑器集成（基于 Monaco Editor）
-- [ ] 实时协作编辑（WebSocket）
-- [ ] 版本控制集成（Git 工作流）
-- [ ] 评论和审阅系统
+- [ ] AI-powered search with semantic understanding
+- [ ] Auto-generate documentation from code comments
+- [ ] Intelligent content suggestions based on repository
+- [ ] Documentation quality scoring and recommendations
+- [ ] Automated translation support
 
-**技术方案**：
-- 使用 `@monaco-editor/react` 提供在线编辑
-- 使用 `Y.js` 或 `Automerge` 实现 CRDT 协作
-- 集成 GitHub API 进行 PR 管理
+**Technical Implementation**:
+- Integrate OpenAI API or local LLM models
+- Use vector databases (Pinecone/Weaviate) for semantic search
+- Implement Markdown AST analysis for content quality
+- Support embeddings for documentation similarity
 
 </Card>
 </Cards>
 
-### 第三阶段：企业级特性（Q3 2026）
+### Phase 3: Collaboration & Advanced Features (Q3 2026)
 
 <Cards>
-<Card icon={<Shield />} title="权限和访问控制">
+<Card icon={<Globe />} title="Multi-Repository Documentation Hub">
 
-**目标**：支持企业级权限管理
+**Goal**: Unified documentation across multiple GitHub repositories
 
-- [ ] 基于角色的访问控制（RBAC）
-- [ ] SSO 单点登录集成
-- [ ] 细粒度权限设置（页面级、章节级）
-- [ ] 审计日志
+- [ ] Cross-repository search and navigation
+- [ ] Centralized documentation portal for organizations
+- [ ] Repository-level access control
+- [ ] Automated aggregation from multiple sources
+- [ ] Unified version management across repos
 
-**技术方案**：
-- 使用 NextAuth.js 进行身份验证
-- 在 `meta.json` 中配置页面权限
-- 集成企业身份提供商（Okta、Azure AD 等）
+**Technical Implementation**:
+- GitHub Organization API integration
+- Implement repository discovery and indexing
+- Support GitHub Teams for access control
+- Create aggregated search index
 
 </Card>
 
-<Card icon={<Target />} title="高级分析">
+<Card icon={<Shield />} title="Enterprise GitHub Features">
 
-**目标**：了解文档使用情况，优化内容
+**Goal**: Support GitHub Enterprise and advanced workflows
 
-- [ ] 页面访问统计
-- [ ] 用户行为分析（滚动深度、停留时间）
-- [ ] 搜索关键词分析
-- [ ] A/B 测试支持
+- [ ] GitHub Enterprise Server compatibility
+- [ ] SAML/SSO integration via GitHub
+- [ ] Fine-grained repository permissions
+- [ ] Audit logging for documentation changes
+- [ ] GitHub Advanced Security integration
 
-**技术方案**：
-- 集成 Google Analytics 4 或 Plausible
-- 自定义事件追踪
-- 热力图集成（Hotjar）
+**Technical Implementation**:
+- Support GitHub Enterprise API endpoints
+- Integrate with GitHub's OIDC provider
+- Use GitHub's permission model for access control
+- Implement webhook-based audit trails
 
 </Card>
 </Cards>
 
-## 🔧 技术债务和优化
+## 🔧 Technical Infrastructure
 
-### 性能优化
-- [ ] 优化构建时间（增量构建）
-- [ ] 实现更智能的预加载策略
-- [ ] 图片优化和 CDN 集成
-- [ ] 代码分割优化
+### GitHub Workflow Optimization
+- [ ] Automated dependency updates via Dependabot
+- [ ] GitHub Actions for continuous deployment
+- [ ] Pull request checks and status badges
+- [ ] Automated release notes from git tags
+- [ ] Issue templates for documentation requests
 
-### 开发体验改进
-- [ ] 完善 CLI 工具功能
-- [ ] 提供更多可定制的主题选项
-- [ ] 改进错误提示和日志
-- [ ] 添加单元测试和 E2E 测试
+### Vercel Platform Features
+- [ ] Edge Config for dynamic feature flags
+- [ ] Vercel KV for caching layer
+- [ ] Serverless Functions for API endpoints
+- [ ] Web Analytics integration
+- [ ] A/B testing with Edge Middleware
 
-### 文档完善
-- [ ] 完善 API 参考文档
-- [ ] 添加更多实际案例
-- [ ] 制作视频教程
-- [ ] 创建最佳实践指南
+### Performance & SEO
+- [ ] Lighthouse score optimization (95+ target)
+- [ ] Core Web Vitals monitoring
+- [ ] Automatic sitemap generation from git history
+- [ ] OpenGraph metadata from repository info
+- [ ] Structured data for search engines
 
-## 🤝 社区参与
+## 🚀 Deployment Architecture
 
-### 开源贡献
-- [ ] 完善贡献指南
-- [ ] 建立 Issue 模板
-- [ ] 创建 Discord/Slack 社区
-- [ ] 定期举办贡献者会议
+### Recommended Setup
+```yaml
+Repository Structure:
+├── content/           # Documentation MDX files
+├── .github/
+│   └── workflows/     # CI/CD automation
+├── vercel.json        # Deployment configuration
+└── objectdocs.json    # Site metadata
+```
 
-### 生态系统建设
-- [ ] 开发插件系统
-- [ ] 创建主题市场
-- [ ] 建立组件库
-- [ ] 提供迁移工具（从其他文档工具迁移）
+### CI/CD Pipeline
+1. **Push to GitHub** → Triggers Vercel build
+2. **PR Created** → Generates preview deployment
+3. **Merge to main** → Auto-deploys to production
+4. **Git Tag** → Creates versioned documentation
 
-## 📊 优先级说明
+## 📊 Priority Matrix
 
-| 优先级 | 说明 | 预计完成时间 |
-|--------|------|--------------|
-| 🔴 高 | 核心功能，用户强烈需求 | Q1 2026 |
-| 🟡 中 | 重要但非紧急功能 | Q2 2026 |
-| 🟢 低 | 锦上添花的功能 | Q3 2026+ |
+| Priority | Description | Target |
+|----------|-------------|--------|
+| 🔴 Critical | GitHub integration, Vercel deployment | Q1 2026 |
+| 🟡 High | Developer tools, performance optimization | Q2 2026 |
+| 🟢 Medium | Advanced features, enterprise support | Q3 2026+ |
 
-## 🎯 当前重点
+## 🎯 Current Focus (Q1 2026)
 
-当前开发团队的重点任务：
+### Active Development Tasks
 
-1. **多语言支持（🔴 高优先级）**
-   - 目标完成时间：2026年3月
-   - 负责人：待分配
-   - 状态：规划中
+1. **GitHub App Development (🔴 Critical)**
+   - Target: March 2026
+   - Status: In Planning
+   - Deliverables: OAuth app, webhook handlers, API integration
 
-2. **版本管理系统（🔴 高优先级）**
-   - 目标完成时间：2026年3月
-   - 负责人：待分配
-   - 状态：规划中
+2. **Vercel Deployment Optimization (🔴 Critical)**
+   - Target: February 2026
+   - Status: In Progress
+   - Deliverables: ISR configuration, edge functions, caching strategy
 
-3. **性能优化（🟡 中优先级）**
-   - 目标完成时间：持续进行
-   - 负责人：待分配
-   - 状态：进行中
+3. **CLI Enhancement (🟡 High)**
+   - Target: March 2026
+   - Status: In Planning
+   - Deliverables: GitHub integration commands, automation scripts
 
-## 💡 反馈和建议
+## 💡 Community & Contribution
 
-如果您对 ObjectDocs 的开发方向有任何建议或反馈，欢迎：
+### GitHub-First Collaboration
+- Submit issues for feature requests and bug reports
+- Create pull requests for documentation improvements
+- Participate in GitHub Discussions
+- Star and watch the repository for updates
 
-- 在 GitHub 上提交 Issue
-- 加入我们的社区讨论
-- 直接贡献代码
+### Integration Examples
+- [GitHub Actions Workflow Templates](https://github.com/objectstack-ai/objectdocs/tree/main/.github/workflows)
+- [Vercel Configuration Examples](https://github.com/objectstack-ai/objectdocs/blob/main/vercel.json)
+- [Deploy Button](https://vercel.com/new/clone?repository-url=https://github.com/objectstack-ai/objectdocs)
 
 <Callout type="info">
-本开发计划会根据社区反馈和实际需求动态调整。最新版本请访问我们的 GitHub 项目页面。
+This roadmap is dynamic and will evolve based on community feedback and GitHub/Vercel platform updates. Track progress via our GitHub Projects board.
 </Callout>
 
-## 🔄 更新日志
+## 🔄 Changelog
 
-| 日期 | 变更内容 | 负责人 |
-|------|----------|--------|
-| 2026-01-18 | 创建初始开发计划文档 | Team |
-| - | 待更新 | - |
+| Date | Changes | Author |
+|------|---------|--------|
+| 2026-01-18 | Reoriented roadmap to GitHub-Vercel workflow | Team |
+| 2026-01-18 | Initial development plan created | Team |
 
 ---
 
 <Callout type="warn">
-**注意**：本文档中的时间线和功能列表仅供参考，实际开发进度可能会根据团队资源和社区需求进行调整。
+**Note**: Timelines and features are subject to change based on team resources, community needs, and platform capabilities. Follow the repository for real-time updates.
 </Callout>
