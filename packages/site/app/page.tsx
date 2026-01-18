@@ -9,7 +9,7 @@
 import { redirect } from 'next/navigation';
 
 /**
- * Root page - redirects are handled by proxy.ts middleware
+ * Root page - redirects are handled by middleware.ts
  * This page should never actually render as the middleware intercepts and redirects
  * But Next.js requires a page component for the route to be recognized
  */

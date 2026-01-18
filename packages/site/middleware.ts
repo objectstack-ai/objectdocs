@@ -13,7 +13,7 @@ import { NextResponse, NextRequest, NextFetchEvent } from 'next/server';
 // Create fumadocs middleware
 const fumadocsMiddleware = createI18nMiddleware(i18n);
 
-export default function proxy(request: NextRequest, event: NextFetchEvent) {
+export default function middleware(request: NextRequest, event: NextFetchEvent) {
   const path = request.nextUrl.pathname;
   
   // Handle root path separately with custom language detection
