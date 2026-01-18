@@ -1,0 +1,326 @@
+---
+title: ObjectUI Embed
+description: Learn how to embed interactive ObjectUI components directly in your documentation.
+---
+
+import { Cpu, Code, Layout } from 'lucide-react';
+
+# ObjectUI Embed
+
+One of ObjectDocs' most powerful features is the ability to embed live, interactive **ObjectUI** components directly within your Markdown documentation.
+
+## Overview
+
+ObjectUI is a low-code component library that renders interactive interfaces from JSON schemas. By embedding these components in your docs, you can:
+
+* **Demonstrate Live Examples**: Show working examples without screenshots
+* **Interactive Tutorials**: Let users interact with components as they learn
+* **Configuration Visualization**: Display how JSON schemas render as UI
+
+<Callout type="info">
+ObjectUI integration allows you to showcase your low-code platform capabilities directly in the documentation, making it easier for users to understand how configurations translate to visual components.
+</Callout>
+
+## Basic Usage
+
+### JSON Schema Format
+
+ObjectUI components are defined using JSON schemas that describe the component type, properties, and behavior:
+
+```json
+{
+  "component": "ObjectGrid",
+  "props": {
+    "object": "contracts",
+    "columns": ["name", "amount", "status", "created_by"],
+    "filters": [
+      { "field": "status", "operator": "=", "value": "active" }
+    ]
+  }
+}
+```
+
+### Component Types
+
+<Cards>
+  <Card icon={<Layout />} title="ObjectGrid">
+    Display data in a customizable table with sorting, filtering, and pagination
+  </Card>
+  <Card icon={<Code />} title="ObjectForm">
+    Render forms with validation based on object schema definitions
+  </Card>
+  <Card icon={<Cpu />} title="ObjectDetail">
+    Show detailed view of a single record with related data
+  </Card>
+</Cards>
+
+## Example: Object Grid
+
+Here's how to embed a data grid showing contract information:
+
+```json title="contract-grid.json"
+{
+  "component": "ObjectGrid",
+  "props": {
+    "object": "contracts",
+    "columns": [
+      { "field": "name", "label": "Contract Name" },
+      { "field": "amount", "label": "Amount", "type": "currency" },
+      { "field": "status", "label": "Status", "type": "badge" },
+      { "field": "created_by", "label": "Created By" }
+    ],
+    "filters": [
+      {
+        "field": "status",
+        "operator": "in",
+        "value": ["active", "pending"]
+      }
+    ],
+    "sort": {
+      "field": "created_at",
+      "order": "desc"
+    },
+    "pageSize": 10,
+    "searchable": true
+  }
+}
+```
+
+This configuration will render an interactive grid with:
+* Four visible columns (name, amount, status, creator)
+* Filtering for active and pending contracts
+* Sorting by creation date (newest first)
+* Search functionality
+* Pagination with 10 items per page
+
+## Example: Object Form
+
+Create an embedded form for data entry:
+
+```json title="contract-form.json"
+{
+  "component": "ObjectForm",
+  "props": {
+    "object": "contracts",
+    "mode": "create",
+    "fields": [
+      {
+        "field": "name",
+        "label": "Contract Name",
+        "required": true,
+        "placeholder": "Enter contract name"
+      },
+      {
+        "field": "amount",
+        "label": "Contract Amount",
+        "type": "number",
+        "required": true,
+        "min": 0
+      },
+      {
+        "field": "status",
+        "label": "Status",
+        "type": "select",
+        "options": [
+          { "label": "Draft", "value": "draft" },
+          { "label": "Active", "value": "active" },
+          { "label": "Completed", "value": "completed" }
+        ],
+        "default": "draft"
+      },
+      {
+        "field": "description",
+        "label": "Description",
+        "type": "textarea",
+        "rows": 4
+      }
+    ],
+    "submitButton": {
+      "text": "Create Contract",
+      "color": "primary"
+    }
+  }
+}
+```
+
+## Schema Validation
+
+ObjectUI components automatically validate against the object schema defined in your ObjectQL configuration. This ensures:
+
+* Type safety
+* Required field validation
+* Format validation (email, URL, etc.)
+* Custom business rules
+
+<Callout type="warn">
+Make sure your object schemas are properly defined in ObjectQL before embedding ObjectUI components. Missing schema definitions will result in validation errors.
+</Callout>
+
+## Advanced Features
+
+### Conditional Rendering
+
+Show/hide fields based on other field values:
+
+```json
+{
+  "component": "ObjectForm",
+  "props": {
+    "object": "contracts",
+    "fields": [
+      {
+        "field": "type",
+        "type": "select",
+        "options": ["fixed", "hourly"]
+      },
+      {
+        "field": "fixed_amount",
+        "type": "number",
+        "visible": {
+          "conditions": [
+            { "field": "type", "operator": "=", "value": "fixed" }
+          ]
+        }
+      },
+      {
+        "field": "hourly_rate",
+        "type": "number",
+        "visible": {
+          "conditions": [
+            { "field": "type", "operator": "=", "value": "hourly" }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+### Related Objects
+
+Display related data using lookups:
+
+```json
+{
+  "component": "ObjectGrid",
+  "props": {
+    "object": "contracts",
+    "columns": [
+      "name",
+      {
+        "field": "customer",
+        "type": "lookup",
+        "related": "customers",
+        "displayField": "company_name"
+      },
+      {
+        "field": "owner",
+        "type": "lookup",
+        "related": "users",
+        "displayField": "full_name"
+      }
+    ]
+  }
+}
+```
+
+### Custom Actions
+
+Add custom buttons and actions:
+
+```json
+{
+  "component": "ObjectGrid",
+  "props": {
+    "object": "contracts",
+    "actions": [
+      {
+        "label": "Approve",
+        "icon": "check",
+        "color": "success",
+        "onClick": "approve_contract",
+        "visible": {
+          "conditions": [
+            { "field": "status", "operator": "=", "value": "pending" }
+          ]
+        }
+      },
+      {
+        "label": "Reject",
+        "icon": "x",
+        "color": "danger",
+        "onClick": "reject_contract"
+      }
+    ]
+  }
+}
+```
+
+## Best Practices
+
+<Steps>
+### Keep Examples Simple
+
+Start with basic configurations and gradually introduce complexity. Users should be able to understand the example at a glance.
+
+### Provide Real Data
+
+Use realistic sample data that demonstrates actual use cases rather than generic "test" data.
+
+### Document All Props
+
+Always explain what each property does, especially for complex configurations.
+
+### Test Interactivity
+
+Before publishing, interact with embedded components to ensure they work as expected.
+</Steps>
+
+## Integration with Steedos
+
+ObjectUI seamlessly integrates with **Steedos** metadata, allowing you to:
+
+* Reference existing object definitions
+* Use Steedos permissions and validation rules
+* Trigger Steedos workflows
+* Connect to live Steedos data sources
+
+```json
+{
+  "component": "ObjectGrid",
+  "props": {
+    "object": "contracts",
+    "dataSource": "steedos",
+    "endpoint": "https://api.steedos.com/api/v4",
+    "filters": [
+      {
+        "field": "space",
+        "operator": "=",
+        "value": "${current_space_id}"
+      }
+    ]
+  }
+}
+```
+
+## Limitations
+
+<Callout type="warn">
+**Current Limitations:**
+
+* ObjectUI components require ObjectQL schema definitions
+* Some advanced features may require Steedos backend
+* Real-time updates need websocket configuration
+* File uploads require storage configuration
+</Callout>
+
+## Next Steps
+
+<Cards>
+  <Card title="Configuration" href="/docs/getting-started/configuration">
+    Learn more about configuring ObjectDocs
+  </Card>
+  <Card title="Architecture" href="/docs/getting-started/architecture">
+    Understand the underlying architecture
+  </Card>
+</Cards>
