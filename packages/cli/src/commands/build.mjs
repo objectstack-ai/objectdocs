@@ -92,7 +92,29 @@ export function registerBuildCommand(cli) {
                }
                // Use copy instead of symlink to ensure compatibility with Vercel
                // dereference: true ensures we copy the actual files instead of symlinks, preventing broken links
-               fs.cpSync(srcNext, destNext, { recursive: true, dereference: true });
+               fs.cpSync(srcNext, destNext, { 
+                   recursive: true, 
+                   dereference: true,
+                   filter: (source) => {
+                       try {
+                           if (fs.lstatSync(source).isSymbolicLink()) {
+                               try {
+                                   fs.statSync(source);
+                                   return true;
+                               } catch (e) {
+                                   try {
+                                        const target = fs.readlinkSync(source);
+                                        console.warn(`  Warning: Skipping broken symlink: ${path.basename(source)} -> ${target}`);
+                                   } catch(err) {}
+                                   return false;
+                               }
+                           }
+                           return true;
+                       } catch (e) {
+                           return false;
+                       }
+                   }
+               });
                console.log(`Build successfully copied to: ${destNext}`);
             } else {
                console.log(`\nNo 'out' directory generated in ${src}.`);

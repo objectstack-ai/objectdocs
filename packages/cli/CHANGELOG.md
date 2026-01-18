@@ -1,5 +1,12 @@
 # @objectdocs/cli
 
+## 0.2.11
+
+### Patch Changes
+
+- fix: handle broken symlinks during build copy to prevent ENOENT errors on Vercel
+  - @objectdocs/site@0.2.11
+
 ## 0.2.10
 
 ### Patch Changes
