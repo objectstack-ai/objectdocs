@@ -7,7 +7,7 @@
  */
 
 import { deepMerge } from './deep-merge';
-import objectDocsConfig from '@/docs.site.json';
+import objectDocsConfig from '../docs.site.json';
 
 export interface SiteConfig {
   meta: {

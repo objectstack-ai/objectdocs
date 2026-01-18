@@ -1,19 +1,6 @@
 {
   "name": "@objectdocs/site",
   "version": "0.2.1",
-  "files": [
-    "app",
-    "lib",
-    "public",
-    "mdx-components.tsx",
-    "next.config.mjs",
-    "objectdocs.json",
-    "proxy.ts",
-    "source.config.ts",
-    "tsconfig.json",
-    "docs.site.json",
-    "README.md"
-  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

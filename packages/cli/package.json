@@ -2,11 +2,6 @@
   "name": "@objectdocs/cli",
   "version": "0.2.1",
   "type": "module",
-  "files": [
-    "bin",
-    "src",
-    "README.md"
-  ],
   "bin": {
     "objectdocs": "./bin/cli.mjs"
   },
