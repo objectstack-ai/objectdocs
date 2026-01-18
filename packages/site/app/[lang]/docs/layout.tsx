@@ -3,12 +3,32 @@ import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import type { ReactNode } from 'react';
 import { baseOptions } from '@/app/layout.config';
 import { siteConfig } from '@/lib/site-config';
-import { Box, Layers } from 'lucide-react';
+import { 
+  Box, 
+  Layers, 
+  Package, 
+  Blocks, 
+  Component, 
+  Database,
+  Settings,
+  Zap,
+  Code,
+  FileText
+} from 'lucide-react';
 
 // Icon mapping for dynamic icon rendering
+// Supports common icons for documentation products
 const iconMap: Record<string, typeof Box> = {
-  Box: Box,
-  Layers: Layers,
+  Box,
+  Layers,
+  Package,
+  Blocks,
+  Component,
+  Database,
+  Settings,
+  Zap,
+  Code,
+  FileText,
 };
 
 export default async function Layout({
@@ -32,7 +52,7 @@ export default async function Layout({
           description: product.description,
           url: product.url,
           icon: (
-            <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-1 rounded-md text-white">
+            <div className="bg-gradient-to-br from-primary/80 to-primary p-1 rounded-md text-primary-foreground">
               <Icon className="size-4" />
             </div>
           ),

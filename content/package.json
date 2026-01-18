@@ -2,6 +2,6 @@
   "name": "content",
   "private": true,
   "dependencies": {
-    "lucide-react": "file:../packages/site/node_modules/lucide-react"
+    "lucide-react": "^0.562.0"
   }
 }
