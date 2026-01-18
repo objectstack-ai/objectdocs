@@ -1,0 +1,7 @@
+{
+  "name": "content",
+  "private": true,
+  "dependencies": {
+    "lucide-react": "file:../packages/site/node_modules/lucide-react"
+  }
+}

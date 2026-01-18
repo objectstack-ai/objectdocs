@@ -24,13 +24,14 @@ export default async function Page({ params }: PageProps) {
     notFound();
   }
 
-  const MDX = page.data.body as any;
+  const pageData = page.data as any;
+  const MDX = pageData.body;
 
   return (
     <DocsPage 
-      toc={page.data.toc as any} 
-      full={page.data.full as any}
-      lastUpdate={siteConfig.page.showLastUpdate ? (page.data as any).lastModified : undefined}
+      toc={pageData.toc} 
+      full={pageData.full}
+      lastUpdate={siteConfig.page.showLastUpdate ? pageData.lastModified : undefined}
       tableOfContent={{
         enabled: siteConfig.layout.toc.enabled,
         style: siteConfig.layout.toc.depth > 2 ? 'clerk' : 'normal',
