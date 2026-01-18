@@ -1,3 +1,11 @@
+/**
+ * ObjectDocs
+ * Copyright (c) 2026-present ObjectStack Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import { loader } from 'fumadocs-core/source';
 import { core, platform } from '@/.source/server';
 import { toFumadocsSource } from 'fumadocs-mdx/runtime/server';
