@@ -1,0 +1,16 @@
+{
+  "branding": {
+    "name": "ObjectDocs Starter"
+  },
+  "links": [
+    {
+      "text": "Home",
+      "url": "/"
+    },
+    {
+      "text": "GitHub",
+      "url": "https://github.com",
+      "icon": "github"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "objectdocs-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "docs:dev": "objectdocs dev",
+    "docs:build": "objectdocs build",
+    "docs:start": "objectdocs start"
+  },
+  "devDependencies": {
+    "@objectdocs/cli": "workspace:*"
+  }
+}
