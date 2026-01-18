@@ -1,375 +1,101 @@
 ---
-title: Configuration
-description: Learn how to customize your ObjectDocs site through objectdocs.json and meta.json files.
+title: 配置
+description: 了解如何通过 JSON 文件自定义您的 ObjectDocs 站点。
 ---
 
 import { Settings, Palette, Navigation, Layout } from 'lucide-react';
 
-# Configuration
+# 配置
 
-ObjectDocs follows a **Configuration as Code** approach. All site settings are defined in JSON files, making it easy to version control and collaborate.
+ObjectDocs 遵循 **配置即代码 (Configuration as Code)** 的原则。所有的站点设置都通过 JSON 文件定义，易于版本控制和协作。
 
-## Global Configuration
+## 全局配置
 
-### objectdocs.json
+### docs.site.json
 
-The main configuration file is located at `packages/site/objectdocs.json`. This file controls global settings for your entire documentation site.
+主配置文件位于 `content/docs.site.json`。该文件控制整个文档站点的全局设置。
 
 ```json
 {
-  "meta": {
-    "title": "ObjectStack Docs",
-    "description": "Enterprise-grade low-code platform documentation",
-    "url": "https://docs.objectstack.ai",
-    "favicon": "/favicon.ico"
-  },
-  "i18n": {
-    "enabled": true,
-    "defaultLanguage": "en",
-    "languages": ["en", "cn"]
-  },
   "branding": {
+    "name": "ObjectDocs",
     "logo": {
-      "text": "ObjectStack",
-      "light": "/logo.svg",
-      "dark": "/logo.svg"
-    },
-    "theme": {
-      "accentColor": "blue",
-      "radius": "0.5rem"
+       "light": "/logo.svg",
+       "dark": "/logo-dark.svg"
     }
   },
-  "layout": {
-    "navbar": {
-      "enabled": true,
-      "transparentMode": "top",
-      "links": [
-        {
-          "text": "Home",
-          "url": "https://www.objectstack.ai",
-          "external": true
-        }
-      ],
-      "socials": [
-        { "platform": "github", "url": "https://github.com/objectstack-ai/" }
-      ]
-    },
-    "sidebar": {
-      "enabled": true,
-      "prefetch": true,
-      "defaultOpenLevel": 1,
-      "collapsible": true
-    },
-    "toc": {
-      "enabled": true,
-      "depth": 3
-    },
-    "footer": {
-      "enabled": false,
-      "copyright": "© 2026 ObjectStack Inc."
-    }
-  },
-  "page": {
-    "showLastUpdate": true,
-    "showEditLink": true,
-    "repoBaseUrl": "https://github.com/objectstack-ai/docs"
-  },
-  "content": {
-    "math": false,
-    "imageZoom": true,
-    "codeBlock": {
-      "theme": "vesper",
-      "showLineNumbers": true
-    }
-  }
+  "links": [
+    { "text": "Guide", "url": "/docs" },
+    { "text": "GitHub", "url": "https://github.com/objectstack-ai", "icon": "github" }
+  ]
 }
 ```
 
-## Configuration Sections
+### 配置项说明
 
-### Meta Settings
+| 属性 | 类型 | 说明 |
+| :--- | :--- | :--- |
+| `branding.name` | `string` | 站点名称，显示在导航栏左侧。 |
+| `branding.logo` | `object` | 站点 Log 图片路径，支持亮色/暗色模式。 |
+| `links` | `array` | 顶部导航栏链接列表。 |
 
-<Cards>
-  <Card icon={<Settings />} title="Basic Info">
-    Configure site title, description, URL, and favicon
-  </Card>
-  <Card icon={<Palette />} title="Branding">
-    Customize logo, theme colors, and visual style
-  </Card>
-</Cards>
-
-#### meta
-
-```json
-{
-  "meta": {
-    "title": "Your Site Title",
-    "description": "Site description for SEO",
-    "url": "https://docs.example.com",
-    "favicon": "/favicon.ico"
-  }
-}
-```
-
-### Internationalization (i18n)
-
-Enable multi-language support:
-
-```json
-{
-  "i18n": {
-    "enabled": true,
-    "defaultLanguage": "en",
-    "languages": ["en", "cn", "es", "fr"]
-  }
-}
-```
-
-When enabled, ObjectDocs will:
-* Create language-specific routes (`/en/docs`, `/cn/docs`)
-* Look for translated content in language-specific directories
-* Display language switcher in the navbar
-
-### Branding
-
-#### Logo Configuration
-
-```json
-{
-  "branding": {
-    "logo": {
-      "text": "Your Brand",
-      "light": "/logo-light.svg",
-      "dark": "/logo-dark.svg"
-    }
-  }
-}
-```
-
-* **text**: Displayed next to the logo image
-* **light**: Logo for light mode
-* **dark**: Logo for dark mode (optional, falls back to light)
-
-#### Theme
-
-```json
-{
-  "branding": {
-    "theme": {
-      "accentColor": "blue",
-      "radius": "0.5rem"
-    }
-  }
-}
-```
-
-* **accentColor**: Primary theme color (blue, purple, green, etc.)
-* **radius**: Border radius for UI components
-
-### Layout Configuration
-
-#### Navbar
-
-<Cards>
-  <Card icon={<Navigation />} title="Navigation Links">
-    Add custom links to the top navigation bar
-  </Card>
-  <Card icon={<Layout />} title="Social Links">
-    Connect to GitHub, Twitter, and other platforms
-  </Card>
-</Cards>
-
-```json
-{
-  "layout": {
-    "navbar": {
-      "enabled": true,
-      "transparentMode": "top",
-      "links": [
-        {
-          "text": "Guide",
-          "url": "/docs",
-          "external": false
-        },
-        {
-          "text": "Blog",
-          "url": "https://blog.example.com",
-          "external": true
-        }
-      ],
-      "socials": [
-        { "platform": "github", "url": "https://github.com/yourusername" },
-        { "platform": "twitter", "url": "https://twitter.com/yourusername" }
-      ]
-    }
-  }
-}
-```
-
-* **transparentMode**: `"top"` | `"always"` | `"none"`
-* **links**: Array of navigation links
-* **socials**: Social platform links (supports github, twitter, discord, etc.)
-
-#### Sidebar
-
-```json
-{
-  "layout": {
-    "sidebar": {
-      "enabled": true,
-      "prefetch": true,
-      "defaultOpenLevel": 1,
-      "collapsible": true,
-      "tabs": []
-    }
-  }
-}
-```
-
-* **prefetch**: Prefetch linked pages for faster navigation
-* **defaultOpenLevel**: How many levels to expand by default (0 = collapsed, 1 = first level, etc.)
-* **collapsible**: Allow users to collapse sidebar sections
-* **tabs**: Optional sidebar tabs for multi-product docs
-
-#### Table of Contents (TOC)
-
-```json
-{
-  "layout": {
-    "toc": {
-      "enabled": true,
-      "depth": 3
-    }
-  }
-}
-```
-
-* **depth**: Maximum heading level to show (1-6)
-
-### Page Settings
-
-```json
-{
-  "page": {
-    "showLastUpdate": true,
-    "showEditLink": true,
-    "repoBaseUrl": "https://github.com/yourusername/yourrepo"
-  }
-}
-```
-
-* **showLastUpdate**: Display last modified date from git
-* **showEditLink**: Show "Edit this page" link
-* **repoBaseUrl**: GitHub repository URL for edit links
-
-### Content Settings
-
-```json
-{
-  "content": {
-    "math": false,
-    "imageZoom": true,
-    "codeBlock": {
-      "theme": "vesper",
-      "showLineNumbers": true
-    }
-  }
-}
-```
-
-* **math**: Enable LaTeX math rendering
-* **imageZoom**: Allow users to click images to zoom
-* **codeBlock.theme**: Syntax highlighting theme
-* **codeBlock.showLineNumbers**: Display line numbers in code blocks
-
-## Local Configuration
+## 目录与导航配置
 
 ### meta.json
 
-Each directory in `content/docs/` can have a `meta.json` file to control its sidebar structure:
+每个文档目录下都可以放置一个 `meta.json` 文件，用于控制该目录下的侧边栏结构和页面顺序。
+
+**示例结构：**
+
+```text
+content/docs/
+├── meta.json          # 根目录配置
+├── index.mdx
+└── getting-started/
+    ├── meta.json      # 子目录配置
+    ├── index.mdx
+    └── configuration.mdx
+```
+
+**content/docs/meta.json:**
 
 ```json
 {
-  "title": "Section Title",
+  "title": "Documentation",
   "pages": [
-    "first-page",
-    "second-page",
-    "---Subsection---",
-    "nested-directory"
+    "index",
+    "getting-started",
+    "components"
   ]
 }
 ```
 
-<Callout type="warn">
-**Critical**: The sidebar structure is **entirely** controlled by `meta.json` files. Never edit React components to change page ordering.
-</Callout>
-
-### Page Order
-
-The order of items in the `pages` array determines the sidebar order:
+**content/docs/getting-started/meta.json:**
 
 ```json
 {
-  "title": "Getting Started",
+  "title": "快速开始",
   "pages": [
-    "installation",      // Appears first
-    "architecture",      // Appears second
-    "configuration"      // Appears third
+    "index",            // 对应 index.mdx (快速开始)
+    "architecture",     // 对应 architecture.mdx (架构)
+    "configuration"     // 对应 configuration.mdx (配置)
   ]
 }
 ```
 
-### Separators
+### 如果不使用 meta.json
 
-Add visual separators in the sidebar:
+如果没有 `meta.json`，ObjectDocs 会按字母顺序自动列出该目录下的所有 `.mdx` 文件。对于正式文档，我们强烈建议使用 `meta.json` 以确保顺序可控。
 
-```json
-{
-  "pages": [
-    "intro",
-    "---Basic Guides---",
-    "guide-1",
-    "guide-2",
-    "---Advanced---",
-    "advanced-1"
-  ]
-}
+## 页面配置 (Frontmatter)
+
+每个 MDX 文件的顶部都可以包含 Frontmatter 元数据：
+
+```yaml
+---
+title: 页面标题
+description: 页面描述（用于 SEO 和搜索预览）
+icon: Rocket  # 可选：页面图标名称
+full: false   # 可选：是否隐藏右侧目录 (Table of Contents)
+---
 ```
-
-## Best Practices
-
-<Steps>
-### Keep Configuration DRY
-
-Don't repeat configuration across multiple files. Use the global `objectdocs.json` for site-wide settings.
-
-### Use Semantic Names
-
-Choose descriptive names for page slugs that reflect the content:
-* ✅ `installation.mdx`
-* ✅ `api-reference.mdx`
-* ❌ `page1.mdx`
-* ❌ `doc.mdx`
-
-### Version Control Everything
-
-All configuration is in JSON files, making it easy to:
-* Track changes in git
-* Review configuration updates
-* Roll back if needed
-
-### Test Locally
-
-Always run `pnpm dev` to verify configuration changes before deploying.
-</Steps>
-
-## Next Steps
-
-<Cards>
-  <Card title="Architecture" href="/docs/getting-started/architecture">
-    Understand how configuration flows through the system
-  </Card>
-  <Card title="Components" href="/docs/components/objectui-embed">
-    Learn about available components for your content
-  </Card>
-</Cards>

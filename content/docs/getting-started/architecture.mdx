@@ -1,184 +1,58 @@
 ---
-title: Architecture
-description: Deep dive into ObjectDocs architecture, directory structure, and data flow.
+title: 架构
+description: 深入了解 ObjectDocs 的架构、目录结构和数据流。
 ---
 
 import { Layers, FileJson, Code, FileText } from 'lucide-react';
 
-# Architecture
+# 架构
 
-ObjectDocs is built on a strict **Separation of Concerns** philosophy that separates presentation, configuration, and content into distinct layers.
+ObjectDocs 建立在严格的 **关注点分离 (Separation of Concerns)** 理念之上，将表现层、配置层和内容层完全分开。
 
-## Core Principles
+## 核心原则
 
-### 1. Configuration as Code
+### 1. 配置即代码 (Configuration as Code)
 
-Unlike traditional documentation sites where structure is hardcoded in React components, ObjectDocs treats documentation organization as **data**.
+与传统的文档站点将结构硬编码在 React 组件中不同，ObjectDocs 将文档组织视为 **数据**。
 
 <Cards>
-  <Card icon={<FileJson />} title="Metadata-Driven">
-    Navigation, sidebars, and page ordering are defined in JSON files, not React code.
+  <Card icon={<FileJson />} title="元数据驱动">
+    导航、侧边栏和页面顺序均由 JSON 文件定义，而非 React 代码。
   </Card>
-  <Card icon={<Code />} title="Logic-Free Views">
-    React components in `app/` are purely presentational and consume configuration.
+  <Card icon={<Layers />} title="逻辑无关">
+    内容创建者不需要关心路由逻辑或 UI 组件的实现细节。
   </Card>
 </Cards>
 
-### 2. Three-Layer Architecture
+### 2. 本地化内容管理
+
+每个文档目录都是自包含的。如果你要新增一个章节，只需在该目录下创建文件并更新同级的 `meta.json`。这使得在大型团队中进行多人协作变得不容易冲突。
+
+## 目录结构
+
+一个标准的 ObjectDocs 项目结构如下：
 
 ```text
-┌─────────────────────────────────────────┐
-│         Content Layer (MDX)             │  ← Technical Writers
-│   /content/docs/**/*.mdx                │
-└─────────────────────────────────────────┘
-              ↓
-┌─────────────────────────────────────────┐
-│      Configuration Layer (JSON)         │  ← Platform Architects
-│   /content/**/meta.json                 │
-│   /packages/site/objectdocs.json        │
-└─────────────────────────────────────────┘
-              ↓
-┌─────────────────────────────────────────┐
-│      Presentation Layer (React)         │  ← Frontend Engineers
-│   /packages/site/app/**                 │
-└─────────────────────────────────────────┘
+.
+├── content/               # [数据层] 原始内容
+│   ├── docs.site.json     # 全局设置 (导航, Logo, 品牌)
+│   └── docs/
+│       ├── meta.json      # 目录结构 & 排序控制
+│       └── index.mdx      # 文档内容
+├── package.json
+└── public/                # 静态资源 (图片等)
 ```
 
-## Directory Structure
+## 数据流向
 
-### Content Directory
+1.  **构建时**: `@objectdocs/site` 读取 `content/` 下的所有 MDX 和 JSON 文件。
+2.  **解析**: Fumadocs 引擎解析元数据，构建导航树。
+3.  **渲染**: Next.js (App Router) 将内容渲染为 React Server Components。
+4.  **交互**: 客户端组件（如 `<Cards>`, `<Steps>`）在浏览器中激活。
 
-```text
-content/
-└── docs/
-    ├── meta.json              # Root navigation structure
-    ├── index.mdx              # Documentation home page
-    ├── getting-started/
-    │   ├── meta.json          # Getting Started section structure
-    │   ├── installation.mdx
-    │   ├── architecture.mdx
-    │   └── configuration.mdx
-    └── components/
-        ├── meta.json          # Components section structure
-        └── objectui-embed.mdx
-```
+### 为什么这样设计？
 
-<Callout type="warn">
-**Important**: The sidebar structure is defined entirely by `meta.json` files. Never modify React components to change page ordering.
-</Callout>
+这种架构使得我们能够：
 
-### Site Package
-
-```text
-packages/site/
-├── app/                       # Next.js App Router
-│   ├── [lang]/
-│   │   ├── docs/
-│   │   │   ├── [[...slug]]/
-│   │   │   │   └── page.tsx  # Dynamic doc page
-│   │   │   └── layout.tsx    # Docs layout wrapper
-│   │   ├── layout.tsx         # Language layout
-│   │   └── page.tsx           # Homepage redirect
-│   ├── layout.config.tsx      # Layout configuration
-│   └── layout.tsx             # Root layout
-├── lib/
-│   ├── source.ts              # Content source configuration
-│   └── site-config.ts         # Site config loader
-├── objectdocs.json            # Global site configuration
-└── source.config.ts           # Fumadocs source config
-```
-
-## Data Flow
-
-### 1. Content Loading
-
-```mermaid
-graph LR
-    A[MDX Files] --> B[Fumadocs]
-    B --> C[source.getPageTree]
-    C --> D[DocsLayout]
-    D --> E[Rendered Page]
-```
-
-1. **MDX files** in `content/docs/` are processed by Fumadocs
-2. **meta.json** files define the navigation tree structure
-3. **source.getPageTree()** generates the sidebar tree
-4. **DocsLayout** component renders the final layout
-
-### 2. Configuration Loading
-
-```typescript
-// packages/site/lib/site-config.ts
-import siteConfig from '../objectdocs.json';
-
-export { siteConfig };
-```
-
-The `objectdocs.json` file is imported and used throughout the application to configure:
-* Navigation bar links
-* Branding (logo, theme colors)
-* Sidebar behavior
-* Footer content
-* TOC settings
-
-## Key Concepts
-
-### Meta.json Format
-
-Each directory can have a `meta.json` file that controls the sidebar structure:
-
-```json
-{
-  "title": "Section Title",
-  "pages": [
-    "page-slug",
-    "another-page",
-    "---Separator---",
-    "subsection"
-  ]
-}
-```
-
-* **title**: Display name in the sidebar
-* **pages**: Array of page slugs in the desired order
-* **Separators**: Use `---Title---` format for visual separators
-
-### Page Frontmatter
-
-Every MDX file should include frontmatter:
-
-```mdx
----
-title: Page Title
-description: Brief description for SEO and cards
----
-
-# Content starts here
-```
-
-## Framework Stack
-
-<Cards>
-  <Card title="Next.js 14" icon={<Layers />}>
-    App Router with Server Components for optimal performance
-  </Card>
-  <Card title="Fumadocs" icon={<FileText />}>
-    Documentation middleware for MDX processing and tree generation
-  </Card>
-  <Card title="TypeScript" icon={<Code />}>
-    Full type safety across content, config, and components
-  </Card>
-</Cards>
-
-## Next Steps
-
-Now that you understand the architecture, learn how to configure your site:
-
-<Cards>
-  <Card title="Configuration" href="/docs/getting-started/configuration">
-    Customize navigation, branding, and features
-  </Card>
-  <Card title="Components" href="/docs/components/objectui-embed">
-    Embed interactive ObjectUI components
-  </Card>
-</Cards>
+*   **多产品支持**: 通过切换不同的 `content` 目录，可以在同一套代码库中支持多个产品的文档。
+*   **低代码集成**: 因为内容与 UI 分离，我们可以更容易地注入动态的低代码组件演示。
