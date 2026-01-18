@@ -1,5 +1,13 @@
 # @objectdocs/cli
 
+## 0.2.3
+
+### Patch Changes
+
+- fix: update package metadata for publishing
+- Updated dependencies
+  - @objectdocs/site@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes
