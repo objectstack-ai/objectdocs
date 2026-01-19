@@ -97,6 +97,18 @@ description: Page description for SEO
 - **title**: Page title (required)
 - **description**: Page description for SEO (required)
 
+### Available Components
+
+ObjectDocs provides Fumadocs UI components globally. No imports needed:
+
+- **Callout**: `<Callout type="info|warn|error">...</Callout>`
+- **Cards/Card**: `<Cards><Card title="..." icon="...">...</Card></Cards>`
+- **Steps/Step**: `<Steps><Step>...</Step></Steps>`
+- **Tabs/Tab**: For tabbed content
+
+Example:
+
+```mdx
 <Callout type="warn">
 Always include both `title` and `description` in your frontmatter for proper SEO and navigation.
 </Callout>
