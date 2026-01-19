@@ -1,0 +1,151 @@
+---
+title: Configuration
+description: Learn how to configure your ObjectDocs site
+---
+
+# Configuration
+
+ObjectDocs uses a "Configuration as Code" approach where all site settings are defined in JSON files.
+
+## Global Configuration
+
+The global site configuration is defined in `content/docs.site.json`:
+
+```json
+{
+  "branding": {
+    "name": "My Docs Site",
+    "logo": {
+      "light": "/logo.svg",
+      "dark": "/logo-dark.svg"
+    }
+  },
+  "links": [
+    {
+      "text": "Documentation",
+      "url": "/docs"
+    },
+    {
+      "text": "GitHub",
+      "url": "https://github.com/username/repo",
+      "icon": "github"
+    }
+  ],
+  "build": {
+    "output": "standalone"
+  }
+}
+```
+
+### Branding Options
+
+- **name**: The name of your documentation site
+- **logo.light**: Path to the logo for light mode
+- **logo.dark**: Path to the logo for dark mode
+
+### Navigation Links
+
+The `links` array defines the navigation bar links:
+
+- **text**: Link text
+- **url**: Link URL
+- **icon**: Optional icon name (e.g., "github", "twitter")
+
+### Build Options
+
+- **output**: Build output type
+  - `"standalone"`: Server-side rendering (default)
+  - `"export"`: Static site generation
+
+## Sidebar Navigation
+
+Each directory can have a `meta.json` file to control the sidebar structure:
+
+```json
+{
+  "title": "Getting Started",
+  "pages": [
+    "introduction",
+    "---Installation---",
+    "quick-start",
+    "configuration"
+  ]
+}
+```
+
+### Meta.json Options
+
+- **title**: Section title in the sidebar
+- **pages**: Array of page slugs in the desired order
+  - Use `"---Title---"` to create section separators
+
+## Page Frontmatter
+
+Each MDX file should include frontmatter:
+
+```mdx
+---
+title: Page Title
+description: Page description for SEO
+---
+
+# Page Content
+```
+
+### Frontmatter Options
+
+- **title**: Page title (required)
+- **description**: Page description for SEO (required)
+
+### Available Components
+
+ObjectDocs provides Fumadocs UI components globally. No imports needed:
+
+- **Callout**: `<Callout type="info|warn|error">...</Callout>`
+- **Cards/Card**: `<Cards><Card title="..." icon="...">...</Card></Cards>`
+- **Steps/Step**: `<Steps><Step>...</Step></Steps>`
+- **Tabs/Tab**: For tabbed content
+
+Example:
+
+```mdx
+<Callout type="warn">
+Always include both `title` and `description` in your frontmatter for proper SEO and navigation.
+</Callout>
+
+## Environment Variables
+
+ObjectDocs supports the following environment variables:
+
+- **DOCS_DIR**: Override the default content directory
+- **PORT**: Override the default port (7777)
+- **OPENAI_API_KEY**: API key for AI translation feature
+- **OPENAI_BASE_URL**: Custom OpenAI API endpoint
+
+## Deployment Configuration
+
+### Vercel
+
+For Vercel deployment, ensure your `package.json` includes:
+
+```json
+{
+  "scripts": {
+    "build": "objectdocs build",
+    "start": "objectdocs start"
+  }
+}
+```
+
+Vercel will automatically detect Next.js and use the appropriate build commands.
+
+### Other Platforms
+
+For other platforms, you can use the generated build output:
+
+- **Standalone**: Use the `.next` directory with Node.js
+- **Static Export**: Use the `out` directory with any static hosting
+
+<Callout type="info">
+ObjectDocs is optimized for deployment on platforms that support Next.js, such as Vercel, Netlify, and AWS Amplify.
+</Callout>
