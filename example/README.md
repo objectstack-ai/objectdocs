@@ -84,6 +84,22 @@ Start the production server:
 pnpm start
 ```
 
+### Validation
+
+Run the validation script to check your project setup:
+
+```bash
+bash validate.sh
+```
+
+This will verify:
+- ✅ Package.json configuration
+- ✅ Content structure
+- ✅ MDX frontmatter
+- ✅ Dependencies
+- ✅ Vercel configuration
+- ✅ Git ignore settings
+
 ## 🌐 Deploying to Vercel
 
 ### Method 1: Using Vercel CLI
