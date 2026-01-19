@@ -1,0 +1,101 @@
+---
+title: Getting Started
+description: Learn how to get started with ObjectDocs
+---
+
+# Getting Started
+
+This guide will help you get started with ObjectDocs.
+
+## Installation
+
+First, create a new project directory and initialize it:
+
+```bash
+mkdir my-docs
+cd my-docs
+pnpm init
+```
+
+## Install ObjectDocs CLI
+
+Add the ObjectDocs CLI as a dev dependency:
+
+```bash
+pnpm add -D @objectdocs/cli
+```
+
+## Configure Scripts
+
+Add the following scripts to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "dev": "objectdocs dev",
+    "build": "objectdocs build",
+    "start": "objectdocs start"
+  }
+}
+```
+
+## Create Content Structure
+
+Create the basic directory structure:
+
+```bash
+mkdir -p content/docs
+```
+
+## Add Your First Page
+
+Create `content/docs/index.mdx`:
+
+```mdx
+---
+title: Welcome
+description: My new docs site
+---
+
+# Hello World
+
+Welcome to ObjectDocs!
+```
+
+Create `content/docs/meta.json`:
+
+```json
+{
+  "pages": ["index"]
+}
+```
+
+## Start Development Server
+
+Start the development server:
+
+```bash
+pnpm dev
+```
+
+Visit [http://localhost:7777](http://localhost:7777) to see your site.
+
+<Callout type="info">
+The development server includes hot reload, so changes to your content will be reflected immediately.
+</Callout>
+
+## Build for Production
+
+When you're ready to deploy, build your site:
+
+```bash
+pnpm build
+```
+
+This will generate the production build in the `.next` directory (or `out` directory if configured for static export).
+
+## Next Steps
+
+- Learn about [Configuration](/docs/configuration) options
+- Explore the metadata-driven architecture
+- Deploy your site to Vercel or other platforms
