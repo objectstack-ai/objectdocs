@@ -179,6 +179,10 @@ This repository is a monorepo managed by pnpm workspaces:
 - **[@objectdocs/cli](./packages/cli)**: The command-line interface for building and developing sites.
 - **[@objectdocs/site](./packages/site)**: The core Next.js application template.
 
+## 📚 Examples
+
+- **[example](./example)**: A complete standalone project demonstrating CLI-created project structure. Use this to test Vercel deployment and validate that published npm packages work correctly outside the monorepo.
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please read our [Contributing Guide](./CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
