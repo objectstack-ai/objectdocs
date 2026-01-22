@@ -1,5 +1,13 @@
 # @objectdocs/cli
 
+## 0.2.12
+
+### Patch Changes
+
+- Release version 0.2.12 with bug fixes and improvements
+- Updated dependencies
+  - @objectdocs/site@0.2.12
+
 ## 0.2.11
 
 ### Patch Changes
