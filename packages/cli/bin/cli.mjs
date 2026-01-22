@@ -9,6 +9,7 @@
 
 import { cac } from 'cac';
 import 'dotenv/config';
+import { registerInitCommand } from '../src/commands/init.mjs';
 import { registerTranslateCommand } from '../src/commands/translate.mjs';
 import { registerDevCommand } from '../src/commands/dev.mjs';
 import { registerBuildCommand } from '../src/commands/build.mjs';
@@ -16,6 +17,7 @@ import { registerStartCommand } from '../src/commands/start.mjs';
 
 const cli = cac('objectdocs');
 
+registerInitCommand(cli);
 registerTranslateCommand(cli);
 registerDevCommand(cli);
 registerBuildCommand(cli);
