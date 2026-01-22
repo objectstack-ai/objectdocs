@@ -75,11 +75,12 @@ export function registerInitCommand(cli) {
           gitignoreContent = fs.readFileSync(gitignorePath, 'utf-8');
         }
         
-        // Check if the entry already exists
-        if (!gitignoreContent.includes(gitignoreEntry)) {
+        // Check if the entry already exists (as a complete line)
+        const lines = gitignoreContent.split('\n').map(line => line.trim());
+        if (!lines.includes(gitignoreEntry)) {
           // Add the entry with a comment
           const separator = gitignoreContent.trim() ? '\n\n' : '';
-          const newContent = gitignoreContent.trim() + separator + '# ObjectDocs\n' + gitignoreEntry + '\n';
+          const newContent = `${gitignoreContent.trim()}${separator}# ObjectDocs\n${gitignoreEntry}\n`;
           fs.writeFileSync(gitignorePath, newContent);
           console.log('📝 Added content/.objectdocs to .gitignore\n');
         }
