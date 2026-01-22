@@ -2,10 +2,11 @@
   "name": "objectdocs-starter",
   "version": "0.1.0",
   "private": true,
+  "description": "Starter template for creating documentation sites with ObjectDocs",
   "scripts": {
-    "docs:dev": "objectdocs dev",
-    "docs:build": "objectdocs build",
-    "docs:start": "objectdocs start"
+    "dev": "objectdocs dev",
+    "build": "objectdocs build",
+    "start": "objectdocs start"
   },
   "devDependencies": {
     "@objectdocs/cli": "workspace:*"

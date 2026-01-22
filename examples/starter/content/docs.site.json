@@ -1,16 +1,23 @@
 {
   "branding": {
-    "name": "ObjectDocs Starter"
+    "name": "ObjectDocs Starter",
+    "logo": {
+      "light": "/logo.svg",
+      "dark": "/logo-dark.svg"
+    }
   },
   "links": [
     {
-      "text": "Home",
-      "url": "/"
+      "text": "Documentation",
+      "url": "/docs"
     },
     {
       "text": "GitHub",
-      "url": "https://github.com",
+      "url": "https://github.com/objectstack-ai/objectdocs",
       "icon": "github"
     }
-  ]
+  ],
+  "build": {
+    "output": "standalone"
+  }
 }

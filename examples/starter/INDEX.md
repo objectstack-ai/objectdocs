@@ -64,13 +64,13 @@ Vercel 部署指南，包括：
 ## 🏗️ Project Structure / 项目结构
 
 ```
-example/
+examples/starter/
 ├── README.md              # Main documentation
 ├── ARCHITECTURE.md        # Technical architecture details
 ├── VERCEL.md             # Vercel deployment guide
 ├── TESTING.md            # Testing guide
 ├── validate.sh           # Validation script
-├── package.json          # Uses @objectdocs/cli from npm
+├── package.json          # Uses @objectdocs/cli from workspace
 ├── vercel.json           # Vercel configuration
 ├── .gitignore           # Git ignore rules
 ├── content/

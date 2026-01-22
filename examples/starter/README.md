@@ -1,64 +1,209 @@
 # ObjectDocs Starter Template
 
-This is a starter template for creating documentation sites with [ObjectDocs](https://github.com/steedos/objectdocs). It comes pre-configured with the necessary directory structure and dependencies to get you started quickly.
+This is a **starter template** that demonstrates how a documentation site created with the ObjectDocs CLI works. It's designed to serve as both a learning resource and a deployment-ready template.
 
-## Features
+## 📋 Purpose
 
-- **Configuration as Code**: Manage site navigation and settings via JSON.
-- **MDX Support**: Write content using Markdown mixed with React components.
-- **Live Preview**: Fast development server with hot reload.
-- **Production Ready**: Optimized static build output.
+This starter template serves multiple purposes:
 
-## Getting Started
+1. **Quick Start Reference**: Get up and running with ObjectDocs quickly
+2. **Deployment Guide**: Demonstrate the correct setup for production deployments
+3. **Best Practices**: Show recommended structure and configuration
+4. **Testing Reference**: Validate that CLI-created projects work correctly
 
-### 1. Installation
+## 🎯 Key Features
 
-Install the dependencies:
+- **Complete Documentation**: Includes comprehensive guides on architecture, testing, and deployment
+- **Ready-to-Deploy**: Configured for deployment on Vercel and other platforms
+- **Workspace Integration**: Uses workspace dependencies for development
+- **Production Representative**: Mirrors exactly how a user would create a project
+
+## 📁 Project Structure
+
+```
+examples/starter/
+├── content/
+│   ├── docs.site.json       # Global site configuration
+│   └── docs/
+│       ├── meta.json        # Sidebar navigation structure
+│       ├── index.mdx        # Home page
+│       ├── getting-started.mdx
+│       └── configuration.mdx
+├── public/                  # Static assets (logos, images)
+├── package.json             # Uses @objectdocs/cli from workspace
+└── README.md               # This file
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- pnpm (recommended) or npm
+
+### Installation
+
+1. Navigate to the starter directory:
+
+```bash
+cd examples/starter
+```
+
+2. Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-### 2. Development
+This will install `@objectdocs/cli` from the workspace, which in turn will use `@objectdocs/site` as a dependency.
+
+### Development
 
 Start the development server:
 
 ```bash
-pnpm docs:dev
+pnpm dev
 ```
 
-Open [http://localhost:7777](http://localhost:7777) in your browser to see the result.
+The site will be available at [http://localhost:7777](http://localhost:7777).
 
-### 3. Building
+### Building
 
-Build the static site for production:
+Build the project for production:
 
 ```bash
-pnpm docs:build
+pnpm build
 ```
 
-The output will be in the `.next` or configured output directory.
+This will generate the production build in the `.next` directory.
 
-## Project Structure
+### Production Server
+
+Start the production server:
 
 ```bash
-.
-├── content/
-│   ├── docs.site.json      # Global site configuration (branding, nav links)
-│   └── docs/               # Documentation content root
-│       ├── index.mdx       # Homepage
-│       ├── guide.mdx       # Example page
-│       └── meta.json       # Sidebar navigation order
-├── package.json
-└── README.md
+pnpm start
 ```
 
-## Customization
+### Validation
 
-- **Site Name & Logo**: Edit `content/docs.site.json`.
-- **Navigation Sidebar**: Edit `content/docs/meta.json` or creating new `meta.json` files in subdirectories.
-- **Adding Pages**: Create new `.mdx` files in `content/docs/` and add them to the relevant `meta.json`.
+Run the validation script to check your project setup:
 
-## License
+```bash
+bash validate.sh
+```
 
-MIT
+This will verify:
+- ✅ Package.json configuration
+- ✅ Content structure
+- ✅ MDX frontmatter
+- ✅ Dependencies
+- ✅ Vercel configuration
+- ✅ Git ignore settings
+
+## 🌐 Deploying to Vercel
+
+### Method 1: Using Vercel CLI
+
+1. Install Vercel CLI:
+
+```bash
+npm i -g vercel
+```
+
+2. Deploy from the examples/starter directory:
+
+```bash
+cd examples/starter
+vercel
+```
+
+### Method 2: Using GitHub Integration
+
+1. Push this starter to your GitHub repository
+2. Import the project in Vercel
+3. Set the **Root Directory** to `examples/starter`
+4. Vercel will auto-detect Next.js settings
+
+### Vercel Configuration
+
+This project includes a `vercel.json` file with Next.js framework detection. Vercel will automatically:
+- Detect the Next.js framework
+- Use `pnpm build` (via `objectdocs build`) as the build command
+- Use the `.next` directory as the output
+
+For more details on Vercel deployment, see [VERCEL.md](./VERCEL.md).
+
+## ✅ Testing Checklist
+
+Use this checklist to validate the starter works correctly:
+
+- [ ] `pnpm install` completes without errors
+- [ ] `pnpm dev` starts the development server
+- [ ] All pages load correctly in the browser
+- [ ] Navigation works (sidebar, header links)
+- [ ] `pnpm build` completes successfully
+- [ ] `pnpm start` serves the production build
+- [ ] Deployment to Vercel succeeds
+- [ ] Deployed site is fully functional
+
+## 🔧 Troubleshooting
+
+### Issue: "Cannot find module '@objectdocs/site'"
+
+**Solution**: Make sure you're in the monorepo and using workspace references correctly.
+
+### Issue: Vercel build fails
+
+**Possible causes**:
+1. Incorrect workspace configuration
+2. Missing or incorrect `package.json` scripts
+3. Node.js version incompatibility
+
+**Solution**: 
+- Check that `package.json` uses `"@objectdocs/cli": "workspace:*"`
+- Ensure build script is `"build": "objectdocs build"`
+- Verify Node.js version is 18+
+
+### Issue: Broken links or missing content
+
+**Solution**: 
+- Verify all pages listed in `meta.json` have corresponding `.mdx` files
+- Check that file names match exactly (case-sensitive)
+- Ensure frontmatter includes both `title` and `description`
+
+## 📝 Notes for Development
+
+### Updating CLI Version
+
+When a new version of `@objectdocs/cli` is published:
+
+```bash
+pnpm up @objectdocs/cli
+```
+
+### Adding New Pages
+
+1. Create a new `.mdx` file in `content/docs/`
+2. Add the page slug to `content/docs/meta.json`
+3. Include proper frontmatter in the MDX file
+
+### Customizing Branding
+
+Edit `content/docs.site.json` to change:
+- Site name
+- Logo images
+- Navigation links
+- Build output type
+
+## 🤝 Contributing
+
+This starter template is part of the ObjectDocs project. If you find issues or have improvements:
+
+1. Test your changes in this example first
+2. Ensure deployment still works
+3. Submit a PR with clear description
+
+## 📄 License
+
+MIT - Same as the main ObjectDocs project

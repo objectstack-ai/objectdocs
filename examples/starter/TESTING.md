@@ -48,7 +48,7 @@ This method is closer to how users would install from npm:
 ```bash
 cd packages/cli
 pnpm pack
-# This creates objectdocs-cli-0.2.11.tgz
+# This creates objectdocs-cli-X.X.X.tgz (where X.X.X is the current version)
 ```
 
 2. Create a test directory:
@@ -62,13 +62,13 @@ cd /tmp/test-standalone
 
 ```bash
 pnpm init
-pnpm add -D ../path/to/objectdocs-cli-0.2.11.tgz
+pnpm add -D ../path/to/objectdocs-cli-X.X.X.tgz
 ```
 
 4. Copy the content structure:
 
 ```bash
-cp -r /path/to/example/content .
+cp -r /path/to/examples/starter/content .
 ```
 
 5. Add scripts to package.json and test.
