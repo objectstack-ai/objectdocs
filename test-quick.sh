@@ -58,10 +58,7 @@ main() {
         print_success "Installed @objectdocs/cli from npm"
     fi
     
-    # Configure scripts
-    pnpm pkg set scripts.build="objectdocs build"
-    
-    # Initialize ObjectDocs
+    # Initialize ObjectDocs (this will create content/package.json)
     pnpm objectdocs init
     print_success "Initialized ObjectDocs"
     
@@ -92,9 +89,10 @@ EOF
     
     print_success "Created content"
     
-    # Run build
+    # Run build from content directory
     print_section "Running Build"
-    if pnpm build; then
+    cd content
+    if npm run build; then
         print_success "Build completed successfully"
     else
         print_error "Build failed"
@@ -102,7 +100,7 @@ EOF
     fi
     
     # Check build output
-    if [ -d "content/.objectdocs/.next" ] || [ -d ".next" ]; then
+    if [ -d ".objectdocs/.next" ]; then
         print_success "Build output exists"
     else
         print_error "Build output not found"
