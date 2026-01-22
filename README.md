@@ -91,6 +91,7 @@ pnpm objectdocs init
 This will:
 - Copy the site engine to `content/.objectdocs`
 - Install necessary dependencies
+- Automatically add `content/.objectdocs` to `.gitignore`
 - Prepare your project for development
 
 ### 4. Add content

@@ -65,6 +65,28 @@ export function registerInitCommand(cli) {
       
       console.log('✅ ObjectDocs site copied successfully!\n');
       
+      // Add to .gitignore
+      const gitignorePath = path.resolve(process.cwd(), '.gitignore');
+      const gitignoreEntry = 'content/.objectdocs';
+      
+      try {
+        let gitignoreContent = '';
+        if (fs.existsSync(gitignorePath)) {
+          gitignoreContent = fs.readFileSync(gitignorePath, 'utf-8');
+        }
+        
+        // Check if the entry already exists
+        if (!gitignoreContent.includes(gitignoreEntry)) {
+          // Add the entry with a comment
+          const separator = gitignoreContent.trim() ? '\n\n' : '';
+          const newContent = gitignoreContent.trim() + separator + '# ObjectDocs\n' + gitignoreEntry + '\n';
+          fs.writeFileSync(gitignorePath, newContent);
+          console.log('📝 Added content/.objectdocs to .gitignore\n');
+        }
+      } catch (e) {
+        console.warn('⚠️  Could not update .gitignore:', e.message);
+      }
+      
       // Install dependencies in the target directory
       console.log('📦 Installing dependencies...\n');
       

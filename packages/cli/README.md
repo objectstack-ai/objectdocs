@@ -35,6 +35,7 @@ pnpm objectdocs init
 This command:
 - Copies the `@objectdocs/site` package to `content/.objectdocs`
 - Installs necessary dependencies
+- Automatically adds `content/.objectdocs` to `.gitignore`
 - Prepares your project for local development
 
 ### Site Management
