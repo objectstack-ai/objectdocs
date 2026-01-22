@@ -38,3 +38,8 @@ next-env.d.ts
 
 # objectdocs
 content/.objectdocs
+
+# test artifacts
+/tmp/objectdocs-test-*
+/tmp/dev-server.log
+/tmp/start-server.log

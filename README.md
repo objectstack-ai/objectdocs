@@ -198,6 +198,20 @@ This repository is a monorepo managed by pnpm workspaces:
 
 - **[examples/starter](./examples/starter)**: A complete starter template demonstrating the recommended project structure. Includes comprehensive documentation on architecture, testing, and deployment guides. Ready for production use on Vercel and other platforms.
 
+## 🧪 Testing
+
+ObjectDocs includes comprehensive test scripts to validate the complete lifecycle:
+
+```bash
+# Quick build test (recommended for CI)
+pnpm test:quick
+
+# Full lifecycle test (includes server startup tests)
+pnpm test:site
+```
+
+See [TESTING.md](./TESTING.md) for detailed testing documentation.
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please read our [Contributing Guide](./CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.

@@ -10,6 +10,8 @@
     "translate": "objectdocs translate",
     "translate:all": "objectdocs translate --all",
     "test": "pnpm -r test",
+    "test:site": "bash test-site.sh",
+    "test:quick": "bash test-quick.sh",
     "changeset": "changeset",
     "release": "changeset publish"
   },
