@@ -140,18 +140,20 @@ main() {
     # Install @objectdocs/cli as dev dependency
     print_info "Installing @objectdocs/cli..."
     
-    # Get the absolute path to the monorepo root
-    MONOREPO_ROOT="/home/runner/work/objectdocs/objectdocs"
+    # Get the absolute path to the monorepo root (where script is located)
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    MONOREPO_ROOT="${SCRIPT_DIR}"
     
-    # Install CLI from workspace
+    # Install CLI from workspace or npm
     if [ -d "$MONOREPO_ROOT/packages/cli" ]; then
         print_info "Installing CLI from local workspace..."
         pnpm add -D "$MONOREPO_ROOT/packages/cli"
+        print_success "@objectdocs/cli installed from local workspace"
     else
-        print_error "CLI package not found at $MONOREPO_ROOT/packages/cli"
-        exit 1
+        print_info "Installing CLI from npm..."
+        pnpm add -D @objectdocs/cli
+        print_success "@objectdocs/cli installed from npm"
     fi
-    print_success "@objectdocs/cli installed"
     
     # Step 2: Configure scripts
     print_section "Step 2: Configuring Package Scripts"

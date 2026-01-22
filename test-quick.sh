@@ -45,10 +45,18 @@ main() {
     echo "{}" > package.json
     print_success "Initialized project"
     
-    # Install CLI from workspace
-    MONOREPO_ROOT="/home/runner/work/objectdocs/objectdocs"
-    pnpm add -D "$MONOREPO_ROOT/packages/cli"
-    print_success "Installed @objectdocs/cli"
+    # Install CLI from workspace (detect monorepo root)
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    MONOREPO_ROOT="${SCRIPT_DIR}"
+    
+    if [ -d "$MONOREPO_ROOT/packages/cli" ]; then
+        pnpm add -D "$MONOREPO_ROOT/packages/cli"
+        print_success "Installed @objectdocs/cli from local workspace"
+    else
+        # Fallback to npm if not in monorepo
+        pnpm add -D @objectdocs/cli
+        print_success "Installed @objectdocs/cli from npm"
+    fi
     
     # Configure scripts
     pnpm pkg set scripts.build="objectdocs build"
