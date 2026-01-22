@@ -13,11 +13,11 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-TEST_DIR="/tmp/objectdocs-test-$(date +%s)"
-LOG_DIR="/tmp/objectdocs-logs-$(date +%s)"
-PORT=7777
-BUILD_TIMEOUT=300  # 5 minutes for build
-DEV_TIMEOUT=30     # 30 seconds for dev server to start
+TEST_DIR=$(mktemp -d -t objectdocs-test.XXXXXXXXXX)
+LOG_DIR=$(mktemp -d -t objectdocs-logs.XXXXXXXXXX)
+PORT="${PORT:-7777}"  # Allow override via environment variable
+BUILD_TIMEOUT="${BUILD_TIMEOUT:-300}"  # 5 minutes for build
+DEV_TIMEOUT="${DEV_TIMEOUT:-30}"       # 30 seconds for dev server to start
 
 # Cleanup function
 cleanup() {
@@ -37,9 +37,13 @@ cleanup() {
     fi
     
     # Kill any process using the test port (gracefully)
-    lsof -ti:$PORT | xargs kill 2>/dev/null || true
-    sleep 1
-    lsof -ti:$PORT | xargs kill -9 2>/dev/null || true
+    if lsof -ti:$PORT >/dev/null 2>&1; then
+        lsof -ti:$PORT | xargs kill 2>/dev/null || true
+        sleep 1
+        if lsof -ti:$PORT >/dev/null 2>&1; then
+            lsof -ti:$PORT | xargs kill -9 2>/dev/null || true
+        fi
+    fi
     
     # Remove test directory (force recursive delete)
     if [ -d "$TEST_DIR" ]; then

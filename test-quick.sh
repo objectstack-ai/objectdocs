@@ -25,7 +25,7 @@ print_error() {
     echo -e "${RED}✗${NC} $1"
 }
 
-TEST_DIR="/tmp/objectdocs-quick-test-$(date +%s)"
+TEST_DIR=$(mktemp -d -t objectdocs-quick-test.XXXXXXXXXX)
 
 # Cleanup on exit
 cleanup() {
