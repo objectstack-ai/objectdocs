@@ -38,6 +38,10 @@ trap cleanup EXIT
 main() {
     print_section "ObjectDocs Quick Build Test"
     
+    # Detect monorepo root BEFORE changing directories
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    MONOREPO_ROOT="${SCRIPT_DIR}"
+    
     # Create test project
     mkdir -p "$TEST_DIR"
     cd "$TEST_DIR"
@@ -46,9 +50,6 @@ main() {
     print_success "Initialized project"
     
     # Install CLI from workspace (detect monorepo root)
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    MONOREPO_ROOT="${SCRIPT_DIR}"
-    
     if [ -d "$MONOREPO_ROOT/packages/cli" ]; then
         pnpm add -D "$MONOREPO_ROOT/packages/cli"
         print_success "Installed @objectdocs/cli from local workspace"
