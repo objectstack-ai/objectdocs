@@ -69,7 +69,7 @@ export function registerInitCommand(cli) {
       console.log('📦 Installing dependencies...\n');
       
       const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-      const installProcess = spawn(npmCmd, ['install'], {
+      const installProcess = spawn(npmCmd, ['install', '--legacy-peer-deps'], {
         cwd: targetDir,
         stdio: 'inherit'
       });

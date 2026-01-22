@@ -80,7 +80,20 @@ Add the following scripts to your `package.json`:
 }
 ```
 
-### 3. Add content
+### 3. Initialize ObjectDocs
+
+Run the init command to set up the site engine:
+
+```bash
+pnpm objectdocs init
+```
+
+This will:
+- Copy the site engine to `content/.objectdocs`
+- Install necessary dependencies
+- Prepare your project for development
+
+### 4. Add content
 
 Create the basic directory structure:
 
@@ -109,7 +122,7 @@ Create `content/docs/meta.json`:
 }
 ```
 
-### 4. Start the server
+### 5. Start the server
 
 ```bash
 pnpm dev
