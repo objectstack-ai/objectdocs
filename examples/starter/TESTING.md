@@ -68,7 +68,7 @@ pnpm add -D ../path/to/objectdocs-cli-0.2.11.tgz
 4. Copy the content structure:
 
 ```bash
-cp -r /path/to/example/content .
+cp -r /path/to/examples/starter/content .
 ```
 
 5. Add scripts to package.json and test.
