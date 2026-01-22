@@ -1,9 +1,3 @@
 {
-  "title": "Documentation",
-  "pages": [
-    "index",
-    "getting-started",
-    "components",
-    "development-plan"
-  ]
+  "pages": ["index"]
 }

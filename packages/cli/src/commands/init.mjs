@@ -141,19 +141,28 @@ export function registerInitCommand(cli) {
         stdio: 'inherit'
       });
       
-      installProcess.on('close', (code) => {
-        if (code === 0) {
-          console.log('\n✅ Dependencies installed successfully!');
-          console.log('\n🎉 ObjectDocs initialized! You can now run:');
-          console.log('   cd content && npm run dev    - Start development server');
-          console.log('   cd content && npm run build  - Build for production\n');
-          console.log('Or if you have npm scripts in your root package.json:');
-          console.log('   npm run dev    - Start development server');
-          console.log('   npm run build  - Build for production\n');
-        } else {
-          console.error('\n❌ Failed to install dependencies');
-          process.exit(code);
-        }
+      // Wait for the install process to complete
+      await new Promise((resolve, reject) => {
+        installProcess.on('close', (code) => {
+          if (code === 0) {
+            console.log('\n✅ Dependencies installed successfully!');
+            console.log('\n🎉 ObjectDocs initialized! You can now run:');
+            console.log('   cd content && npm run dev    - Start development server');
+            console.log('   cd content && npm run build  - Build for production\n');
+            console.log('Or if you have npm scripts in your root package.json:');
+            console.log('   npm run dev    - Start development server');
+            console.log('   npm run build  - Build for production\n');
+            resolve();
+          } else {
+            console.error('\n❌ Failed to install dependencies');
+            reject(new Error(`Install failed with code ${code}`));
+          }
+        });
+        
+        installProcess.on('error', (err) => {
+          console.error('\n❌ Failed to start install process:', err.message);
+          reject(err);
+        });
       });
     });
 }
