@@ -23,17 +23,24 @@ This starter template serves multiple purposes:
 ```
 examples/starter/
 ├── content/
-│   ├── .objectdocs/         # Site engine (created by init command)
-│   ├── docs.site.json       # Global site configuration
+│   ├── package.json          # npm scripts (auto-created by init)
+│   ├── .objectdocs/          # Site engine (created by init command, gitignored)
+│   ├── docs.site.json        # Global site configuration
 │   └── docs/
-│       ├── meta.json        # Sidebar navigation structure
-│       ├── index.mdx        # Home page
+│       ├── meta.json         # Sidebar navigation structure
+│       ├── index.mdx         # Home page
 │       ├── getting-started.mdx
 │       └── configuration.mdx
-├── public/                  # Static assets (logos, images)
-├── package.json             # Uses @objectdocs/cli from workspace
-└── README.md               # This file
+├── public/                   # Static assets (logos, images)
+├── package.json              # Uses @objectdocs/cli from workspace
+└── README.md                # This file
 ```
+
+**Key Points:**
+- All documentation files are in `content/`
+- `content/package.json` is auto-created by `objectdocs init`
+- `content/.objectdocs/` is gitignored and not committed
+- Root directory remains clean
 
 ## 🚀 Getting Started
 
@@ -50,7 +57,7 @@ examples/starter/
 cd examples/starter
 ```
 
-2. Install dependencies:
+2. Install the CLI:
 
 ```bash
 pnpm install
@@ -65,13 +72,20 @@ pnpm objectdocs init
 ```
 
 This command will:
+- Create `content/package.json` with necessary scripts
 - Copy the `@objectdocs/site` engine to `content/.objectdocs`
-- Install necessary dependencies
+- Install dependencies in `content/.objectdocs/node_modules`
 - Prepare your project for development
 
 ### Development
 
 Start the development server:
+
+```bash
+cd content && npm run dev
+```
+
+Or if you have a root-level script configured:
 
 ```bash
 pnpm dev
@@ -84,14 +98,26 @@ The site will be available at [http://localhost:7777](http://localhost:7777).
 Build the project for production:
 
 ```bash
+cd content && npm run build
+```
+
+Or with root-level script:
+
+```bash
 pnpm build
 ```
 
-This will generate the production build in the `.next` directory.
+This will generate the production build in the `content/.objectdocs/.next` directory.
 
 ### Production Server
 
 Start the production server:
+
+```bash
+cd content && npm run start
+```
+
+Or with root-level script:
 
 ```bash
 pnpm start
