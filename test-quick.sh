@@ -30,7 +30,7 @@ TEST_DIR="/tmp/objectdocs-quick-test-$(date +%s)"
 # Cleanup on exit
 cleanup() {
     if [ -d "$TEST_DIR" ]; then
-        rm -rf "$TEST_DIR"
+        rm -rf "$TEST_DIR" 2>/dev/null || true
     fi
 }
 trap cleanup EXIT
@@ -42,7 +42,7 @@ main() {
     mkdir -p "$TEST_DIR"
     cd "$TEST_DIR"
     
-    pnpm init -y
+    echo "{}" > package.json
     print_success "Initialized project"
     
     # Install CLI from workspace

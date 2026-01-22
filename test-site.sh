@@ -34,9 +34,9 @@ cleanup() {
     # Kill any process using the test port
     lsof -ti:$PORT | xargs kill -9 2>/dev/null || true
     
-    # Remove test directory
+    # Remove test directory (force recursive delete)
     if [ -d "$TEST_DIR" ]; then
-        rm -rf "$TEST_DIR"
+        rm -rf "$TEST_DIR" 2>/dev/null || true
     fi
     
     echo -e "${BLUE}Cleanup complete${NC}"
@@ -133,8 +133,8 @@ main() {
     print_success "Created test directory: $TEST_DIR"
     
     # Initialize package.json
-    print_info "Running pnpm init..."
-    pnpm init -y
+    print_info "Creating package.json..."
+    echo "{}" > package.json
     print_success "package.json created"
     
     # Install @objectdocs/cli as dev dependency
