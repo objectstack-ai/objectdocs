@@ -23,13 +23,13 @@ export function registerBuildCommand(cli) {
       // 1. Resolve user's docs directory
       const docsDir = dir ? path.resolve(process.cwd(), dir) : path.resolve(process.cwd(), 'content/docs');
       
-      // 2. Resolve the Next.js App directory
-      let nextAppDir;
-      try {
-        nextAppDir = path.dirname(require.resolve('@objectdocs/site/package.json'));
-      } catch (e) {
-        // Fallback for local development
-         nextAppDir = path.resolve(__dirname, '../../../site');
+      // 2. Resolve the Next.js App directory - use local .objectdocs first
+      let nextAppDir = path.resolve(process.cwd(), 'content/.objectdocs');
+      
+      if (!fs.existsSync(nextAppDir)) {
+        console.log('⚠️  ObjectDocs site not found at content/.objectdocs');
+        console.log('   Run "objectdocs init" first to initialize the site.\n');
+        process.exit(1);
       }
 
       // Copy user config and assets to nextAppDir

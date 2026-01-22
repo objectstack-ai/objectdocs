@@ -23,6 +23,7 @@ This starter template serves multiple purposes:
 ```
 examples/starter/
 ├── content/
+│   ├── .objectdocs/         # Site engine (created by init command)
 │   ├── docs.site.json       # Global site configuration
 │   └── docs/
 │       ├── meta.json        # Sidebar navigation structure
@@ -55,7 +56,18 @@ cd examples/starter
 pnpm install
 ```
 
-This will install `@objectdocs/cli` from the workspace, which in turn will use `@objectdocs/site` as a dependency.
+This will install `@objectdocs/cli` from the workspace.
+
+3. Initialize ObjectDocs:
+
+```bash
+pnpm objectdocs init
+```
+
+This command will:
+- Copy the `@objectdocs/site` engine to `content/.objectdocs`
+- Install necessary dependencies
+- Prepare your project for development
 
 ### Development
 
@@ -139,6 +151,7 @@ For more details on Vercel deployment, see [VERCEL.md](./VERCEL.md).
 Use this checklist to validate the starter works correctly:
 
 - [ ] `pnpm install` completes without errors
+- [ ] `pnpm objectdocs init` initializes the site successfully
 - [ ] `pnpm dev` starts the development server
 - [ ] All pages load correctly in the browser
 - [ ] Navigation works (sidebar, header links)

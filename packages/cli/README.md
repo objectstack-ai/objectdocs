@@ -23,6 +23,21 @@ pnpm install
 
 ## Usage
 
+### Initialize Site
+
+Before using the development or build commands, you need to initialize the site:
+
+```bash
+# Initialize ObjectDocs site in content/.objectdocs
+pnpm objectdocs init
+```
+
+This command:
+- Copies the `@objectdocs/site` package to `content/.objectdocs`
+- Installs necessary dependencies
+- Automatically adds `content/.objectdocs` to `.gitignore`
+- Prepares your project for local development
+
 ### Site Management
 
 The CLI can also be used to run the documentation site locally with a VitePress-like experience.
