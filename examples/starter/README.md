@@ -127,10 +127,12 @@ vercel
 
 ### Vercel Configuration
 
-No special configuration is needed. Vercel will automatically:
+This project includes a `vercel.json` file with Next.js framework detection. Vercel will automatically:
 - Detect the Next.js framework
 - Use `pnpm build` (via `objectdocs build`) as the build command
 - Use the `.next` directory as the output
+
+For more details on Vercel deployment, see [VERCEL.md](./VERCEL.md).
 
 ## ✅ Testing Checklist
 

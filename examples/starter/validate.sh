@@ -15,9 +15,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Check if we're in the starter directory
-if [ ! -f "package.json" ] || ! grep -q "objectdocs-starter" package.json; then
-    echo -e "${RED}Error: This script must be run from the examples/starter directory${NC}"
+# Check if we're in an ObjectDocs project directory
+if [ ! -f "package.json" ] || ! grep -q "@objectdocs/cli" package.json; then
+    echo -e "${RED}Error: This script must be run from an ObjectDocs project directory${NC}"
     exit 1
 fi
 
