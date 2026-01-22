@@ -33,6 +33,8 @@ ObjectDocs provides multiple test scripts to validate the complete lifecycle of 
 - pnpm
 - curl (for HTTP testing)
 - Available port 7777
+- `timeout` command (Linux) or `gtimeout` (macOS via homebrew: `brew install coreutils`)
+  - Note: Test will run without timeout protection if command is not available
 
 **Output**: Detailed step-by-step progress with color-coded success/failure indicators.
 

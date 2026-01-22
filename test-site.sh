@@ -14,6 +14,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 TEST_DIR="/tmp/objectdocs-test-$(date +%s)"
+LOG_DIR="/tmp/objectdocs-logs-$(date +%s)"
 PORT=7777
 BUILD_TIMEOUT=300  # 5 minutes for build
 DEV_TIMEOUT=30     # 30 seconds for dev server to start
@@ -23,20 +24,31 @@ cleanup() {
     echo ""
     echo -e "${BLUE}Cleaning up...${NC}"
     
-    # Kill any running dev/start servers
+    # Kill any running dev/start servers (gracefully first, then forcefully)
     if [ ! -z "$DEV_PID" ]; then
         kill $DEV_PID 2>/dev/null || true
+        sleep 2
+        kill -9 $DEV_PID 2>/dev/null || true
     fi
     if [ ! -z "$START_PID" ]; then
         kill $START_PID 2>/dev/null || true
+        sleep 2
+        kill -9 $START_PID 2>/dev/null || true
     fi
     
-    # Kill any process using the test port
+    # Kill any process using the test port (gracefully)
+    lsof -ti:$PORT | xargs kill 2>/dev/null || true
+    sleep 1
     lsof -ti:$PORT | xargs kill -9 2>/dev/null || true
     
     # Remove test directory (force recursive delete)
     if [ -d "$TEST_DIR" ]; then
         rm -rf "$TEST_DIR" 2>/dev/null || true
+    fi
+    
+    # Remove log directory
+    if [ -d "$LOG_DIR" ]; then
+        rm -rf "$LOG_DIR" 2>/dev/null || true
     fi
     
     echo -e "${BLUE}Cleanup complete${NC}"
@@ -101,8 +113,12 @@ wait_for_server() {
 main() {
     print_section "ObjectDocs Complete Lifecycle Test"
     echo "Test directory: $TEST_DIR"
+    echo "Log directory: $LOG_DIR"
     echo "Port: $PORT"
     echo ""
+    
+    # Create log directory
+    mkdir -p "$LOG_DIR"
     
     # Check prerequisites
     print_section "Step 0: Checking Prerequisites"
@@ -280,7 +296,7 @@ EOF
     print_section "Step 5: Testing Development Server"
     
     print_info "Starting dev server..."
-    pnpm dev > /tmp/dev-server.log 2>&1 &
+    pnpm dev > "$LOG_DIR/dev-server.log" 2>&1 &
     DEV_PID=$!
     
     if wait_for_server $PORT $DEV_TIMEOUT; then
@@ -302,13 +318,15 @@ EOF
     else
         print_error "Dev server failed to start within ${DEV_TIMEOUT}s"
         print_info "Server log output:"
-        cat /tmp/dev-server.log || true
+        cat "$LOG_DIR/dev-server.log" || true
         exit 1
     fi
     
     # Stop dev server
     print_info "Stopping dev server..."
     kill $DEV_PID 2>/dev/null || true
+    sleep 2
+    kill -9 $DEV_PID 2>/dev/null || true
     wait $DEV_PID 2>/dev/null || true
     DEV_PID=""
     sleep 2
@@ -318,11 +336,24 @@ EOF
     print_section "Step 6: Testing Build Process"
     
     print_info "Running build (this may take a few minutes)..."
-    if timeout $BUILD_TIMEOUT pnpm build; then
-        print_success "Build completed successfully"
+    
+    # Check if timeout command is available
+    if command_exists timeout; then
+        if timeout $BUILD_TIMEOUT pnpm build; then
+            print_success "Build completed successfully"
+        else
+            print_error "Build failed or timed out"
+            exit 1
+        fi
     else
-        print_error "Build failed or timed out"
-        exit 1
+        # Fallback without timeout (macOS compatibility)
+        print_warning "timeout command not available, running without timeout protection"
+        if pnpm build; then
+            print_success "Build completed successfully"
+        else
+            print_error "Build failed"
+            exit 1
+        fi
     fi
     
     # Check if build output exists
@@ -336,7 +367,7 @@ EOF
     print_section "Step 7: Testing Production Server"
     
     print_info "Starting production server..."
-    pnpm start > /tmp/start-server.log 2>&1 &
+    pnpm start > "$LOG_DIR/start-server.log" 2>&1 &
     START_PID=$!
     
     if wait_for_server $PORT $DEV_TIMEOUT; then
@@ -358,13 +389,15 @@ EOF
     else
         print_error "Production server failed to start within ${DEV_TIMEOUT}s"
         print_info "Server log output:"
-        cat /tmp/start-server.log || true
+        cat "$LOG_DIR/start-server.log" || true
         exit 1
     fi
     
     # Stop production server
     print_info "Stopping production server..."
     kill $START_PID 2>/dev/null || true
+    sleep 2
+    kill -9 $START_PID 2>/dev/null || true
     wait $START_PID 2>/dev/null || true
     START_PID=""
     sleep 2

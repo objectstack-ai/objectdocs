@@ -33,6 +33,8 @@ ObjectDocs 提供了多个测试脚本来验证文档站点创建的完整生命
 - pnpm
 - curl（用于 HTTP 测试）
 - 可用端口 7777
+- `timeout` 命令（Linux）或 `gtimeout`（macOS 通过 homebrew 安装：`brew install coreutils`）
+  - 注意：如果命令不可用，测试将在没有超时保护的情况下运行
 
 **输出**：详细的分步进度，带有彩色成功/失败指示器。
 
