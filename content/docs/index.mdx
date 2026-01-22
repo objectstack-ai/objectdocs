@@ -1,5 +1,58 @@
 ---
-title: Test
-description: Test page
+title: Introduction
+description: The Metadata-Driven Documentation Engine for the Low-Code Era.
 ---
-# Test Page
+
+import { FileJson, Layers, Cpu, Zap } from 'lucide-react';
+
+# What is ObjectDocs?
+
+**ObjectDocs** is a modern, opinionated documentation site generator built on top of **Next.js 14** and **Fumadocs**.
+
+It was created to solve a specific problem in the **ObjectStack** ecosystem: *How do we document complex, multi-product low-code platforms without drowning in frontend maintenance?*
+
+Unlike general-purpose static site generators (SSGs), ObjectDocs treats documentation structure as **data**, not code.
+
+## Core Philosophy
+
+<Cards>
+  <Card
+    icon={<FileJson />}
+    title="Metadata-Driven"
+    href="/docs/getting-started/configuration"
+  >
+    Control sidebars, navigation, and page ordering entirely through local `meta.json` files. No React knowledge required for content updates.
+  </Card>
+  <Card
+    icon={<Cpu />}
+    title="Low-Code Native"
+    href="/docs/components"
+  >
+    Directly embed JSON schemas in Markdown. Render live, interactive components powered by ObjectQL definitions.
+  </Card>
+</Cards>
+
+## Why ObjectDocs?
+
+### 1. Separation of Concerns
+In traditional documentation sites, adding a new section often requires editing a global `sidebar.js` config or touching React components. In ObjectDocs, we strictly separate roles:
+
+* **Technical Writers**: Write `.mdx` content and manage local `meta.json` for sorting.
+* **Platform Architects**: Configure global `content/docs.site.json` (branding, nav links).
+* **Frontend Developers**: Maintain the base UI logic only when strictly necessary.
+
+### 2. Interactive Components
+Static text is not enough to showcase the capabilities of a low-code platform. ObjectDocs allows you to mount live component demos directly in your docs.
+
+## Next Steps
+
+Ready to build your documentation?
+
+<Cards>
+<Card title="Quick Start" href="/docs/getting-started" icon={<Zap />}>
+Install ObjectDocs and create your first page in under 5 minutes.
+</Card>
+<Card title="Architecture" href="/docs/getting-started/architecture" icon={<Layers />}>
+Deep dive into the directory structure and data flow.
+</Card>
+</Cards>
