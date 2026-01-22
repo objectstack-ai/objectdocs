@@ -1,5 +1,13 @@
 # @objectdocs/cli
 
+## 0.2.12
+
+### Patch Changes
+
+- chore: patch release for maintenance updates
+- Updated dependencies
+  - @objectdocs/site@0.2.12
+
 ## 0.2.11
 
 ### Patch Changes
