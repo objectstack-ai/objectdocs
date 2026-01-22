@@ -181,7 +181,7 @@ This repository is a monorepo managed by pnpm workspaces:
 
 ## 📚 Examples
 
-- **[example](./example)**: A complete standalone project demonstrating CLI-created project structure. Use this to test Vercel deployment and validate that published npm packages work correctly outside the monorepo.
+- **[examples/starter](./examples/starter)**: A complete starter template demonstrating the recommended project structure. Includes comprehensive documentation on architecture, testing, and deployment guides. Ready for production use on Vercel and other platforms.
 
 ## 🤝 Contributing
 
