@@ -13,7 +13,7 @@ ObjectDocs follows the **Configuration as Code** principle. All site settings ar
 
 ### docs.site.json
 
-The main configuration file is located at `content/docs.site.json`. This file controls the global settings for the entire documentation site.
+The main configuration file is located at `content/docs.site.json`. This file controls the global settings for the entire documentation site and is automatically synced to `content/.objectdocs` during build and development.
 
 ```json
 {
@@ -27,9 +27,19 @@ The main configuration file is located at `content/docs.site.json`. This file co
   "links": [
     { "text": "Guide", "url": "/docs" },
     { "text": "GitHub", "url": "https://github.com/objectstack-ai", "icon": "github" }
-  ]
+  ],
+  "i18n": {
+    "defaultLanguage": "en",
+    "languages": ["en", "zh-CN", "ja", "es", "fr", "de", "ko", "ru", "pt", "ar", "hi", "it", "tr", "vi"]
+  }
 }
 ```
+
+**How it Works:**
+- Stored in `content/docs.site.json` (your content directory)
+- Copied to `content/.objectdocs` before each build/dev command
+- Watched during development - changes trigger automatic server restart
+- Supports 14 languages for internationalization
 
 ### Configuration Options
 
@@ -38,6 +48,13 @@ The main configuration file is located at `content/docs.site.json`. This file co
 | `branding.name` | `string` | Site name, displayed on the left side of the navbar. |
 | `branding.logo` | `object` | Site logo image paths, supports light/dark mode. |
 | `links` | `array` | List of links in the top navigation bar. |
+| `i18n.defaultLanguage` | `string` | Default language code (e.g., "en", "zh-CN"). |
+| `i18n.languages` | `array` | Supported languages (14 available: en, zh-CN, ja, es, fr, de, ko, ru, pt, ar, hi, it, tr, vi). |
+
+**Development Features:**
+- Config changes are automatically detected during `npm run dev`
+- Server restarts when `docs.site.json` is modified
+- No manual restart needed for configuration updates
 
 ## Directory & Navigation Configuration
 

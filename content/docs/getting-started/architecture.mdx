@@ -30,29 +30,77 @@ Each documentation directory is self-contained. If you want to add a new section
 
 ## Directory Structure
 
-A standard ObjectDocs project structure looks like this:
+A standard ObjectDocs project structure after initialization:
 
 ```text
 .
-├── content/               # [Data Layer] Raw Content
-│   ├── docs.site.json     # Global settings (Nav, Logo, Branding)
+├── content/               # [Data Layer] All documentation files
+│   ├── package.json       # Scripts: dev, build, start (created by init)
+│   ├── .objectdocs/       # Site engine (copied from @objectdocs/site, gitignored)
+│   │   ├── node_modules/  # Dependencies (installed during init)
+│   │   ├── .next/         # Next.js build cache (development)
+│   │   └── out/           # Static build output (production)
+│   ├── docs.site.json     # Global config (Nav, Logo, Branding, i18n)
+│   ├── public/            # Static assets (copied to site during build/dev)
 │   └── docs/
-│       ├── meta.json      # Directory structure & sorting control
+│       ├── meta.json      # Directory structure & page order
 │       └── index.mdx      # Documentation content
-├── package.json
-└── public/                # Static assets (images, etc.)
+├── out/                   # Final build output (copied from content/.objectdocs/out)
+├── .gitignore             # Auto-updated to exclude content/.objectdocs
+├── package.json           # (Optional) Root project package.json
+└── ...
 ```
+
+**Key Components:**
+- **`content/.objectdocs/`**: Contains the complete Next.js site engine from `@objectdocs/site` package
+- **`content/package.json`**: Created by init command with dev/build/start scripts
+- **Build Flow**: `content/.objectdocs/out` → `out/` (root directory)
+- **Environment**: Commands run inside `content/.objectdocs` with `DOCS_DIR` env variable pointing to docs
 
 ## Data Flow
 
-1.  **Build Time**: `@objectdocs/site` reads all MDX and JSON files under `content/`.
-2.  **Parsing**: The Fumadocs engine parses metadata and builds the navigation tree.
-3.  **Rendering**: Next.js (App Router) renders content as React Server Components.
-4.  **Interaction**: Client components (like `<Cards>`, `<Steps>`) activate in the browser.
+### Initialization Flow
+1. **Init Command**: `npx @objectdocs/cli init`
+2. **Package Copy**: Entire `@objectdocs/site` package → `content/.objectdocs`
+3. **Script Creation**: `content/package.json` with dev/build/start scripts
+4. **Dependency Install**: `npm install` in `content/.objectdocs`
+5. **Gitignore Update**: Add exclusions for generated files
+
+### Development Flow
+1. **Start**: Run `cd content && npm run dev`
+2. **Config Sync**: Copy `docs.site.json` and `public/` to `content/.objectdocs`
+3. **Environment**: Set `DOCS_DIR` env variable to point to `content/docs`
+4. **Watch**: Monitor `docs.site.json` for changes and auto-restart
+5. **Server**: Next.js dev server runs on port 7777 (default)
+
+### Build Flow
+1. **Build Time**: Run `cd content && npm run build`
+2. **Config Sync**: Copy `docs.site.json` and `public/` to `content/.objectdocs`
+3. **Environment**: Set `DOCS_DIR` env variable
+4. **MDX Parsing**: Fumadocs reads all `.mdx` files from `DOCS_DIR`
+5. **Metadata**: Parse `meta.json` files to build navigation tree
+6. **Rendering**: Next.js App Router renders as React Server Components
+7. **Output**: 
+   - Static mode: `content/.objectdocs/out` → `out/` (root)
+   - Dynamic mode: `content/.objectdocs/.next` → `.next/` (root)
+
+### Runtime Flow (Static)
+1. **Serve**: Production build served from `out/` directory
+2. **Assets**: Static HTML, CSS, JS, and images
+3. **CDN**: Can be deployed to Vercel, Netlify, or any static host
+
+### Runtime Flow (Dynamic)
+1. **Start**: Run `cd content && npm run start`
+2. **Server**: Next.js production server with ISR/SSR capabilities
+3. **Interaction**: Client components (like `<Cards>`, `<Steps>`) hydrate in browser
 
 ### Why Design It This Way?
 
 This architecture allows us to:
 
-*   **Multi-Product Support**: By switching different `content` directories, multiple product documentations can be supported within the same codebase.
-*   **Low-Code Integration**: Since content is separated from UI, we can more easily inject dynamic low-code component demos.
+*   **Clean Separation**: Keep the documentation content completely separate from the site engine
+*   **Project Agnostic**: Add docs to any existing project without polluting the root directory
+*   **Version Control**: The entire site engine is gitignored, only content is tracked
+*   **Multi-Product Support**: By switching different `content` directories, multiple product documentations can be supported
+*   **Low-Code Integration**: Since content is separated from UI, we can more easily inject dynamic low-code component demos
+*   **Easy Updates**: Update the site engine by re-running init or updating the CLI version

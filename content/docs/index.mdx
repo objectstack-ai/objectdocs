@@ -39,9 +39,16 @@ In traditional documentation sites, adding a new section often requires editing 
 
 * **Technical Writers**: Write `.mdx` content and manage local `meta.json` for sorting.
 * **Platform Architects**: Configure global `content/docs.site.json` (branding, nav links).
-* **Frontend Developers**: Maintain the base UI logic only when strictly necessary.
+* **Frontend Developers**: Site engine is maintained as a separate package (`@objectdocs/site`), isolated in `content/.objectdocs`.
 
-### 2. Interactive Components
+### 2. Clean Integration
+ObjectDocs is designed to be added to any existing project:
+* All documentation lives in `content/` directory
+* Site engine is copied to `content/.objectdocs` (gitignored)
+* Your project root stays clean and unpolluted
+* No configuration files scattered across your repository
+
+### 3. Interactive Components
 Static text is not enough to showcase the capabilities of a low-code platform. ObjectDocs allows you to mount live component demos directly in your docs.
 
 ## Next Steps

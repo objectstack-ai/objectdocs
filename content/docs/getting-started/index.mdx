@@ -14,39 +14,45 @@ Ensure your environment meets the following requirements:
 - **Node.js**: 18.17 or higher
 - **Package Manager**: pnpm is recommended (npm or yarn also work)
 
-## 1. Create a New Project
+## 1. Initialize ObjectDocs
 
-We provide a CLI tool to quickly initialize your project. Run the following in your terminal:
+ObjectDocs can be initialized in any existing project or as a new standalone project.
 
 <Steps>
-### Initialize Directory Structure
+### Option A: Using npm init (Recommended)
 
-In your project root, create the following file structure:
-
-```bash
-mkdir -p content/docs
-```
-
-### Install Dependencies
-
-Install `@objectdocs/cli` as a development dependency:
+The fastest way to get started:
 
 ```bash title="Terminal"
-pnpm add -D @objectdocs/cli
+mkdir my-docs
+cd my-docs
+npm init @objectdocs
 ```
 
-### Configure Scripts
+This automatically runs the init command and sets up everything you need.
 
-Add the following scripts to your `package.json`:
+### Option B: Using npx
 
-```json title="package.json"
-{
-  "scripts": {
-    "dev": "objectdocs dev",
-    "build": "objectdocs build",
-    "start": "objectdocs start"
-  }
-}
+Initialize in an existing project:
+
+```bash title="Terminal"
+cd your-existing-project
+npx @objectdocs/cli init
+```
+
+This will:
+- Copy the site engine from `@objectdocs/site` to `content/.objectdocs`
+- Create `content/package.json` with scripts (`dev`, `build`, `start`)
+- Install dependencies in `content/.objectdocs`
+- Add `content/.objectdocs` and `content/node_modules` to `.gitignore`
+- Keep your project root clean
+
+### Create Content Directory
+
+If not already created:
+
+```bash title="Terminal"
+mkdir -p content/docs
 ```
 </Steps>
 
@@ -101,11 +107,18 @@ Create `content/docs.site.json` to configure site name and navigation:
 
 ## 3. Start Development Server
 
-Run the following command to start the service:
+Navigate to the content directory and start the development server:
 
 ```bash title="Terminal"
-pnpm dev
+cd content
+npm run dev
 ```
+
+The development server will:
+- Start on port 7777 (default)
+- Watch for changes in `content/docs.site.json` and automatically restart
+- Hot reload your MDX content changes
+- Copy `public/` assets to the site engine
 
 Now visit [http://localhost:7777](http://localhost:7777), and you should see your documentation site!
 
