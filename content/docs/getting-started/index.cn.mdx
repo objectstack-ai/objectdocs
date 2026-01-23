@@ -14,39 +14,45 @@ ObjectDocs 是一个基于 Next.js 14 和 Fumadocs 的现代文档引擎，支�
 - **Node.js**: 18.17 或更高版本
 - **包管理器**: 推荐使用 pnpm (npm 或 yarn 也可以)
 
-## 1. 创建新项目
+## 1. 初始化 ObjectDocs
 
-我们提供了一个 CLI 工具来快速初始化项目。在你的终端中运行：
+ObjectDocs 可以在任何现有项目中初始化，或作为新的独立项目。
 
 <Steps>
-### 初始化目录结构
+### 方式 A: 使用 npm init (推荐)
 
-在你的项目根目录下，创建以下文件结构：
-
-```bash
-mkdir -p content/docs
-```
-
-### 安装依赖
-
-安装 `@objectdocs/cli` 作为开发依赖：
+最快速的入门方式：
 
 ```bash title="Terminal"
-pnpm add -D @objectdocs/cli
+mkdir my-docs
+cd my-docs
+npm init @objectdocs
 ```
 
-### 配置启动脚本
+这将自动运行初始化命令并设置所有必需的内容。
 
-在 `package.json` 中添加以下脚本：
+### 方式 B: 使用 npx
 
-```json title="package.json"
-{
-  "scripts": {
-    "dev": "objectdocs dev",
-    "build": "objectdocs build",
-    "start": "objectdocs start"
-  }
-}
+在现有项目中初始化：
+
+```bash title="Terminal"
+cd your-existing-project
+npx @objectdocs/cli init
+```
+
+这将：
+- 从 `@objectdocs/site` 复制站点引擎到 `content/.objectdocs`
+- 创建 `content/package.json` 并添加脚本 (`dev`, `build`, `start`)
+- 在 `content/.objectdocs` 中安装依赖
+- 将 `content/.objectdocs` 和 `content/node_modules` 添加到 `.gitignore`
+- 保持项目根目录整洁
+
+### 创建内容目录
+
+如果尚未创建：
+
+```bash title="Terminal"
+mkdir -p content/docs
 ```
 </Steps>
 
@@ -101,16 +107,23 @@ description: 你的新文档站点
 
 ## 3. 启动开发服务器
 
-运行以下命令启动服务：
+进入 content 目录并启动开发服务器：
 
 ```bash title="Terminal"
-pnpm dev
+cd content
+npm run dev
 ```
+
+开发服务器将：
+- 在端口 7777 上启动（默认）
+- 监听 `content/docs.site.json` 的变化并自动重启
+- 热重载你的 MDX 内容更改
+- 复制 `public/` 资源到站点引擎
 
 现在访问 [http://localhost:7777](http://localhost:7777)，你应该能看到你的文档站点了！
 
 ## 下一步
 
+- [架构详解](./architecture) - 了解 ObjectDocs 的目录结构和数据流
 - [配置文件](./configuration) - 了解更多配置选项
-- [编写内容](./writing) - 学习 MDX 语法和组件使用
-- [部署](./deployment) - 将你的文档发布到生产环境
+- [组件](/docs/components/objectui-embed) - 在文档中嵌入交互式 ObjectUI 组件

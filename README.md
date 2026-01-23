@@ -65,9 +65,9 @@ npx @objectdocs/cli init
 ```
 
 This will:
-- Create `content/package.json` with necessary scripts
-- Copy the site engine to `content/.objectdocs`
-- Install dependencies in `content/.objectdocs/node_modules`
+- Copy the site engine from `@objectdocs/site` to `content/.objectdocs`
+- Create `content/package.json` with scripts (`dev`, `build`, `start`)
+- Install dependencies in `content/.objectdocs`
 - Automatically add `content/.objectdocs` and `content/node_modules` to `.gitignore`
 - Keep your project root clean and unpolluted
 
@@ -99,38 +99,17 @@ cd content && npm run dev
 
 Visit http://localhost:7777 to see your site.
 
-### Option 2: New Standalone Project
+### Option 2: Use npm init
 
-For a new dedicated documentation project:
+For a quick start with automatic initialization:
 
 ```bash
 mkdir my-docs
 cd my-docs
-npm init -y
-npm install -D @objectdocs/cli
+npm init @objectdocs
 ```
 
-Add scripts to your root `package.json`:
-
-```json
-{
-  "scripts": {
-    "dev": "cd content && npm run dev",
-    "build": "cd content && npm run build",
-    "start": "cd content && npm run start"
-  }
-}
-```
-
-Initialize ObjectDocs:
-
-```bash
-npm run init
-# or
-npx objectdocs init
-```
-
-Then follow the same steps as Option 1 to add content.
+This runs the init command automatically. Then follow the same steps as Option 1 to add content.
 
 ## 🏗️ Project Structure
 
@@ -139,19 +118,24 @@ ObjectDocs enforces a clear directory structure to ensure maintainability at sca
 ```text
 .
 ├── content/               # [Data Layer] All documentation files
-│   ├── package.json       # npm scripts (dev, build, start)
-│   ├── .objectdocs/       # Site engine (auto-generated, gitignored)
-│   ├── docs.site.json     # Global settings (Nav, Logo, Branding)
+│   ├── package.json       # Scripts: dev, build, start (created by init)
+│   ├── .objectdocs/       # Site engine (copied from @objectdocs/site, gitignored)
+│   │   ├── node_modules/  # Dependencies (installed during init)
+│   │   ├── .next/         # Next.js build cache (development)
+│   │   └── out/           # Static build output (production)
+│   ├── docs.site.json     # Global config (Nav, Logo, Branding, i18n)
 │   └── docs/
-│       ├── meta.json      # Directory structure & sorting control
+│       ├── meta.json      # Directory structure & page order
 │       └── index.mdx      # Documentation content
+├── out/                   # Final build output (copied from content/.objectdocs/out)
 ├── package.json           # (Optional) Root project package.json
 └── ...
 ```
 
 **Key Points:**
 - All documentation-related files are in `content/`
-- `content/.objectdocs/` is auto-generated and gitignored
+- `content/.objectdocs/` contains the complete Next.js site engine (auto-generated, gitignored)
+- Build output: `content/.objectdocs/out` → copied to root `out/` directory
 - Your project root remains clean
 - Perfect for adding docs to any existing project
 
@@ -161,7 +145,7 @@ ObjectDocs is designed to be "Configuration as Code".
 
 ### Global Config (`content/docs.site.json`)
 
-Manage global navigation, branding, and feature flags:
+Manage global navigation, branding, i18n, and feature flags:
 
 ```json
 {
@@ -175,9 +159,18 @@ Manage global navigation, branding, and feature flags:
   "links": [
     { "text": "Guide", "url": "/docs" },
     { "text": "GitHub", "url": "https://github.com/objectstack-ai", "icon": "github" }
-  ]
+  ],
+  "i18n": {
+    "defaultLanguage": "en",
+    "languages": ["en", "zh-CN", "ja", "es", "fr", "de", "ko", "ru", "pt", "ar", "hi", "it", "tr", "vi"]
+  }
 }
 ```
+
+**Supported Features:**
+- 14 languages for internationalization
+- Automatic config watching and hot reload during development
+- Config is copied to `content/.objectdocs` before each build/dev command
 
 ### Sidebar Control (`content/**/meta.json`)
 

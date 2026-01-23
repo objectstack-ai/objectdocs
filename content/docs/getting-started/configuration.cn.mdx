@@ -13,7 +13,7 @@ ObjectDocs 遵循 **配置即代码 (Configuration as Code)** 的原则。所有
 
 ### docs.site.json
 
-主配置文件位于 `content/docs.site.json`。该文件控制整个文档站点的全局设置。
+主配置文件位于 `content/docs.site.json`。该文件控制整个文档站点的全局设置，并在构建和开发期间自动同步到 `content/.objectdocs`。
 
 ```json
 {
@@ -27,17 +27,34 @@ ObjectDocs 遵循 **配置即代码 (Configuration as Code)** 的原则。所有
   "links": [
     { "text": "Guide", "url": "/docs" },
     { "text": "GitHub", "url": "https://github.com/objectstack-ai", "icon": "github" }
-  ]
+  ],
+  "i18n": {
+    "defaultLanguage": "en",
+    "languages": ["en", "zh-CN", "ja", "es", "fr", "de", "ko", "ru", "pt", "ar", "hi", "it", "tr", "vi"]
+  }
 }
 ```
+
+**工作原理:**
+- 存储在 `content/docs.site.json` (你的内容目录)
+- 在每次 build/dev 命令前复制到 `content/.objectdocs`
+- 开发时监听 - 变化会触发服务器自动重启
+- 支持 14 种语言的国际化
 
 ### 配置项说明
 
 | 属性 | 类型 | 说明 |
 | :--- | :--- | :--- |
 | `branding.name` | `string` | 站点名称，显示在导航栏左侧。 |
-| `branding.logo` | `object` | 站点 Log 图片路径，支持亮色/暗色模式。 |
+| `branding.logo` | `object` | 站点 Logo 图片路径，支持亮色/暗色模式。 |
 | `links` | `array` | 顶部导航栏链接列表。 |
+| `i18n.defaultLanguage` | `string` | 默认语言代码 (例如, "en", "zh-CN")。 |
+| `i18n.languages` | `array` | 支持的语言 (14种可选: en, zh-CN, ja, es, fr, de, ko, ru, pt, ar, hi, it, tr, vi)。 |
+
+**开发功能:**
+- 配置更改在 `npm run dev` 期间自动检测
+- `docs.site.json` 被修改时服务器会重启
+- 配置更新无需手动重启
 
 ## 目录与导航配置
 
