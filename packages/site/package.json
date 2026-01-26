@@ -27,7 +27,7 @@
     "client-only": "^0.0.1",
     "dotenv": "^16.4.5",
     "lucide-react": "^0.562.0",
-    "fumadocs-core": "^16.4.7",
+    "fumadocs-core": "^16.4.9",
     "fumadocs-mdx": "^14.2.5",
     "fumadocs-ui": "^16.4.7",
     "next": "^16.1.2",
