@@ -18,7 +18,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@fumadocs/ui": "^16.4.7",
+    "@fumadocs/ui": "^16.4.9",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/mdx": "^2.0.13",
     "@types/node": "^25.0.8",
