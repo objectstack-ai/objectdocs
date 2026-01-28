@@ -36,7 +36,7 @@ A standard ObjectDocs project structure after initialization:
 .
 ├── content/               # [Data Layer] All documentation files
 │   ├── package.json       # Scripts: dev, build, start (created by init)
-│   ├── .objectdocs/       # Site engine (copied from @objectdocs/site, gitignored)
+│   ├── .fumadocs/       # Site engine (copied from @objectdocs/site, gitignored)
 │   │   ├── node_modules/  # Dependencies (installed during init)
 │   │   ├── .next/         # Next.js build cache (development)
 │   │   └── out/           # Static build output (production)
@@ -45,44 +45,44 @@ A standard ObjectDocs project structure after initialization:
 │   └── docs/
 │       ├── meta.json      # Directory structure & page order
 │       └── index.mdx      # Documentation content
-├── out/                   # Final build output (copied from content/.objectdocs/out)
-├── .gitignore             # Auto-updated to exclude content/.objectdocs
+├── out/                   # Final build output (copied from content/.fumadocs/out)
+├── .gitignore             # Auto-updated to exclude content/.fumadocs
 ├── package.json           # (Optional) Root project package.json
 └── ...
 ```
 
 **Key Components:**
-- **`content/.objectdocs/`**: Contains the complete Next.js site engine from `@objectdocs/site` package
+- **`content/.fumadocs/`**: Contains the complete Next.js site engine from `@objectdocs/site` package
 - **`content/package.json`**: Created by init command with dev/build/start scripts
-- **Build Flow**: `content/.objectdocs/out` → `out/` (root directory)
-- **Environment**: Commands run inside `content/.objectdocs` with `DOCS_DIR` env variable pointing to docs
+- **Build Flow**: `content/.fumadocs/out` → `out/` (root directory)
+- **Environment**: Commands run inside `content/.fumadocs` with `DOCS_DIR` env variable pointing to docs
 
 ## Data Flow
 
 ### Initialization Flow
 1. **Init Command**: `npx @objectdocs/cli init`
-2. **Package Copy**: Entire `@objectdocs/site` package → `content/.objectdocs`
+2. **Package Copy**: Entire `@objectdocs/site` package → `content/.fumadocs`
 3. **Script Creation**: `content/package.json` with dev/build/start scripts
-4. **Dependency Install**: `npm install` in `content/.objectdocs`
+4. **Dependency Install**: `npm install` in `content/.fumadocs`
 5. **Gitignore Update**: Add exclusions for generated files
 
 ### Development Flow
 1. **Start**: Run `cd content && npm run dev`
-2. **Config Sync**: Copy `docs.site.json` and `public/` to `content/.objectdocs`
+2. **Config Sync**: Copy `docs.site.json` and `public/` to `content/.fumadocs`
 3. **Environment**: Set `DOCS_DIR` env variable to point to `content/docs`
 4. **Watch**: Monitor `docs.site.json` for changes and auto-restart
 5. **Server**: Next.js dev server runs on port 7777 (default)
 
 ### Build Flow
 1. **Build Time**: Run `cd content && npm run build`
-2. **Config Sync**: Copy `docs.site.json` and `public/` to `content/.objectdocs`
+2. **Config Sync**: Copy `docs.site.json` and `public/` to `content/.fumadocs`
 3. **Environment**: Set `DOCS_DIR` env variable
 4. **MDX Parsing**: Fumadocs reads all `.mdx` files from `DOCS_DIR`
 5. **Metadata**: Parse `meta.json` files to build navigation tree
 6. **Rendering**: Next.js App Router renders as React Server Components
 7. **Output**: 
-   - Static mode: `content/.objectdocs/out` → `out/` (root)
-   - Dynamic mode: `content/.objectdocs/.next` → `.next/` (root)
+   - Static mode: `content/.fumadocs/out` → `out/` (root)
+   - Dynamic mode: `content/.fumadocs/.next` → `.next/` (root)
 
 ### Runtime Flow (Static)
 1. **Serve**: Production build served from `out/` directory

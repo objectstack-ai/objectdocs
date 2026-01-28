@@ -39,7 +39,7 @@ test-full:
 clean:
 	rm -rf node_modules
 	rm -rf .next
-	rm -rf content/.objectdocs
+	rm -rf content/.fumadocs
 	rm -rf packages/*/node_modules
 	rm -rf examples/*/node_modules
 	find . -name ".next" -type d -exec rm -rf {} + 2>/dev/null || true

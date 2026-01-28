@@ -36,7 +36,7 @@ ObjectDocs 建立在严格的 **关注点分离 (Separation of Concerns)** 理�
 .
 ├── content/               # [数据层] 所有文档文件
 │   ├── package.json       # 脚本: dev, build, start (由 init 创建)
-│   ├── .objectdocs/       # 站点引擎 (从 @objectdocs/site 复制, gitignored)
+│   ├── .fumadocs/       # 站点引擎 (从 @objectdocs/site 复制, gitignored)
 │   │   ├── node_modules/  # 依赖 (初始化时安装)
 │   │   ├── .next/         # Next.js 构建缓存 (开发)
 │   │   └── out/           # 静态构建输出 (生产)
@@ -45,44 +45,44 @@ ObjectDocs 建立在严格的 **关注点分离 (Separation of Concerns)** 理�
 │   └── docs/
 │       ├── meta.json      # 目录结构 & 页面顺序
 │       └── index.mdx      # 文档内容
-├── out/                   # 最终构建输出 (从 content/.objectdocs/out 复制)
-├── .gitignore             # 自动更新以排除 content/.objectdocs
+├── out/                   # 最终构建输出 (从 content/.fumadocs/out 复制)
+├── .gitignore             # 自动更新以排除 content/.fumadocs
 ├── package.json           # (可选) 根目录 package.json
 └── ...
 ```
 
 **核心组件:**
-- **`content/.objectdocs/`**: 包含来自 `@objectdocs/site` 包的完整 Next.js 站点引擎
+- **`content/.fumadocs/`**: 包含来自 `@objectdocs/site` 包的完整 Next.js 站点引擎
 - **`content/package.json`**: 由 init 命令创建，包含 dev/build/start 脚本
-- **构建流程**: `content/.objectdocs/out` → `out/` (根目录)
-- **环境**: 命令在 `content/.objectdocs` 内运行，`DOCS_DIR` 环境变量指向文档目录
+- **构建流程**: `content/.fumadocs/out` → `out/` (根目录)
+- **环境**: 命令在 `content/.fumadocs` 内运行，`DOCS_DIR` 环境变量指向文档目录
 
 ## 数据流向
 
 ### 初始化流程
 1. **初始化命令**: `npx @objectdocs/cli init`
-2. **包复制**: 整个 `@objectdocs/site` 包 → `content/.objectdocs`
+2. **包复制**: 整个 `@objectdocs/site` 包 → `content/.fumadocs`
 3. **脚本创建**: 创建 `content/package.json` 并添加 dev/build/start 脚本
-4. **依赖安装**: 在 `content/.objectdocs` 中运行 `npm install`
+4. **依赖安装**: 在 `content/.fumadocs` 中运行 `npm install`
 5. **Gitignore 更新**: 添加排除生成文件的规则
 
 ### 开发流程
 1. **启动**: 运行 `cd content && npm run dev`
-2. **配置同步**: 复制 `docs.site.json` 和 `public/` 到 `content/.objectdocs`
+2. **配置同步**: 复制 `docs.site.json` 和 `public/` 到 `content/.fumadocs`
 3. **环境**: 设置 `DOCS_DIR` 环境变量指向 `content/docs`
 4. **监听**: 监控 `docs.site.json` 的变化并自动重启
 5. **服务器**: Next.js 开发服务器在端口 7777 上运行（默认）
 
 ### 构建流程
 1. **构建时**: 运行 `cd content && npm run build`
-2. **配置同步**: 复制 `docs.site.json` 和 `public/` 到 `content/.objectdocs`
+2. **配置同步**: 复制 `docs.site.json` 和 `public/` 到 `content/.fumadocs`
 3. **环境**: 设置 `DOCS_DIR` 环境变量
 4. **MDX 解析**: Fumadocs 从 `DOCS_DIR` 读取所有 `.mdx` 文件
 5. **元数据**: 解析 `meta.json` 文件构建导航树
 6. **渲染**: Next.js App Router 将内容渲染为 React Server Components
 7. **输出**: 
-   - 静态模式: `content/.objectdocs/out` → `out/` (根目录)
-   - 动态模式: `content/.objectdocs/.next` → `.next/` (根目录)
+   - 静态模式: `content/.fumadocs/out` → `out/` (根目录)
+   - 动态模式: `content/.fumadocs/.next` → `.next/` (根目录)
 
 ### 运行流程 (静态)
 1. **服务**: 从 `out/` 目录提供生产构建

@@ -13,7 +13,7 @@ ObjectDocs 遵循 **配置即代码 (Configuration as Code)** 的原则。所有
 
 ### docs.site.json
 
-主配置文件位于 `content/docs.site.json`。该文件控制整个文档站点的全局设置，并在构建和开发期间自动同步到 `content/.objectdocs`。
+主配置文件位于 `content/docs.site.json`。该文件控制整个文档站点的全局设置，并在构建和开发期间自动同步到 `content/.fumadocs`。
 
 ```json
 {
@@ -37,7 +37,7 @@ ObjectDocs 遵循 **配置即代码 (Configuration as Code)** 的原则。所有
 
 **工作原理:**
 - 存储在 `content/docs.site.json` (你的内容目录)
-- 在每次 build/dev 命令前复制到 `content/.objectdocs`
+- 在每次 build/dev 命令前复制到 `content/.fumadocs`
 - 开发时监听 - 变化会触发服务器自动重启
 - 支持 14 种语言的国际化
 

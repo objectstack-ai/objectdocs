@@ -24,7 +24,7 @@ This starter template serves multiple purposes:
 examples/starter/
 ├── content/
 │   ├── package.json          # npm scripts (auto-created by init)
-│   ├── .objectdocs/          # Site engine (created by init command, gitignored)
+│   ├── .fumadocs/          # Site engine (created by init command, gitignored)
 │   ├── docs.site.json        # Global site configuration
 │   └── docs/
 │       ├── meta.json         # Sidebar navigation structure
@@ -39,7 +39,7 @@ examples/starter/
 **Key Points:**
 - All documentation files are in `content/`
 - `content/package.json` is auto-created by `objectdocs init`
-- `content/.objectdocs/` is gitignored and not committed
+- `content/.fumadocs/` is gitignored and not committed
 - Root directory remains clean
 
 ## 🚀 Getting Started
@@ -73,8 +73,8 @@ pnpm objectdocs init
 
 This command will:
 - Create `content/package.json` with necessary scripts
-- Copy the `@objectdocs/site` engine to `content/.objectdocs`
-- Install dependencies in `content/.objectdocs/node_modules`
+- Copy the `@objectdocs/site` engine to `content/.fumadocs`
+- Install dependencies in `content/.fumadocs/node_modules`
 - Prepare your project for development
 
 ### Development
@@ -107,7 +107,7 @@ Or with root-level script:
 pnpm build
 ```
 
-This will generate the production build in the `content/.objectdocs/.next` directory.
+This will generate the production build in the `content/.fumadocs/.next` directory.
 
 ### Production Server
 

@@ -24,11 +24,11 @@ export function registerDevCommand(cli) {
       // 1. Resolve user's docs directory (Absolute path)
       const docsDir = dir ? path.resolve(process.cwd(), dir) : path.resolve(process.cwd(), 'content/docs');
       
-      // 2. Resolve the Next.js App directory - use local .objectdocs first
-      let nextAppDir = path.resolve(process.cwd(), 'content/.objectdocs');
+      // 2. Resolve the Next.js App directory - use local .fumadocs first
+      let nextAppDir = path.resolve(process.cwd(), 'content/.fumadocs');
       
       if (!fs.existsSync(nextAppDir)) {
-        console.log('⚠️  ObjectDocs site not found at content/.objectdocs');
+        console.log('⚠️  ObjectDocs site not found at content/.fumadocs');
         console.log('   Run "objectdocs init" first to initialize the site.\n');
         process.exit(1);
       }

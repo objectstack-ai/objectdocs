@@ -188,7 +188,7 @@ pnpm add -D ../../packages/cli/objectdocs-cli-X.X.X.tgz
 When preparing for a release, manually verify:
 
 ### Development Workflow
-- [ ] `pnpm objectdocs init` creates `.objectdocs` directory
+- [ ] `pnpm objectdocs init` creates `.fumadocs` directory
 - [ ] `pnpm dev` starts development server on port 7777
 - [ ] Hot reload works when editing MDX files
 - [ ] Hot reload works when editing `meta.json`
@@ -196,7 +196,7 @@ When preparing for a release, manually verify:
 
 ### Build Process
 - [ ] `pnpm build` completes without errors
-- [ ] Build output is created in `content/.objectdocs/.next`
+- [ ] Build output is created in `content/.fumadocs/.next`
 - [ ] No TypeScript errors
 - [ ] No ESLint errors (if configured)
 

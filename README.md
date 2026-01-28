@@ -65,10 +65,10 @@ npx @objectdocs/cli init
 ```
 
 This will:
-- Copy the site engine from `@objectdocs/site` to `content/.objectdocs`
+- Copy the site engine from `@objectdocs/site` to `content/.fumadocs`
 - Create `content/package.json` with scripts (`dev`, `build`, `start`)
-- Install dependencies in `content/.objectdocs`
-- Automatically add `content/.objectdocs` and `content/node_modules` to `.gitignore`
+- Install dependencies in `content/.fumadocs`
+- Automatically add `content/.fumadocs` and `content/node_modules` to `.gitignore`
 - Keep your project root clean and unpolluted
 
 Then add content and start the server:
@@ -119,7 +119,7 @@ ObjectDocs enforces a clear directory structure to ensure maintainability at sca
 .
 ├── content/               # [Data Layer] All documentation files
 │   ├── package.json       # Scripts: dev, build, start (created by init)
-│   ├── .objectdocs/       # Site engine (copied from @objectdocs/site, gitignored)
+│   ├── .fumadocs/       # Site engine (copied from @objectdocs/site, gitignored)
 │   │   ├── node_modules/  # Dependencies (installed during init)
 │   │   ├── .next/         # Next.js build cache (development)
 │   │   └── out/           # Static build output (production)
@@ -127,15 +127,15 @@ ObjectDocs enforces a clear directory structure to ensure maintainability at sca
 │   └── docs/
 │       ├── meta.json      # Directory structure & page order
 │       └── index.mdx      # Documentation content
-├── out/                   # Final build output (copied from content/.objectdocs/out)
+├── out/                   # Final build output (copied from content/.fumadocs/out)
 ├── package.json           # (Optional) Root project package.json
 └── ...
 ```
 
 **Key Points:**
 - All documentation-related files are in `content/`
-- `content/.objectdocs/` contains the complete Next.js site engine (auto-generated, gitignored)
-- Build output: `content/.objectdocs/out` → copied to root `out/` directory
+- `content/.fumadocs/` contains the complete Next.js site engine (auto-generated, gitignored)
+- Build output: `content/.fumadocs/out` → copied to root `out/` directory
 - Your project root remains clean
 - Perfect for adding docs to any existing project
 
@@ -170,7 +170,7 @@ Manage global navigation, branding, i18n, and feature flags:
 **Supported Features:**
 - 14 languages for internationalization
 - Automatic config watching and hot reload during development
-- Config is copied to `content/.objectdocs` before each build/dev command
+- Config is copied to `content/.fumadocs` before each build/dev command
 
 ### Sidebar Control (`content/**/meta.json`)
 

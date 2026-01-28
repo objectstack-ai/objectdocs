@@ -19,11 +19,11 @@ const require = createRequire(import.meta.url);
 export function registerStartCommand(cli) {
   cli.command('start [dir]', 'Start the production server')
     .action((dir) => {
-      // 1. Resolve Next.js App directory - use local .objectdocs first
-      let nextAppDir = path.resolve(process.cwd(), 'content/.objectdocs');
+      // 1. Resolve Next.js App directory - use local .fumadocs first
+      let nextAppDir = path.resolve(process.cwd(), 'content/.fumadocs');
       
       if (!fs.existsSync(nextAppDir)) {
-        console.log('⚠️  ObjectDocs site not found at content/.objectdocs');
+        console.log('⚠️  ObjectDocs site not found at content/.fumadocs');
         console.log('   Run "objectdocs init" first to initialize the site.\n');
         process.exit(1);
       }

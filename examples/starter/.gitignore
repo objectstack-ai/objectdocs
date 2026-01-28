@@ -36,4 +36,4 @@ pnpm-debug.log*
 next-env.d.ts
 
 # ObjectDocs
-content/.objectdocs
+content/.fumadocs

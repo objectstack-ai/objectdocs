@@ -13,7 +13,7 @@ ObjectDocs follows the **Configuration as Code** principle. All site settings ar
 
 ### docs.site.json
 
-The main configuration file is located at `content/docs.site.json`. This file controls the global settings for the entire documentation site and is automatically synced to `content/.objectdocs` during build and development.
+The main configuration file is located at `content/docs.site.json`. This file controls the global settings for the entire documentation site and is automatically synced to `content/.fumadocs` during build and development.
 
 ```json
 {
@@ -37,7 +37,7 @@ The main configuration file is located at `content/docs.site.json`. This file co
 
 **How it Works:**
 - Stored in `content/docs.site.json` (your content directory)
-- Copied to `content/.objectdocs` before each build/dev command
+- Copied to `content/.fumadocs` before each build/dev command
 - Watched during development - changes trigger automatic server restart
 - Supports 14 languages for internationalization
 

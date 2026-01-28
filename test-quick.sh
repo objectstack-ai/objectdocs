@@ -101,7 +101,7 @@ EOF
     fi
     
     # Check build output
-    if [ -d ".objectdocs/.next" ]; then
+    if [ -d ".fumadocs/.next" ]; then
         print_success "Build output exists"
     else
         print_error "Build output not found"

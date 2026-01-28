@@ -18,12 +18,12 @@ const require = createRequire(import.meta.url);
 
 export function registerInitCommand(cli) {
   cli
-    .command('init', 'Initialize ObjectDocs site in content/.objectdocs')
+    .command('init', 'Initialize ObjectDocs site in content/.fumadocs')
     .action(async (options) => {
       console.log('Initializing ObjectDocs...\n');
       
       const contentDir = path.resolve(process.cwd(), 'content');
-      const targetDir = path.resolve(contentDir, '.objectdocs');
+      const targetDir = path.resolve(contentDir, '.fumadocs');
       const contentPackageJsonPath = path.resolve(contentDir, 'package.json');
       
       // Check if already initialized
@@ -96,9 +96,9 @@ export function registerInitCommand(cli) {
       // Add/update ObjectDocs scripts
       packageJson.scripts = {
         ...packageJson.scripts,
-        dev: 'cd .objectdocs && npm run dev',
-        build: 'cd .objectdocs && npm run build',
-        start: 'cd .objectdocs && npm run start'
+        dev: 'cd .fumadocs && npm run dev',
+        build: 'cd .fumadocs && npm run build',
+        start: 'cd .fumadocs && npm run start'
       };
       
       // Write package.json
@@ -111,7 +111,7 @@ export function registerInitCommand(cli) {
       
       // Add to .gitignore
       const gitignorePath = path.resolve(process.cwd(), '.gitignore');
-      const gitignoreEntries = ['content/.objectdocs', 'content/node_modules'];
+      const gitignoreEntries = ['content/.fumadocs', 'content/node_modules'];
       
       try {
         let gitignoreContent = '';
@@ -133,7 +133,7 @@ export function registerInitCommand(cli) {
       }
       
       // Install dependencies in the target directory
-      console.log('📦 Installing dependencies in content/.objectdocs...\n');
+      console.log('📦 Installing dependencies in content/.fumadocs...\n');
       
       const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
       const installProcess = spawn(npmCmd, ['install', '--legacy-peer-deps'], {

@@ -197,10 +197,10 @@ main() {
     fi
     
     # Verify init created necessary files
-    if [ -d "content/.objectdocs" ]; then
-        print_success "Site engine copied to content/.objectdocs"
+    if [ -d "content/.fumadocs" ]; then
+        print_success "Site engine copied to content/.fumadocs"
     else
-        print_warning "content/.objectdocs not found (might use different structure)"
+        print_warning "content/.fumadocs not found (might use different structure)"
     fi
     
     # Step 4: Create content
@@ -361,7 +361,7 @@ EOF
     fi
     
     # Check if build output exists
-    if [ -d "content/.objectdocs/.next" ] || [ -d ".next" ]; then
+    if [ -d "content/.fumadocs/.next" ] || [ -d ".next" ]; then
         print_success "Build output directory created"
     else
         print_warning "Build output directory not found in expected locations"

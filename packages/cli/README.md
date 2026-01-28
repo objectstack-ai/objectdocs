@@ -28,14 +28,14 @@ pnpm install
 Before using the development or build commands, you need to initialize the site:
 
 ```bash
-# Initialize ObjectDocs site in content/.objectdocs
+# Initialize ObjectDocs site in content/.fumadocs
 pnpm objectdocs init
 ```
 
 This command:
-- Copies the `@objectdocs/site` package to `content/.objectdocs`
+- Copies the `@objectdocs/site` package to `content/.fumadocs`
 - Installs necessary dependencies
-- Automatically adds `content/.objectdocs` to `.gitignore`
+- Automatically adds `content/.fumadocs` to `.gitignore`
 - Prepares your project for local development
 
 ### Site Management
