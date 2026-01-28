@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm build",
   "devCommand": "pnpm dev",
-  "installCommand": "pnpm install",
+  "installCommand": "pnpm install && pnpm objectdocs init",
   "framework": "nextjs",
-  "outputDirectory": ".next"
+  "outputDirectory": ".fumadocs/.next"
 }

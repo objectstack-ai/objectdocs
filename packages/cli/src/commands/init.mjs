@@ -22,7 +22,12 @@ export function registerInitCommand(cli) {
     .action(async (options) => {
       console.log('Initializing ObjectDocs...\n');
       
-      const contentDir = path.resolve(process.cwd(), 'content');
+      let contentDir = path.resolve(process.cwd(), 'content');
+      // Support running from inside 'content' directory
+      if (!fs.existsSync(contentDir) && fs.existsSync(path.resolve(process.cwd(), 'docs'))) {
+        contentDir = process.cwd();
+      }
+
       const targetDir = path.resolve(contentDir, '.fumadocs');
       const contentPackageJsonPath = path.resolve(contentDir, 'package.json');
       

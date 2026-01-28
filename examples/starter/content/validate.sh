@@ -22,14 +22,14 @@ if [ ! -f "package.json" ] || ! grep -q "@objectdocs/cli" package.json; then
 fi
 
 echo "Step 1: Checking package.json configuration..."
-if grep -q '"dev": "objectdocs dev"' package.json; then
+if grep -q '"dev": "cd .fumadocs && npm run dev"' package.json; then
     echo -e "${GREEN}✓${NC} Dev script configured correctly"
 else
     echo -e "${RED}✗${NC} Dev script missing or incorrect"
     exit 1
 fi
 
-if grep -q '"build": "objectdocs build"' package.json; then
+if grep -q '"build": "cd .fumadocs && npm run build"' package.json; then
     echo -e "${GREEN}✓${NC} Build script configured correctly"
 else
     echo -e "${RED}✗${NC} Build script missing or incorrect"
@@ -46,14 +46,14 @@ fi
 echo ""
 echo "Step 2: Checking content structure..."
 
-if [ -d "content/docs" ]; then
+if [ -d "docs" ]; then
     echo -e "${GREEN}✓${NC} Content directory exists"
 else
     echo -e "${RED}✗${NC} Content directory missing"
     exit 1
 fi
 
-if [ -f "content/docs.site.json" ]; then
+if [ -f "docs.site.json" ]; then
     echo -e "${GREEN}✓${NC} Site configuration exists"
 else
     echo -e "${RED}✗${NC} Site configuration missing"

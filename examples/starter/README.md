@@ -23,24 +23,22 @@ This starter template serves multiple purposes:
 ```
 examples/starter/
 ├── content/
-│   ├── package.json          # npm scripts (auto-created by init)
-│   ├── .fumadocs/          # Site engine (created by init command, gitignored)
+│   ├── package.json          # Project configuration and scripts
+│   ├── .fumadocs/            # Site engine (created by init command, gitignored)
 │   ├── docs.site.json        # Global site configuration
+│   ├── public/               # Static assets (logos, images)
 │   └── docs/
 │       ├── meta.json         # Sidebar navigation structure
 │       ├── index.mdx         # Home page
 │       ├── getting-started.mdx
 │       └── configuration.mdx
-├── public/                   # Static assets (logos, images)
-├── package.json              # Uses @objectdocs/cli from workspace
-└── README.md                # This file
+└── README.md                 # This file
 ```
 
 **Key Points:**
-- All documentation files are in `content/`
-- `content/package.json` is auto-created by `objectdocs init`
+- All project files are in `content/`
+- `content/package.json` manages dependencies and scripts
 - `content/.fumadocs/` is gitignored and not committed
-- Root directory remains clean
 
 ## 🚀 Getting Started
 
@@ -51,19 +49,17 @@ examples/starter/
 
 ### Installation
 
-1. Navigate to the starter directory:
+1. Navigate to the content directory:
 
 ```bash
-cd examples/starter
+cd examples/starter/content
 ```
 
-2. Install the CLI:
+2. Install dependencies:
 
 ```bash
 pnpm install
 ```
-
-This will install `@objectdocs/cli` from the workspace.
 
 3. Initialize ObjectDocs:
 
@@ -72,9 +68,8 @@ pnpm objectdocs init
 ```
 
 This command will:
-- Create `content/package.json` with necessary scripts
-- Copy the `@objectdocs/site` engine to `content/.fumadocs`
-- Install dependencies in `content/.fumadocs/node_modules`
+- Copy the `@objectdocs/site` engine to `.fumadocs`
+- Install dependencies in `.fumadocs/node_modules`
 - Prepare your project for development
 
 ### Development
@@ -82,13 +77,7 @@ This command will:
 Start the development server:
 
 ```bash
-cd content && npm run dev
-```
-
-Or if you have a root-level script configured:
-
-```bash
-pnpm dev
+npm run dev
 ```
 
 The site will be available at [http://localhost:7777](http://localhost:7777).
@@ -98,29 +87,17 @@ The site will be available at [http://localhost:7777](http://localhost:7777).
 Build the project for production:
 
 ```bash
-cd content && npm run build
+npm run build
 ```
 
-Or with root-level script:
-
-```bash
-pnpm build
-```
-
-This will generate the production build in the `content/.fumadocs/.next` directory.
+This will generate the production build in the `.fumadocs/.next` directory.
 
 ### Production Server
 
 Start the production server:
 
 ```bash
-cd content && npm run start
-```
-
-Or with root-level script:
-
-```bash
-pnpm start
+npm run start
 ```
 
 ## 🌐 Deploying to Vercel
@@ -133,10 +110,10 @@ pnpm start
 npm i -g vercel
 ```
 
-2. Deploy from the examples/starter directory:
+2. Deploy from the content directory:
 
 ```bash
-cd examples/starter
+cd examples/starter/content
 vercel
 ```
 
@@ -144,7 +121,7 @@ vercel
 
 1. Push this starter to your GitHub repository
 2. Import the project in Vercel
-3. Set the **Root Directory** to `examples/starter`
+3. Set the **Root Directory** to `examples/starter/content`
 4. Vercel will auto-detect Next.js settings
 
 ### Vercel Configuration

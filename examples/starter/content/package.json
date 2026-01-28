@@ -4,9 +4,9 @@
   "private": true,
   "description": "Starter template for creating documentation sites with ObjectDocs",
   "scripts": {
-    "dev": "cd content && npm run dev",
-    "build": "cd content && npm run build",
-    "start": "cd content && npm run start"
+    "dev": "cd .fumadocs && npm run dev",
+    "build": "cd .fumadocs && npm run build",
+    "start": "cd .fumadocs && npm run start"
   },
   "devDependencies": {
     "@objectdocs/cli": "workspace:*"
