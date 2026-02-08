@@ -39,6 +39,6 @@ export default function middleware(request: NextRequest, event: NextFetchEvent) 
 }
 
 export const config = {
-  // Matcher ignoring `/_next/` and `/api/`
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|logo.svg).*)'],
+  // Matcher ignoring `/_next/`, `/api/`, LLM routes, and OG image routes
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|logo.svg|llms\\.txt|llms-full\\.txt|llms\\.mdx|og/).*)'],
 };

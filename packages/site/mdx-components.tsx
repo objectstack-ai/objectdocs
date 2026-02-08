@@ -6,13 +6,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import defaultComponents from 'fumadocs-ui/mdx';
+import defaultMdxComponents from 'fumadocs-ui/mdx';
 import type { MDXComponents } from 'mdx/types';
 import { Steps, Step } from 'fumadocs-ui/components/steps';
 
-export function useMDXComponents(components: MDXComponents): MDXComponents {
+export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
-    ...defaultComponents,
+    ...defaultMdxComponents,
     Steps,
     Step,
     ...components,

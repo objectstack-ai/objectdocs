@@ -9,7 +9,7 @@
 import { source } from '@/lib/source';
 import { DocsLayout } from 'fumadocs-ui/layouts/docs';
 import type { ReactNode } from 'react';
-import { baseOptions } from '@/app/layout.config';
+import { baseOptions } from '@/lib/layout.shared';
 import { siteConfig } from '@/lib/site-config';
 
 export default async function Layout({
@@ -24,7 +24,7 @@ export default async function Layout({
   return (
     <DocsLayout
       tree={source.getPageTree(lang)}
-      {...baseOptions}
+      {...baseOptions()}
       sidebar={{
         enabled: siteConfig.layout.sidebar.enabled,
         prefetch: siteConfig.layout.sidebar.prefetch,
