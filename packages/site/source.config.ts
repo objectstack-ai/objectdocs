@@ -35,6 +35,7 @@ export const docs = defineDocs({
   docs: {
     schema: frontmatterSchema,
     postprocess: {
+      // Required for LLM text generation (getLLMText in lib/source.ts)
       includeProcessedMarkdown: true,
     },
   },
