@@ -3,11 +3,13 @@ title: Development Roadmap
 description: ObjectDocs development plan and feature roadmap for GitHub-based documentation with Vercel deployment
 ---
 
-import { Code, Sparkles, Globe, Shield, GitBranch, Rocket } from 'lucide-react';
+import { Code, Sparkles, Globe, Shield, GitBranch, Rocket, CheckCircle } from 'lucide-react';
 
 # ObjectDocs Development Roadmap
 
 This document outlines the development plan and feature roadmap for ObjectDocs, a GitHub-native documentation engine optimized for Vercel deployment.
+
+**Current Version**: v0.2.12 | **Last Updated**: 2026-02-08
 
 ## 🎯 Core Mission
 
@@ -17,26 +19,42 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 2. **Zero-Config Deployment**: Push to GitHub, auto-deploy to Vercel with optimal caching and CDN distribution
 3. **Developer-First**: Treat documentation as code—version controlled, peer-reviewed, and CI/CD integrated
 
+## 📊 Overall Progress Summary
+
+| Package | Version | Status |
+|---------|---------|--------|
+| `@objectdocs/cli` | v0.2.12 | ✅ Stable |
+| `@objectdocs/site` | v0.2.12 | ✅ Stable |
+| Root Workspace | v1.0.0 | ✅ Active |
+
+| Phase | Status | Progress |
+|-------|--------|----------|
+| Phase 1: Core Platform & Deployment | ✅ Mostly Complete | ~80% |
+| Phase 2: Developer Experience | 🟡 In Progress | ~30% |
+| Phase 3: Advanced Features | ⬚ Planned | ~0% |
+
 ## 📅 Development Roadmap
 
-### Phase 1: GitHub Integration & Vercel Optimization (Q1 2026)
+### Phase 1: Core Platform & Deployment (Q4 2025 – Q1 2026)
 
 <Cards>
-<Card icon={<GitBranch />} title="GitHub-Native Features">
+<Card icon={<CheckCircle />} title="GitHub-Native Features">
 
 **Goal**: Deep integration with GitHub repository workflows
 
+- [x] GitHub Actions workflows for automated builds and checks (CI, release, preview, test-lifecycle, link-check)
+- [x] PR preview deployments via Vercel integration (`preview.yml` workflow)
+- [x] Changesets-based versioned releases with automated NPM publishing
 - [ ] GitHub App for automated documentation syncing
-- [ ] PR preview deployments via Vercel integration
 - [ ] GitHub Issues integration for documentation feedback
-- [ ] GitHub Actions workflows for automated builds and checks
 - [ ] Branch-based documentation versioning
 
-**Technical Implementation**:
-- Use GitHub REST/GraphQL APIs for content fetching
-- Implement Vercel Git integration hooks
-- Create reusable GitHub Actions for linting and validation
-- Support monorepo documentation with git submodules
+**Implemented**:
+- CI workflow (`ci.yml`) for build validation on push/PR
+- Release workflow (`release.yml`) with Changesets for semantic versioning
+- Preview workflow (`preview.yml`) for PR preview deployments
+- Test lifecycle workflow (`test-lifecycle.yml`) for comprehensive testing
+- Link check workflow (`link-check.yml`) for content validation
 
 </Card>
 
@@ -44,40 +62,46 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 
 **Goal**: Optimize for Vercel's edge network and build system
 
+- [x] Standalone output mode for Vercel/Docker support
+- [x] Production deployment automation via GitHub Actions
+- [x] `vercel.json` configuration for optimal routing
+- [x] Preview deployments for every PR
+- [x] Monorepo-aware build configuration
 - [ ] ISR (Incremental Static Regeneration) configuration
 - [ ] Edge Functions for dynamic content
-- [ ] Optimal caching strategies (stale-while-revalidate)
-- [ ] Preview deployments for every PR
-- [ ] Production deployment automation
+- [ ] Edge Middleware for A/B testing
 
-**Technical Implementation**:
-- Configure `vercel.json` for optimal routing
-- Implement edge middleware for A/B testing
-- Use Vercel Analytics for performance monitoring
-- Integrate Vercel Image Optimization
-- Set up custom domains with SSL automation
+**Implemented**:
+- `next.config.mjs` with standalone output mode
+- Symlink-aware artifact copying for Vercel compatibility
+- Both static export and dynamic (standalone) build modes
+- Vercel deployment configuration in `vercel.json`
 
 </Card>
 </Cards>
 
-### Phase 2: Enhanced Developer Experience (Q2 2026)
+### Phase 2: Enhanced Developer Experience (Q1 – Q2 2026)
 
 <Cards>
 <Card icon={<Code />} title="CLI & Automation Tools">
 
 **Goal**: Streamline repository-to-documentation workflow
 
-- [ ] Enhanced ObjectDocs CLI with GitHub integration
+- [x] Full-featured ObjectDocs CLI with 5 commands (init, dev, build, start, translate)
+- [x] Zero-config project initialization (`objectdocs init`)
+- [x] Hot-reload development server with config watching
+- [x] Static and dynamic build modes
 - [ ] Automated content migration from README files
 - [ ] Code snippet extraction from repository files
 - [ ] API documentation generation from source code
 - [ ] Automated changelog generation from commits
 
-**Technical Implementation**:
-- Extend `@objectdocs/cli` with GitHub API features
-- Use TypeScript AST parsing for API extraction
-- Integrate conventional commits for changelog
-- Support multi-repo documentation aggregation
+**Implemented**:
+- `init` — Copies site template, installs dependencies, configures `.gitignore`
+- `dev` — Dev server on port 7777 with `docs.site.json` watching and asset sync
+- `build` — Static/dynamic builds with artifact handling
+- `start` — Production server (static via `serve` or dynamic via Next.js)
+- `translate` — OpenAI-powered batch translation with `--all` flag
 
 </Card>
 
@@ -85,22 +109,23 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 
 **Goal**: Leverage AI to enhance documentation quality
 
+- [x] Automated translation support via OpenAI integration
+- [x] Multi-language file generation (`.cn.mdx`, `.ja.mdx`, etc.)
+- [x] CI-compatible translation with environment variables
 - [ ] AI-powered search with semantic understanding
 - [ ] Auto-generate documentation from code comments
 - [ ] Intelligent content suggestions based on repository
 - [ ] Documentation quality scoring and recommendations
-- [ ] Automated translation support
 
-**Technical Implementation**:
-- Integrate OpenAI API or local LLM models
-- Use vector databases (Pinecone/Weaviate) for semantic search
-- Implement Markdown AST analysis for content quality
-- Support embeddings for documentation similarity
+**Implemented**:
+- OpenAI API integration in `translate` command
+- Support for `--all` flag to translate all content
+- Environment variable configuration for CI pipelines
 
 </Card>
 </Cards>
 
-### Phase 3: Collaboration & Advanced Features (Q3 2026)
+### Phase 3: Collaboration & Advanced Features (Q3 2026+)
 
 <Cards>
 <Card icon={<Globe />} title="Multi-Repository Documentation Hub">
@@ -113,7 +138,7 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 - [ ] Automated aggregation from multiple sources
 - [ ] Unified version management across repos
 
-**Technical Implementation**:
+**Technical Plan**:
 - GitHub Organization API integration
 - Implement repository discovery and indexing
 - Support GitHub Teams for access control
@@ -131,7 +156,7 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 - [ ] Audit logging for documentation changes
 - [ ] GitHub Advanced Security integration
 
-**Technical Implementation**:
+**Technical Plan**:
 - Support GitHub Enterprise API endpoints
 - Integrate with GitHub's OIDC provider
 - Use GitHub's permission model for access control
@@ -143,24 +168,35 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 ## 🔧 Technical Infrastructure
 
 ### GitHub Workflow Optimization
+- [x] GitHub Actions for continuous deployment (CI, release, preview)
+- [x] Pull request checks and status badges
+- [x] Automated release process via Changesets
 - [ ] Automated dependency updates via Dependabot
-- [ ] GitHub Actions for continuous deployment
-- [ ] Pull request checks and status badges
 - [ ] Automated release notes from git tags
 - [ ] Issue templates for documentation requests
 
+### Content & i18n System
+- [x] Full i18n support with 6 languages (EN, CN, JA, FR, DE, ES)
+- [x] Language-specific MDX file routing (`.en.mdx`, `.cn.mdx`)
+- [x] Pre-built UI translations for all supported languages
+- [x] Configurable default language
+- [x] AI-powered translation CLI command
+
 ### Vercel Platform Features
+- [x] Standalone output mode for serverless deployment
+- [x] Search API endpoint (`/api/search`)
 - [ ] Edge Config for dynamic feature flags
 - [ ] Vercel KV for caching layer
-- [ ] Serverless Functions for API endpoints
 - [ ] Web Analytics integration
 - [ ] A/B testing with Edge Middleware
 
 ### Performance & SEO
+- [x] React Server Components for optimal performance
+- [x] MDX static compilation
 - [ ] Lighthouse score optimization (95+ target)
 - [ ] Core Web Vitals monitoring
-- [ ] Automatic sitemap generation from git history
-- [ ] OpenGraph metadata from repository info
+- [ ] Automatic sitemap generation
+- [ ] OpenGraph metadata automation
 - [ ] Structured data for search engines
 
 ## 🚀 Deployment Architecture
@@ -169,44 +205,43 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 ```yaml
 Repository Structure:
 ├── content/           # Documentation MDX files
+│   ├── docs/          # MDX pages and meta.json
+│   └── docs.site.json # Site configuration
 ├── .github/
 │   └── workflows/     # CI/CD automation
 ├── vercel.json        # Deployment configuration
-└── docs.site.json     # Site metadata
+└── package.json       # Root workspace
 ```
 
 ### CI/CD Pipeline
-1. **Push to GitHub** → Triggers Vercel build
-2. **PR Created** → Generates preview deployment
+1. **Push to GitHub** → Triggers CI build validation
+2. **PR Created** → Generates preview deployment via Vercel
 3. **Merge to main** → Auto-deploys to production
-4. **Git Tag** → Creates versioned documentation
-
-## 📊 Priority Matrix
-
-| Priority | Description | Target |
-|----------|-------------|--------|
-| 🔴 Critical | GitHub integration, Vercel deployment | Q1 2026 |
-| 🟡 High | Developer tools, performance optimization | Q2 2026 |
-| 🟢 Medium | Advanced features, enterprise support | Q3 2026+ |
+4. **Changeset merged** → Automated NPM release
 
 ## 🎯 Current Focus (Q1 2026)
 
 ### Active Development Tasks
 
-1. **Vercel Deployment Optimization (🔴 Critical)**
+1. **Design Documentation (✅ Complete)**
    - Target: February 2026
-   - Status: In Progress
-   - Deliverables: ISR configuration, edge functions, caching strategy
+   - Status: Complete
+   - Deliverables: System design document, package overview, updated roadmap
 
-2. **GitHub App Development (🔴 Critical)**
+2. **ISR & Edge Functions (🟡 In Progress)**
    - Target: March 2026
    - Status: In Planning
+   - Deliverables: ISR configuration, edge middleware, caching strategy
+
+3. **Content Migration Tools (🟡 Planned)**
+   - Target: Q2 2026
+   - Status: In Planning
+   - Deliverables: README migration, code snippet extraction, API doc generation
+
+4. **GitHub App Development (⬚ Planned)**
+   - Target: Q3 2026
+   - Status: Not Started
    - Deliverables: OAuth app, webhook handlers, API integration
-
-3. **CLI Enhancement (🟡 High)**
-   - Target: March 2026
-   - Status: In Planning
-   - Deliverables: GitHub integration commands, automation scripts
 
 ## 💡 Community & Contribution
 
@@ -229,6 +264,7 @@ This roadmap is dynamic and will evolve based on community feedback and GitHub/V
 
 | Date | Changes | Author |
 |------|---------|--------|
+| 2026-02-08 | Updated progress status, marked completed features, added package overview | Team |
 | 2026-01-18 | Created development roadmap focused on GitHub-Vercel integration | Team |
 
 ---

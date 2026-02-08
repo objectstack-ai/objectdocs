@@ -1,0 +1,290 @@
+---
+title: Packages Overview
+description: Complete overview of ObjectDocs software packages, their features, development status, and version history.
+---
+
+import { Package, Terminal, Layout, Zap, CheckCircle, Clock } from 'lucide-react';
+
+# Packages Overview
+
+ObjectDocs is organized as a **pnpm workspace monorepo** with two core packages. This document provides a detailed overview of each package, its features, current status, and development history.
+
+**Current Version**: v0.2.12 | **Last Updated**: 2026-02-08
+
+## Package Summary
+
+| Package | Version | Description | Status |
+|---------|---------|-------------|--------|
+| `@objectdocs/cli` | v0.2.12 | Command-line tool for building and managing documentation | ✅ Stable |
+| `@objectdocs/site` | v0.2.12 | Next.js documentation site template and rendering engine | ✅ Stable |
+
+## @objectdocs/cli
+
+<Cards>
+<Card icon={<Terminal />} title="CLI Tool">
+
+The primary developer interface for ObjectDocs. Provides commands for initializing, developing, building, and deploying documentation sites.
+
+- **Framework**: CAC (Command-line framework)
+- **Language**: JavaScript/Node.js (ESM)
+- **Entry Point**: `bin/cli.mjs`
+
+</Card>
+</Cards>
+
+### Commands
+
+<Steps>
+
+### `objectdocs init`
+
+Initializes a new documentation project by copying the site template and setting up the development environment.
+
+**What it does**:
+- Copies `@objectdocs/site` package to `content/.fumadocs`
+- Creates `content/package.json` with dev/build/start scripts
+- Installs dependencies in `content/.fumadocs`
+- Updates `.gitignore` to exclude generated files
+
+### `objectdocs dev [docsDir]`
+
+Starts the development server with hot reload.
+
+**Features**:
+- Default port: 7777 (configurable)
+- Watches `docs.site.json` for changes and auto-restarts
+- Syncs public assets to site engine
+- Sets `DOCS_DIR` environment variable
+
+### `objectdocs build [docsDir]`
+
+Builds the documentation site for production.
+
+**Features**:
+- Supports static export (`out/` directory) and dynamic standalone (`.next/`) modes
+- Copies configuration and public assets
+- Handles symlink-aware artifact copying for Vercel compatibility
+
+### `objectdocs start`
+
+Starts the production server.
+
+**Features**:
+- Static mode: Serves from `out/` directory using `serve`
+- Dynamic mode: Runs Next.js production server
+- Configurable port
+
+### `objectdocs translate`
+
+AI-powered content translation using OpenAI.
+
+**Features**:
+- Translates MDX content to configured languages
+- `--all` flag for batch translation
+- CI-compatible with environment variable configuration
+- Generates language-specific files (e.g., `.cn.mdx`, `.ja.mdx`)
+
+</Steps>
+
+### Dependencies
+
+| Dependency | Version | Purpose |
+|-----------|---------|---------|
+| `@objectdocs/site` | workspace:* | Site template for initialization |
+| `cac` | ^6.7.14 | CLI framework |
+| `openai` | ^4.0.0 | AI-powered translation |
+| `dotenv` | ^16.4.5 | Environment variable loading |
+| `typescript` | ^5.9.3 | TypeScript support |
+
+### Feature Status
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Project initialization | ✅ Complete | Full `init` workflow |
+| Development server | ✅ Complete | Hot reload, config watching |
+| Production build | ✅ Complete | Static + dynamic modes |
+| Production server | ✅ Complete | Static + dynamic serving |
+| AI translation | ✅ Complete | OpenAI integration |
+| GitHub integration | ⬚ Planned | Phase 2 |
+| README migration | ⬚ Planned | Phase 2 |
+| API doc generation | ⬚ Planned | Phase 2 |
+
+---
+
+## @objectdocs/site
+
+<Cards>
+<Card icon={<Layout />} title="Site Template">
+
+A complete Next.js application template that serves as the documentation rendering engine. Built on Fumadocs with full i18n support.
+
+- **Framework**: Next.js 16 (App Router) + Fumadocs 16
+- **Styling**: Tailwind CSS 4
+- **Language**: TypeScript
+- **React**: v19 (Server Components)
+
+</Card>
+</Cards>
+
+### Core Features
+
+<Cards>
+<Card icon={<CheckCircle />} title="Content Rendering">
+
+- MDX compilation with remark/rehype plugins
+- Code syntax highlighting (Vesper theme)
+- Image zoom capability
+- Built-in components: Callout, Card, Cards, Steps, Step
+- Table of contents generation
+
+</Card>
+<Card icon={<Zap />} title="Site Engine">
+
+- File-system based routing
+- Full-text search API endpoint
+- `meta.json`-driven navigation tree
+- Configurable sidebar, navbar, and footer
+- Dark mode support
+
+</Card>
+</Cards>
+
+### Architecture
+
+| Component | Path | Description |
+|-----------|------|-------------|
+| Root Layout | `app/layout.tsx` | HTML shell, global providers |
+| Language Router | `app/[lang]/layout.tsx` | i18n layout with Fumadocs |
+| Docs Pages | `app/[lang]/docs/[[...slug]]/page.tsx` | Dynamic MDX page rendering |
+| Home Redirect | `app/[lang]/page.tsx` | Redirects to docs root |
+| Search API | `app/api/search/route.ts` | Full-text search endpoint |
+| i18n System | `lib/i18n.ts` | 6-language support with UI translations |
+| Config Loader | `lib/config.ts` | `docs.site.json` parsing and defaults |
+| Source Manager | `lib/source.ts` | Fumadocs content source with i18n |
+| MDX Components | `mdx-components.tsx` | Custom component registry |
+| Source Config | `source.config.ts` | Content directory and MDX plugin config |
+
+### i18n Support
+
+Pre-built UI translations for 6 languages:
+
+| Language | Code | TOC Label | Search | Last Update |
+|----------|------|-----------|--------|-------------|
+| English | `en` | "On this page" | "Search" | "Last updated on" |
+| 中文 | `cn` | "目录" | "搜索" | "最后更新于" |
+| 日本語 | `ja` | "目次" | "検索" | "最終更新" |
+| Français | `fr` | "Sur cette page" | "Rechercher" | "Dernière mise à jour" |
+| Deutsch | `de` | "Auf dieser Seite" | "Suchen" | "Zuletzt aktualisiert am" |
+| Español | `es` | "En esta página" | "Buscar" | "Última actualización" |
+
+### Configuration Options
+
+The site reads from `docs.site.json` with support for:
+
+- **Site metadata**: title, description, URL, favicon
+- **Branding**: name, logo (light/dark), theme color, border radius
+- **Navigation**: navbar links with text, URL, icon, external flag
+- **Sidebar**: collapsible, prefetch, default open level, tabs
+- **Table of Contents**: enabled, depth
+- **Footer**: copyright text
+- **Page features**: last update timestamps, edit on GitHub links
+- **Content**: code theme, image zoom, math support
+- **i18n**: default language, language list
+- **Build**: mode (export/standalone)
+
+### Dependencies
+
+| Dependency | Version | Purpose |
+|-----------|---------|---------|
+| `next` | ^16.1.2 | Application framework |
+| `react` / `react-dom` | ^19.2.3 | UI rendering |
+| `fumadocs-core` | ^16.4.7 | Documentation engine core |
+| `fumadocs-ui` | ^16.4.7 | Documentation UI components |
+| `fumadocs-mdx` | ^14.2.5 | MDX content processing |
+| `tailwindcss` | ^4.1.18 | Utility-first CSS |
+| `typescript` | ^5.9.3 | Type safety |
+| `openai` | ^4.0.0 | AI features |
+| `lucide-react` | ^0.562.0 | Icon library |
+
+### Feature Status
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| MDX rendering | ✅ Complete | Full Fumadocs pipeline |
+| i18n (6 languages) | ✅ Complete | File-based + UI translations |
+| Full-text search | ✅ Complete | API endpoint |
+| Dark mode | ✅ Complete | Via Fumadocs UI |
+| Code highlighting | ✅ Complete | Vesper theme |
+| Image zoom | ✅ Complete | Configurable |
+| Standalone output | ✅ Complete | Vercel/Docker ready |
+| Static export | ✅ Complete | CDN-deployable |
+| Config system | ✅ Complete | `docs.site.json` |
+| ISR support | ⬚ Planned | Phase 1 |
+| Edge Functions | ⬚ Planned | Phase 1 |
+| Math rendering | ⬚ Planned | Config exists, not enabled |
+
+---
+
+## Version History
+
+### v0.2.12 (Latest)
+- Patch release for maintenance updates
+
+### v0.2.11
+- Fix: Handle broken symlinks during build copy to prevent ENOENT errors on Vercel
+
+### v0.2.10
+- Feat: Enable standalone output mode for better Vercel/Docker support
+
+### v0.2.9
+- Fix: Add `.source` path alias to `tsconfig.json` for generated file resolution
+
+### v0.2.8
+- Fix: Use `dereference: true` when copying `.next` directory to expand all symlinks
+
+### v0.2.7
+- Fix: Use relative import for generated content to avoid alias resolution issues in monorepos
+
+### v0.2.6
+- Fix: Copy `.next` directory instead of symlinking to support Vercel deployment
+
+### v0.2.5
+- Chore: Add `transpilePackages` configuration for monorepo module resolution
+
+### v0.2.4
+- Fix: Rename `proxy.ts` to `middleware.ts` to fix Next.js 16 build error
+
+### v0.2.3
+- Fix: Update package metadata for publishing
+
+### v0.2.2
+- Docs: Updated README with corrected configuration file names
+
+### v0.2.1
+- Bug fixes and improvements
+
+### v0.2.0
+- Initial release: Modern documentation engine built on Next.js 14 and Fumadocs
+
+### v0.1.0
+- Initial release with metadata-driven architecture, low-code component embedding, enterprise-grade UI, and multi-product support
+
+---
+
+## Starter Template
+
+An example starter template is available in `examples/starter/` with:
+- Pre-configured `docs.site.json` with ObjectStack branding
+- Sample documentation structure
+- Ready-to-run content with `meta.json` navigation
+
+```bash
+# Quick start with the starter template
+cp -r examples/starter my-docs
+cd my-docs
+npm init @objectdocs
+```
+
+<Callout type="info">
+For detailed technical architecture, see the [System Design](/docs/design) document. For the feature roadmap, see the [Development Roadmap](/docs/development-plan).
+</Callout>
