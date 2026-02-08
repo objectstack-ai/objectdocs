@@ -6,24 +6,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { source } from '@/lib/source';
+import { getPageImage, source } from '@/lib/source';
+import { DocsBody, DocsDescription, DocsPage, DocsTitle } from 'fumadocs-ui/layouts/docs/page';
 import type { Metadata } from 'next';
-import { DocsPage, DocsBody } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
+import { getMDXComponents } from '@/mdx-components';
+import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { siteConfig } from '@/lib/site-config';
-import defaultComponents from 'fumadocs-ui/mdx';
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Card, Cards } from 'fumadocs-ui/components/card';
-import { Steps, Step } from 'fumadocs-ui/components/steps';
-
-const components = {
-  ...defaultComponents,
-  Callout,
-  Card,
-  Cards,
-  Steps,
-  Step,
-};
 
 interface PageProps {
   params: Promise<{
@@ -41,26 +30,25 @@ export default async function Page({ params }: PageProps) {
     notFound();
   }
 
-  const MDX = page.data.body as any;
+  const MDX = page.data.body;
 
   return (
-    <DocsPage 
-      toc={page.data.toc as any} 
-      full={page.data.full as any}
-      lastUpdate={siteConfig.page.showLastUpdate ? (page.data as any).lastModified : undefined}
+    <DocsPage
+      toc={page.data.toc}
+      full={page.data.full}
       tableOfContent={{
         enabled: siteConfig.layout.toc.enabled,
         style: siteConfig.layout.toc.depth > 2 ? 'clerk' : 'normal',
       }}
-      editOnGithub={siteConfig.page.showEditLink ? {
-        owner: siteConfig.page.repoBaseUrl.split('/')[3],
-        repo: siteConfig.page.repoBaseUrl.split('/')[4],
-        sha: 'main', // Defaulting to main, could be extracted
-        path: siteConfig.page.repoBaseUrl.split('/').slice(7).join('/') // simplistic parsing
-      } : undefined}
     >
+      <DocsTitle>{page.data.title}</DocsTitle>
+      <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
-        <MDX components={components} />
+        <MDX
+          components={getMDXComponents({
+            a: createRelativeLink(source, page),
+          })}
+        />
       </DocsBody>
     </DocsPage>
   );
@@ -80,5 +68,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: page.data.title,
     description: page.data.description,
+    openGraph: {
+      images: getPageImage(page).url,
+    },
   };
 }

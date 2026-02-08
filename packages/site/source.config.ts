@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { defineConfig, defineDocs } from 'fumadocs-mdx/config';
+import { defineConfig, defineDocs, frontmatterSchema, metaSchema } from 'fumadocs-mdx/config';
 import { siteConfig } from './lib/site-config';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -28,8 +28,19 @@ function resolveContentDir(dir: string) {
 
 const docsDir = resolveContentDir('content/docs');
 
-export const { docs, meta } = defineDocs({
+// You can customise Zod schemas for frontmatter and meta.json here
+// see https://fumadocs.dev/docs/mdx/collections
+export const docs = defineDocs({
   dir: docsDir,
+  docs: {
+    schema: frontmatterSchema,
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
+  },
+  meta: {
+    schema: metaSchema,
+  },
 });
 
 export default defineConfig({
