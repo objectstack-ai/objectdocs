@@ -1,0 +1,301 @@
+---
+title: System Design
+description: Complete system design document for ObjectDocs — architecture, technical decisions, and component overview.
+---
+
+import { FileJson, Layers, Cpu, Zap, GitBranch, Package, Globe, Code } from 'lucide-react';
+
+# System Design Document
+
+This document provides a comprehensive technical design overview of ObjectDocs, covering the system architecture, package structure, data flow, and key design decisions.
+
+**Version**: v0.2.12 | **Last Updated**: 2026-02-08
+
+## 1. System Overview
+
+ObjectDocs is a **metadata-driven documentation engine** built on Next.js and Fumadocs, designed for the ObjectStack low-code ecosystem. It follows a strict **Configuration as Code** philosophy where documentation structure is defined by data (JSON), not code (React).
+
+### Design Goals
+
+<Cards>
+<Card icon={<FileJson />} title="Metadata-Driven">
+Navigation, sidebars, and page ordering are defined entirely through `meta.json` files and `docs.site.json` configuration. Content creators never need to touch React code.
+</Card>
+<Card icon={<Layers />} title="Separation of Concerns">
+The system strictly separates three layers: **Presentation** (React/Next.js site engine), **Configuration** (JSON files), and **Content** (MDX documents).
+</Card>
+<Card icon={<Package />} title="Monorepo Architecture">
+The project is organized as a pnpm workspace monorepo with two core packages (`@objectdocs/cli` and `@objectdocs/site`) plus a shared content layer.
+</Card>
+<Card icon={<Globe />} title="i18n-First">
+Multi-language support is built into the core architecture, with language-specific MDX files and pre-built UI translations for 6 languages.
+</Card>
+</Cards>
+
+## 2. Architecture Overview
+
+### 2.1 High-Level Architecture
+
+```text
+┌─────────────────────────────────────────────────────────┐
+│                    ObjectDocs System                     │
+├──────────────┬──────────────────┬───────────────────────┤
+│  @objectdocs │  @objectdocs     │  Content Layer        │
+│  /cli        │  /site           │                       │
+│              │                  │                       │
+│  Commands:   │  Next.js 16 +    │  content/             │
+│  • init      │  Fumadocs 16     │  ├── docs.site.json   │
+│  • dev       │                  │  ├── docs/            │
+│  • build     │  App Router      │  │   ├── meta.json    │
+│  • start     │  React Server    │  │   ├── index.mdx    │
+│  • translate  │  Components     │  │   └── ...          │
+│              │                  │  └── public/          │
+├──────────────┼──────────────────┼───────────────────────┤
+│  CLI Layer   │  Presentation    │  Data Layer           │
+│  (Tooling)   │  Layer           │  (Configuration +     │
+│              │  (Rendering)     │   Content)            │
+└──────────────┴──────────────────┴───────────────────────┘
+```
+
+### 2.2 Package Dependency Graph
+
+```text
+Root Workspace (objectdocs v1.0.0)
+├── @objectdocs/cli (v0.2.12)
+│   ├── depends on: @objectdocs/site (workspace:*)
+│   ├── cac (CLI framework)
+│   ├── openai (AI translation)
+│   └── dotenv (environment config)
+└── @objectdocs/site (v0.2.12)
+    ├── next (^16.1.2)
+    ├── fumadocs-core (^16.4.7)
+    ├── fumadocs-ui (^16.4.7)
+    ├── fumadocs-mdx (^14.2.5)
+    ├── react (^19.2.3)
+    ├── tailwindcss (^4.1.18)
+    └── typescript (^5.9.3)
+```
+
+## 3. Core Components
+
+### 3.1 CLI Package (`@objectdocs/cli`)
+
+The CLI is the primary developer interface for ObjectDocs. Built with the [CAC](https://github.com/cacjs/cac) framework, it provides 5 commands:
+
+| Command | Purpose | Key Behavior |
+|---------|---------|-------------|
+| `init` | Initialize a new docs project | Copies `@objectdocs/site` to `content/.fumadocs`, installs deps, updates `.gitignore` |
+| `dev` | Start development server | Runs on port 7777, watches `docs.site.json` for changes, syncs public assets |
+| `build` | Build for production | Supports both static export (`out/`) and dynamic standalone (`.next/`) modes |
+| `start` | Start production server | Static mode uses `serve`, dynamic mode uses Next.js server |
+| `translate` | AI-powered translation | Uses OpenAI API, supports `--all` flag, generates language-specific `.mdx` files |
+
+**Design Decision**: The CLI copies the entire `@objectdocs/site` package into `content/.fumadocs` during init rather than using it as a runtime dependency. This ensures complete isolation between the documentation engine and user content, and allows the site to be customized without affecting the package.
+
+### 3.2 Site Package (`@objectdocs/site`)
+
+The site package is a complete Next.js application template that serves as the documentation rendering engine.
+
+**Key Components**:
+
+| Component | File | Responsibility |
+|-----------|------|---------------|
+| Root Layout | `app/layout.tsx` | HTML shell, providers, global styles |
+| Language Router | `app/[lang]/layout.tsx` | i18n layout with Fumadocs provider |
+| Docs Pages | `app/[lang]/docs/[[...slug]]/page.tsx` | MDX rendering, TOC, navigation |
+| Search API | `app/api/search/route.ts` | Full-text search endpoint |
+| i18n Config | `lib/i18n.ts` | Language definitions and UI translations |
+| Site Config | `lib/config.ts` | Loads and merges `docs.site.json` |
+| Source Loader | `lib/source.ts` | Fumadocs content source with i18n |
+
+### 3.3 Content Layer
+
+The content layer is the user-facing data that defines the documentation site:
+
+```text
+content/
+├── docs.site.json          # Global site configuration
+│   ├── branding            # Logo, name, theme colors
+│   ├── links               # Navbar navigation links
+│   ├── sidebar             # Sidebar behavior config
+│   ├── toc                 # Table of contents settings
+│   ├── footer              # Footer copyright text
+│   ├── page                # Per-page features (edit link, last update)
+│   ├── content             # Content features (math, code theme)
+│   ├── i18n                # Language configuration
+│   └── build               # Build mode (export/standalone)
+├── public/                 # Static assets (images, fonts)
+└── docs/
+    ├── meta.json           # Root navigation structure
+    ├── index.mdx           # Homepage (English)
+    ├── index.cn.mdx        # Homepage (Chinese)
+    └── getting-started/
+        ├── meta.json       # Section page ordering
+        ├── index.mdx       # Section landing page
+        └── ...
+```
+
+## 4. Data Flow
+
+### 4.1 Build-Time Data Flow
+
+<Steps>
+
+### Content Discovery
+Fumadocs MDX source loader scans the `DOCS_DIR` directory for all `.mdx` files and `meta.json` files. Files are organized by language suffix (e.g., `.cn.mdx` for Chinese).
+
+### Configuration Merge
+The site reads `docs.site.json` from the content directory and merges it with default configuration values in `lib/config.ts`. This produces the complete site configuration.
+
+### Navigation Tree Construction
+`meta.json` files in each directory define the page ordering and section titles. Fumadocs builds a hierarchical navigation tree from these files.
+
+### MDX Compilation
+Each `.mdx` file is compiled through the Fumadocs MDX pipeline with remark/rehype plugins, producing React Server Components.
+
+### Static Generation
+Next.js App Router generates static pages for each route. In standalone mode, pages can be server-rendered with ISR support.
+
+</Steps>
+
+### 4.2 Runtime Data Flow
+
+```text
+User Request → Next.js Router → Language Detection → Page Resolution
+    → MDX Content Rendering (RSC) → Fumadocs UI Layout → HTML Response
+```
+
+### 4.3 Translation Data Flow
+
+```text
+Source MDX → CLI translate command → OpenAI API → Translated MDX
+    → Language-specific file (e.g., .cn.mdx) → Content Discovery
+```
+
+## 5. Configuration System Design
+
+### 5.1 `docs.site.json` Schema
+
+The site configuration file supports the following sections:
+
+```json
+{
+  "site": {
+    "title": "Site title",
+    "description": "Site description",
+    "url": "https://example.com",
+    "favicon": "/favicon.ico"
+  },
+  "branding": {
+    "name": "Brand Name",
+    "logo": { "light": "/logo-light.svg", "dark": "/logo-dark.svg" },
+    "themeColor": "#7c3aed",
+    "borderRadius": "0.5rem"
+  },
+  "links": [{ "text": "Home", "url": "/" }],
+  "sidebar": { "collapsible": true, "defaultOpenLevel": 1 },
+  "toc": { "enabled": true, "depth": 3 },
+  "footer": { "copyright": "© 2026" },
+  "page": {
+    "lastUpdate": true,
+    "editOnGithub": { "owner": "org", "repo": "repo" }
+  },
+  "content": { "codeTheme": "vesper", "imageZoom": true },
+  "i18n": {
+    "defaultLanguage": "en",
+    "languages": ["en", "cn"]
+  },
+  "build": { "mode": "export" }
+}
+```
+
+### 5.2 `meta.json` Schema
+
+Each directory can contain a `meta.json` to control navigation:
+
+```json
+{
+  "title": "Section Title",
+  "pages": ["page-a", "page-b", "sub-directory"]
+}
+```
+
+**Key Rule**: Sidebar navigation is **never** defined in React components. All navigation structure changes go through `meta.json` files.
+
+## 6. i18n Architecture
+
+### 6.1 Supported Languages
+
+| Code | Language | UI Translations |
+|------|----------|----------------|
+| `en` | English | ✅ Complete |
+| `cn` | 中文 (Chinese) | ✅ Complete |
+| `ja` | 日本語 (Japanese) | ✅ Complete |
+| `fr` | Français (French) | ✅ Complete |
+| `de` | Deutsch (German) | ✅ Complete |
+| `es` | Español (Spanish) | ✅ Complete |
+
+### 6.2 Content Translation Strategy
+
+- **File-based**: Each language has its own MDX file (e.g., `index.mdx` for English, `index.cn.mdx` for Chinese)
+- **Fallback**: If a translated file doesn't exist, the default language version is used
+- **AI Translation**: The `translate` CLI command uses OpenAI to generate translations automatically
+- **URL Routing**: Language prefix in URL path (`/en/docs/...`, `/cn/docs/...`)
+
+## 7. Deployment Design
+
+### 7.1 Build Modes
+
+| Mode | Output | Use Case |
+|------|--------|----------|
+| `export` (Static) | `out/` directory with HTML/CSS/JS | CDN hosting, GitHub Pages, Vercel static |
+| `standalone` (Dynamic) | `.next/` with Node.js server | ISR, SSR, API routes, Vercel serverless |
+
+### 7.2 Vercel Deployment
+
+```text
+GitHub Push → Vercel Build Hook → pnpm build → Next.js Build
+    → Static Assets + Serverless Functions → Edge CDN Distribution
+```
+
+**Key Design Decisions**:
+- Standalone output mode for optimal Vercel serverless support
+- Symlink-aware artifact copying to handle monorepo structures
+- `vercel.json` routing configuration for clean URLs
+- Preview deployments via GitHub Actions workflow
+
+### 7.3 CI/CD Pipeline
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `ci.yml` | Push/PR | Build validation |
+| `release.yml` | Push to main | Changesets NPM publishing |
+| `preview.yml` | PR | Vercel preview deployment |
+| `test-lifecycle.yml` | Push/PR | Full lifecycle testing |
+| `link-check.yml` | PR | Content link validation |
+
+## 8. Technology Stack
+
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| Runtime | Next.js (App Router) | ^16.1.2 |
+| UI Framework | React (Server Components) | ^19.2.3 |
+| Documentation Engine | Fumadocs | ^16.4.7 |
+| Styling | Tailwind CSS | ^4.1.18 |
+| Language | TypeScript | ^5.9.3 |
+| Package Manager | pnpm | Workspace monorepo |
+| AI Integration | OpenAI API | ^4.0.0 |
+| CLI Framework | CAC | ^6.7.14 |
+| Content Format | MDX | Via fumadocs-mdx |
+| Deployment | Vercel | Serverless/Edge |
+
+## 9. Security Considerations
+
+- **No hardcoded secrets**: All API keys (e.g., OpenAI) are loaded via environment variables
+- **Server Components by default**: Minimizes client-side JavaScript exposure
+- **Content isolation**: Documentation content is separated from the rendering engine
+- **Dependency management**: Automated via Changesets with locked versions
+
+<Callout type="info">
+This design document reflects the current state of ObjectDocs v0.2.12. It will be updated as the system evolves. For the feature roadmap, see the [Development Roadmap](/docs/development-plan).
+</Callout>
