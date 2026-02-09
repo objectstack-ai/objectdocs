@@ -1,0 +1,43 @@
+name: Feature Request
+description: Suggest a new feature for ObjectDocs
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please describe it below.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: A clear description of the problem this feature would solve.
+      placeholder: "I'm always frustrated when..."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any alternative solutions or features you've considered.
+  - type: dropdown
+    id: package
+    attributes:
+      label: Related Package
+      options:
+        - "@objectdocs/cli"
+        - "@objectdocs/site"
+        - Both
+        - New package
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context or screenshots about the feature request.
