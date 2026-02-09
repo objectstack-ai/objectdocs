@@ -18,7 +18,7 @@
     "dev": "node ./bin/cli.mjs dev ../../content/docs",
     "build": "node ./bin/cli.mjs build ../../content/docs",
     "translate": "node ./bin/cli.mjs translate",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "vitest run"
   },
   "dependencies": {
     "@objectdocs/site": "workspace:*",
@@ -27,5 +27,8 @@
     "dotenv": "^16.4.5",
     "openai": "^4.0.0",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.18"
   }
 }
