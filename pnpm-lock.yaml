@@ -49,8 +49,8 @@ importers:
         specifier: ^16.4.5
         version: 16.6.1
       openai:
-        specifier: ^6.18.0
-        version: 6.18.0(zod@4.3.5)
+        specifier: ^6.19.0
+        version: 6.19.0(zod@4.3.5)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -83,8 +83,8 @@ importers:
         specifier: 16.1.6
         version: 16.1.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       openai:
-        specifier: ^6.18.0
-        version: 6.18.0(zod@4.3.5)
+        specifier: ^6.19.0
+        version: 6.19.0(zod@4.3.5)
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -2118,8 +2118,8 @@ packages:
   oniguruma-to-es@4.3.4:
     resolution: {integrity: sha512-3VhUGN3w2eYxnTzHn+ikMI+fp/96KoRSVK9/kMTcFqj1NRDh2IhQCKvYxDnWePKRXY/AqH+Fuiyb7VHSzBjHfA==}
 
-  openai@6.18.0:
-    resolution: {integrity: sha512-odLRYyz9rlzz6g8gKn61RM2oP5UUm428sE2zOxZqS9MzVfD5/XW8UoEjpnRkzTuScXP7ZbP/m7fC+bl8jCOZZw==}
+  openai@6.19.0:
+    resolution: {integrity: sha512-5uGrF82Ql7TKgIWUnuxh+OyzYbPRPwYDSgGc05JowbXRFsOkuj0dJuCdPCTBZT4mcmp2NEvj/URwDzW+lYgmVw==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -4833,7 +4833,7 @@ snapshots:
       regex: 6.1.0
       regex-recursion: 6.0.2
 
-  openai@6.18.0(zod@4.3.5):
+  openai@6.19.0(zod@4.3.5):
     optionalDependencies:
       zod: 4.3.5
 
