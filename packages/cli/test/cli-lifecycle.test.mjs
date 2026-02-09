@@ -238,6 +238,11 @@ describe('CLI Lifecycle: init → content → build', () => {
     // Verify the H1 heading is removed (it's in frontmatter now)
     expect(mdxContent).not.toMatch(/^# My Guide$/m);
 
+    // Verify content body is preserved (code blocks, sections)
+    expect(mdxContent).toContain('## Installation');
+    expect(mdxContent).toContain('npm install my-lib');
+    expect(mdxContent).toContain('## Usage');
+
     // Verify meta.json was updated
     const meta = JSON.parse(
       fs.readFileSync(path.join(testDir, 'content', 'docs', 'meta.json'), 'utf-8'),
