@@ -14,6 +14,7 @@ import { registerTranslateCommand } from '../src/commands/translate.mjs';
 import { registerDevCommand } from '../src/commands/dev.mjs';
 import { registerBuildCommand } from '../src/commands/build.mjs';
 import { registerStartCommand } from '../src/commands/start.mjs';
+import { registerMigrateCommand } from '../src/commands/migrate.mjs';
 
 const cli = cac('objectdocs');
 
@@ -22,6 +23,7 @@ registerTranslateCommand(cli);
 registerDevCommand(cli);
 registerBuildCommand(cli);
 registerStartCommand(cli);
+registerMigrateCommand(cli);
 
 cli.help();
 cli.version('0.0.1');

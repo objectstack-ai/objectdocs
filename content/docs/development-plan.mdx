@@ -30,7 +30,7 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Core Platform & Deployment | ✅ Complete | ~95% |
-| Phase 2: Developer Experience | 🟡 In Progress | ~35% |
+| Phase 2: Developer Experience | 🟡 In Progress | ~50% |
 | Phase 3: Advanced Features | ⬚ Planned | ~0% |
 
 ## 📅 Development Roadmap
@@ -46,7 +46,7 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 - [x] PR preview deployments via Vercel integration (`preview.yml` workflow)
 - [x] Changesets-based versioned releases with automated NPM publishing
 - [ ] GitHub App for automated documentation syncing
-- [ ] GitHub Issues integration for documentation feedback
+- [x] GitHub Issues integration for documentation feedback
 - [ ] Branch-based documentation versioning
 
 **Implemented**:
@@ -55,6 +55,8 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 - Preview workflow (`preview.yml`) for PR preview deployments
 - Test lifecycle workflow (`test-lifecycle.yml`) for comprehensive testing
 - Link check workflow (`link-check.yml`) for content validation
+- Issue templates for bug reports, feature requests, and documentation feedback
+- Pull request template for consistent PR descriptions
 
 </Card>
 
@@ -87,11 +89,11 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 
 **Goal**: Streamline repository-to-documentation workflow
 
-- [x] Full-featured ObjectDocs CLI with 5 commands (init, dev, build, start, translate)
+- [x] Full-featured ObjectDocs CLI with 6 commands (init, dev, build, start, translate, migrate)
 - [x] Zero-config project initialization (`objectdocs init`)
 - [x] Hot-reload development server with config watching
 - [x] Static and dynamic build modes
-- [ ] Automated content migration from README files
+- [x] Automated content migration from markdown files (`objectdocs migrate`)
 - [ ] Code snippet extraction from repository files
 - [ ] API documentation generation from source code
 - [ ] Automated changelog generation from commits
@@ -102,6 +104,7 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 - `build` — Static/dynamic builds with artifact handling
 - `start` — Production server (static via `serve` or dynamic via Next.js)
 - `translate` — OpenAI-powered batch translation with `--all` flag
+- `migrate` — Convert markdown files to MDX with frontmatter generation and `meta.json` updates
 
 </Card>
 
@@ -171,9 +174,9 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 - [x] GitHub Actions for continuous deployment (CI, release, preview)
 - [x] Pull request checks and status badges
 - [x] Automated release process via Changesets
-- [ ] Automated dependency updates via Dependabot
+- [x] Automated dependency updates via Dependabot
 - [ ] Automated release notes from git tags
-- [ ] Issue templates for documentation requests
+- [x] Issue templates for documentation requests
 
 ### Content & i18n System
 - [x] Full i18n support with 6 languages (EN, CN, JA, FR, DE, ES)
@@ -197,9 +200,9 @@ ObjectDocs is purpose-built for **GitHub-based repository documentation** with s
 - [x] OpenGraph dynamic image generation
 - [x] robots.txt for search engine crawling
 - [x] LLM-optimized content routes (`llms.txt`, `llms-full.txt`)
+- [x] Structured data (JSON-LD) for search engines
 - [ ] Lighthouse score optimization (95+ target)
 - [ ] Core Web Vitals monitoring
-- [ ] Structured data for search engines
 
 ## 🚀 Deployment Architecture
 
@@ -235,10 +238,10 @@ Repository Structure:
    - Status: Complete
    - Deliverables: System design document, package overview, updated roadmap
 
-3. **Content Migration Tools (🟡 Next Up)**
-   - Target: Q2 2026
-   - Status: In Planning
-   - Deliverables: README migration, code snippet extraction, API doc generation
+3. **Content Migration Tools (✅ Complete)**
+   - Target: Q1 2026
+   - Status: Complete
+   - Deliverables: `objectdocs migrate` command for markdown-to-MDX conversion with frontmatter and meta.json support
 
 4. **Automated Changelog Generation (🟡 Planned)**
    - Target: Q2 2026
@@ -271,6 +274,7 @@ This roadmap is dynamic and will evolve based on community feedback and GitHub/V
 
 | Date | Changes | Author |
 |------|---------|--------|
+| 2026-02-09 | Added migrate CLI command, GitHub issue/PR templates, JSON-LD structured data, updated Phase 2 → 50% | Team |
 | 2026-02-09 | Re-evaluated progress: Phase 1 → 95%, added sitemap/robots.txt/SEO features, updated next phase focus | Team |
 | 2026-02-08 | Updated progress status, marked completed features, added package overview | Team |
 | 2026-01-18 | Created development roadmap focused on GitHub-Vercel integration | Team |

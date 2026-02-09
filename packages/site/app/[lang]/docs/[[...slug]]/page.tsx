@@ -32,6 +32,20 @@ export default async function Page({ params }: PageProps) {
 
   const MDX = page.data.body;
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: page.data.title,
+    description: page.data.description ?? '',
+    image: getPageImage(page).url,
+    url: `${siteConfig.meta.url}/${lang}/docs/${slug.join('/')}`,
+    publisher: {
+      '@type': 'Organization',
+      name: siteConfig.meta.title,
+      url: siteConfig.meta.url,
+    },
+  };
+
   return (
     <DocsPage
       toc={page.data.toc}
@@ -41,6 +55,10 @@ export default async function Page({ params }: PageProps) {
         style: siteConfig.layout.toc.depth > 2 ? 'clerk' : 'normal',
       }}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
