@@ -199,4 +199,49 @@ describe('CLI Lifecycle: init → content → build', () => {
     const rootNextDir = path.join(testDir, '.next');
     expect(fs.existsSync(rootNextDir)).toBe(true);
   });
+
+  // ------------------------------------------------------------------
+  // Step 6: Migrate markdown files to MDX
+  // ------------------------------------------------------------------
+  it('should migrate markdown files to MDX format', () => {
+    // Create a sample markdown file at the project root
+    const mdContent = [
+      '# My Guide',
+      '',
+      'This is a comprehensive guide for getting started.',
+      '',
+      '## Installation',
+      '',
+      '```bash',
+      'npm install my-lib',
+      '```',
+      '',
+      '## Usage',
+      '',
+      'Import and use the library.',
+    ].join('\n');
+    fs.writeFileSync(path.join(testDir, 'GUIDE.md'), mdContent);
+
+    // Run migrate
+    runCli(['migrate', 'GUIDE.md', '--output', 'content/docs']);
+
+    // Verify the MDX file was created
+    const mdxPath = path.join(testDir, 'content', 'docs', 'guide.mdx');
+    expect(fs.existsSync(mdxPath)).toBe(true);
+
+    // Verify frontmatter was added
+    const mdxContent = fs.readFileSync(mdxPath, 'utf-8');
+    expect(mdxContent).toContain('---');
+    expect(mdxContent).toContain('title: "My Guide"');
+    expect(mdxContent).toContain('description:');
+
+    // Verify the H1 heading is removed (it's in frontmatter now)
+    expect(mdxContent).not.toMatch(/^# My Guide$/m);
+
+    // Verify meta.json was updated
+    const meta = JSON.parse(
+      fs.readFileSync(path.join(testDir, 'content', 'docs', 'meta.json'), 'utf-8'),
+    );
+    expect(meta.pages).toContain('guide');
+  });
 });
