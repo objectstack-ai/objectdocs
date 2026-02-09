@@ -44,6 +44,16 @@ function extractTitle(content, filename) {
 }
 
 /**
+ * Check if a line is suitable as a description (plain text, not markup)
+ * @param {string} line - The trimmed line to check
+ * @returns {boolean} - True if the line is plain descriptive text
+ */
+function isDescriptionLine(line) {
+  const nonDescriptionPrefixes = ['#', '!', '```', '-', '|', '<', '[!', '*', '>'];
+  return line.length > 0 && !nonDescriptionPrefixes.some(prefix => line.startsWith(prefix));
+}
+
+/**
  * Extract description from markdown content
  * Uses the first paragraph after the H1 heading
  * @param {string} content - Markdown content
@@ -56,7 +66,7 @@ function extractDescription(content) {
   const lines = withoutH1.split('\n');
   for (const line of lines) {
     const trimmed = line.trim();
-    if (trimmed && !trimmed.startsWith('#') && !trimmed.startsWith('!') && !trimmed.startsWith('```') && !trimmed.startsWith('-') && !trimmed.startsWith('|') && !trimmed.startsWith('<') && !trimmed.startsWith('[!')) {
+    if (isDescriptionLine(trimmed)) {
       // Truncate long descriptions
       return trimmed.length > 160 ? trimmed.substring(0, 157) + '...' : trimmed;
     }
