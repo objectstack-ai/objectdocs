@@ -24,7 +24,7 @@
     "dotenv": "^16.4.5",
     "fumadocs-core": "16.5.1",
     "fumadocs-mdx": "14.2.6",
-    "fumadocs-ui": "16.5.1",
+    "fumadocs-ui": "16.5.2",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
     "openai": "^6.18.0",
