@@ -7,7 +7,10 @@
  */
 
 import { createMDX } from 'fumadocs-mdx/next';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
@@ -16,6 +19,7 @@ const nextConfig = {
   distDir: '.next',
   images: { unoptimized: true },
   output: 'standalone',
+  outputFileTracingRoot: path.resolve(__dirname, '../..'),
   transpilePackages: ['@objectdocs/site'],
   async rewrites() {
     return [
